@@ -15,25 +15,13 @@ public class Histories {
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public int getUsers_id() {
 		return users_id;
-	}
-	public void setUsers_id(int users_id) {
-		this.users_id = users_id;
 	}
 	public int getPoint() {
 		return point;
 	}
-	public void setPoint(int point) {
-		this.point = point;
-	}
 	public String getCreated_at() {
 		return created_at;
-	}
-	public void setCreated_at(String created_at) {
-		this.created_at = created_at;
 	}
 }
