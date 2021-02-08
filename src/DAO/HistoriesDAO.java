@@ -3,8 +3,11 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sun.jmx.snmp.Timestamp;
 
 import beans.HistoriesBean;
 
@@ -97,4 +100,81 @@ public class HistoriesDAO extends ConnectionDAO {
 			}
 
 		}
-}
+
+		/**
+		 * レコードの新規作成
+		 */
+		public void create(HistoriesBean ub) throws SQLException {
+			if (con == null) {
+				setConnection();
+			}
+			PreparedStatement st = null;
+			ResultSet rs = null;
+			try {
+				String sql = "INSERT INTO histories (user_id, point, created_at) values (?,?,?)";
+				// 現在時刻を取得
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				String strTimestamp = sdf.format(timestamp);
+				st = con.prepareStatement(sql);
+				st.setInt(1, ub.getUser_id());
+				st.setInt(2, ub.getPoint());
+				st.setString(3, strTimestamp);
+				st.executeUpdate();
+			} catch (Exception e) {
+	          e.printStackTrace();
+	          throw new SQLException("レコードの操作に失敗しました。");
+	        } finally {
+	          try {
+	              // リソースの開放
+	              if (rs != null) {
+					rs.close();
+					}
+	              if (st != null) {
+					st.close();
+					}
+	              close();
+	          } catch (Exception e) {
+	              e.printStackTrace();
+	              throw new SQLException("リソースの開放に失敗しました");
+	          }
+		}
+	}
+
+		 /**
+		  * レコードの削除
+		  */
+		 public int delete(int historyId) throws SQLException {
+			 if (con == null) {
+				 setConnection();
+				}
+				PreparedStatement st = null;
+				ResultSet rs = null;
+				try {
+					String sql = "DELETE FROM histories WHERE id = ?";
+					st = con.prepareStatement(sql);
+
+					st.setInt(1, historyId);
+					int result = st.executeUpdate();
+					return result;
+			} catch (Exception e) {
+	          e.printStackTrace();
+	          throw new SQLException("レコードの操作に失敗しました。");
+	      } finally {
+	          try {
+	              // リソースの開放
+	              if (rs != null) {
+									rs.close();
+								}
+	              if (st != null) {
+									st.close();
+								}
+	              close();
+	          } catch (Exception e) {
+	              e.printStackTrace();
+	              throw new SQLException("リソースの開放に失敗しました");
+	          }
+			}
+
+		 }
+	}
