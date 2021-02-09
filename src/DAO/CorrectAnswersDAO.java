@@ -77,7 +77,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 			while (rs.next()) {
 				int id = rs.getInt("id");
                 //重複ローカル変数questionIdと表示されていたためintを外した。同じスコープ内なのでローカル変数は使い回せる。
-				questionId = rs.getInt("questionId");
+				questionId = rs.getInt("question_id");
 				String answer = rs.getString("answer");
 				CorrectAnswersBean bean = new CorrectAnswersBean(id, questionId, answer);
 				list.add(bean);

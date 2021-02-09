@@ -76,7 +76,7 @@ public class HistoriesDAO extends ConnectionDAO {
 			List<HistoriesBean> list = new ArrayList<HistoriesBean>();
 			while (rs.next()) {
 				int id = rs.getInt("id");
-				userId = rs.getInt("userId");
+				userId = rs.getInt("user_id");
 				int point = rs.getInt("point");
 				HistoriesBean bean = new HistoriesBean(id, userId, point);
 				list.add(bean);

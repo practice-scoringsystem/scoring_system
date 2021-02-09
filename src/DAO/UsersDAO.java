@@ -137,14 +137,14 @@ public class UsersDAO extends ConnectionDAO {
 		}
 	}
 
-	public void delete(int userId) throws SQLException {
+	public void delete(int userId, String name) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "UPDATE users SETname deleteflag = ?, deleted_at = ? WHERE id = ?";
+			String sql = "UPDATE users SET name = ?, deleteflag = ?, deleted_at = ? WHERE id = ?";
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			String strTimestamp = sdf.format(timestamp);
@@ -152,8 +152,9 @@ public class UsersDAO extends ConnectionDAO {
 
 			//削除フラグを立てる
 			st.setInt(1, 1);
-			st.setString(2, strTimestamp);
-			st.setInt(3, userId);
+			st.setString(2, name);
+			st.setString(3, strTimestamp);
+			st.setInt(4, userId);
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
