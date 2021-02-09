@@ -22,7 +22,7 @@ public class QuestionsDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, question FROM questions;";
+			String sql = "SELECT id, question FROM questions";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			/** SQL 実行 **/

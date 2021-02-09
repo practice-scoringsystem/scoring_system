@@ -22,7 +22,7 @@ public class HistoriesDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, user_id, point FROM histories;";
+			String sql = "SELECT id, user_id, point FROM histories";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			/** SQL 実行 **/

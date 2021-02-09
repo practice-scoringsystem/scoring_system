@@ -3,8 +3,11 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sun.jmx.snmp.Timestamp;
 
 import beans.CorrectAnswersBean;
 
@@ -19,7 +22,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, questions_id, answer FROM correct_answers;";
+			String sql = "SELECT id, questions_id, answer FROM correct_answers";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			/** SQL 実行 **/
@@ -52,11 +55,11 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 					throw new SQLException("リソースの開放に失敗しました");
 				}
 			}
-		}
+	}
 		/**
 		 * 指定IDのレコードを取得する
 		 */
-		public CorrectAnswersBean find(int pid) throws SQLException {
+	public CorrectAnswersBean find(int pid) throws SQLException {
 			if (con == null) {
 				setConnection();
 			}
@@ -95,6 +98,83 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 					throw new SQLException("リソースの開放に失敗しました");
 				}
 			}
-
 		}
-}
+			/**
+			 * レコードの新規作成
+			 */
+			public void create(CorrectAnswersBean ub) throws
+			 SQLException {
+				if (con == null) {
+					setConnection();
+				}
+				PreparedStatement st = null;
+				ResultSet rs = null;
+				try {
+					String sql = "INSERT INTO correct_amswers (id, question_id, answer, created_at, updated_at) values (?,?,?,?,?)";
+					// 現在時刻を取得
+					Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					String strTimestamp = sdf.format(timestamp);
+					st = con.prepareStatement(sql);
+					st.setInt(1, ub.getId());
+					st.setInt(2, ub.getQuestion_id());
+					st.setString(3, ub.getAnswer());
+					st.setString(4, strTimestamp);
+					st.setString(5, strTimestamp);
+					st.executeUpdate();
+				} catch (Exception e) {
+		          e.printStackTrace();
+		          throw new SQLException("レコードの操作に失敗しました。");
+		        } finally {
+		          try {
+		              // リソースの開放
+		              if (rs != null) {
+						rs.close();
+					  }
+		              if (st != null) {
+						st.close();
+					  }
+		              close();
+          			  } catch (Exception e) {
+		              e.printStackTrace();
+		              throw new SQLException("リソースの開放に失敗しました");
+		              }
+				}
+		   }
+
+			 /**
+			  * レコードの削除
+			  */
+			 public int delete(int correct_answerId)  throws SQLException {
+				 if (con == null) {
+					 setConnection();
+					}
+					PreparedStatement st = null;
+					ResultSet rs = null;
+					try {
+						String sql = "DELETE FROM correct_answers WHERE id = ?";
+						st = con.prepareStatement(sql);
+						st.setInt(1, correct_answerId);
+						int result = st.executeUpdate();
+						return result;
+					} catch (Exception e) {
+			          e.printStackTrace();
+			          throw new SQLException("レコードの操作に失敗しました。");
+			        } finally {
+		              try {
+		              // リソースの開放
+		                if (rs != null) {
+							rs.close();
+						}
+		                if (st != null) {
+							st.close();
+						}
+		              close();
+		            } catch (Exception e) {
+		              e.printStackTrace();
+		              throw new SQLException("リソースの開放に失敗しました");
+		            }
+				}
+
+			 }
+		}
