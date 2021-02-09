@@ -6,11 +6,12 @@ import java.sql.SQLException;
 
 public class ConnectionDAO {
 	final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
-	final String DB_NAME ="java_db";
+	final String DB_NAME = "java_db";
 	final String DB_USER = "root";
 	final String DB_PASSWORD = "hAtAhAtA6364";
 	/* DBコネクション */
 	public Connection con;
+
 	/**
 	 * コンストラクタ
 	 */
@@ -21,7 +22,7 @@ public class ConnectionDAO {
 	public void setConnection() throws SQLException {
 
 		try {
-			String url = "jdbc:mysql://localhost:3306/" + DB_NAME  + "?serverTimezone=JST";
+			String url = "jdbc:mysql://localhost:3306/" + DB_NAME + "?serverTimezone=JST";
 			Class.forName(DRIVER_NAME).newInstance();
 			con = DriverManager.getConnection(url, DB_USER, DB_PASSWORD);
 		} catch (SQLException e) {
