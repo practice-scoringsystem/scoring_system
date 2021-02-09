@@ -28,10 +28,10 @@ public class CorrectAnswersBean {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getQuestion_id() {
+	public int getQuestionId() {
 		return question_id;
 	}
-	public void setQuestion_id(int question_id) {
+	public void setQuestionId(int question_id) {
 		this.question_id = question_id;
 	}
 	public String getAnswer() {
@@ -40,16 +40,16 @@ public class CorrectAnswersBean {
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-	public Timestamp getCreated_at() {
+	public Timestamp getCreatedAt() {
 		return created_at;
 	}
-	public void setCreated_at(Timestamp created_at) {
+	public void setCreatedAt(Timestamp created_at) {
 		this.created_at = created_at;
 	}
-	public Timestamp getUpdated_at() {
+	public Timestamp getUpdatedAt() {
 		return updated_at;
 	}
-	public void setUpdated_at(Timestamp updated_at) {
+	public void setUpdatedAt(Timestamp updated_at) {
 		this.updated_at = updated_at;
 	}
 

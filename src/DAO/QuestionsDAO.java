@@ -100,7 +100,7 @@ public class QuestionsDAO extends ConnectionDAO {
 			/**
 			 * レコードの新規作成
 			 */
-			public void create(QuestionsBean ub) throws SQLException {
+			public void create(QuestionsBean qb) throws SQLException {
 				if (con == null) {
 					setConnection();
 				}
@@ -113,7 +113,7 @@ public class QuestionsDAO extends ConnectionDAO {
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					String strTimestamp = sdf.format(timestamp);
 					st = con.prepareStatement(sql);
-					st.setString(1, ub.getQuestion());
+					st.setString(1, qb.getQuestion());
 					st.setString(2, strTimestamp);
 					st.setString(3, strTimestamp);
 					st.executeUpdate();

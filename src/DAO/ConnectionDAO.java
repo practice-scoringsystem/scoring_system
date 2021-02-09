@@ -21,7 +21,7 @@ public class ConnectionDAO {
 	public void setConnection() throws SQLException {
 
 		try {
-			String url = "jdbc:mysql://localhost:3306/java_db?serverTimezone=JST";
+			String url = "jdbc:mysql://localhost:3306/" + DB_NAME  + "?serverTimezone=JST";
 			Class.forName(DRIVER_NAME).newInstance();
 			con = DriverManager.getConnection(url, DB_USER, DB_PASSWORD);
 		} catch (SQLException e) {

@@ -26,10 +26,10 @@ public class HistoriesBean {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUser_id() {
+	public int getUserId() {
 		return user_id;
 	}
-	public void setUser_id(int user_id) {
+	public void setUserId(int user_id) {
 		this.user_id = user_id;
 	}
 	public int getPoint() {
@@ -38,10 +38,10 @@ public class HistoriesBean {
 	public void setPoint(int point) {
 		this.point = point;
 	}
-	public Timestamp getCreated_at() {
+	public Timestamp getCreatedAt() {
 		return created_at;
 	}
-	public void setCreated_at(Timestamp created_at) {
+	public void setCreatedAt(Timestamp created_at) {
 		this.created_at = created_at;
 	}
 

@@ -22,7 +22,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, questions_id, answer FROM correct_answers";
+			String sql = "SELECT id, questionsId, answer FROM correct_answers";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			/** SQL 実行 **/
@@ -31,9 +31,9 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 			List<CorrectAnswersBean> list = new ArrayList<CorrectAnswersBean>();
 			while (rs.next()) {
 				int id = rs.getInt("id");
-				int question_id = rs.getInt("question_id");
+				int questionId = rs.getInt("questionId");
 				String answer = rs.getString("answer");
-				CorrectAnswersBean bean = new CorrectAnswersBean(id, question_id, answer);
+				CorrectAnswersBean bean = new CorrectAnswersBean(id, questionId, answer);
 				list.add(bean);
 			}
 			return list;
@@ -77,7 +77,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 					int question_id = rs.getInt("question_id");
 					String answer = rs.getString("answer");
 					bean.setId(id);
-					bean.setQuestion_id(question_id);
+					bean.setQuestionId(question_id);
 					bean.setAnswer(answer);
 				}
 				return bean;
@@ -102,7 +102,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 			/**
 			 * レコードの新規作成
 			 */
-			public void create(CorrectAnswersBean ub) throws
+			public void create(CorrectAnswersBean cab) throws
 			 SQLException {
 				if (con == null) {
 					setConnection();
@@ -116,9 +116,9 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					String strTimestamp = sdf.format(timestamp);
 					st = con.prepareStatement(sql);
-					st.setInt(1, ub.getId());
-					st.setInt(2, ub.getQuestion_id());
-					st.setString(3, ub.getAnswer());
+					st.setInt(1, cab.getId());
+					st.setInt(2, cab.getQuestionId());
+					st.setString(3, cab.getAnswer());
 					st.setString(4, strTimestamp);
 					st.setString(5, strTimestamp);
 					st.executeUpdate();

@@ -10,7 +10,7 @@ public class Users {
 	private String deleted_at;
 	private String updated_at;
 	private byte deleteflag;
-	
+
 	public Users(int id,String name,String password,String created_at,
 			      String deleted_at,String updated_at,byte deleteflag){
 		this.id=id;

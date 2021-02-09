@@ -74,10 +74,10 @@ public class HistoriesDAO extends ConnectionDAO {
 				HistoriesBean bean = new HistoriesBean();
 				while (rs.next()) {
 					int id = rs.getInt("id");
-					int user_id = rs.getInt("user_id");
+					int userId = rs.getInt("userId");
 					int point = rs.getInt("point");
 					bean.setId(id);
-					bean.setUser_id(user_id);
+					bean.setUserId(userId);
 					bean.setPoint(point);
 				}
 				return bean;
@@ -104,7 +104,7 @@ public class HistoriesDAO extends ConnectionDAO {
 		/**
 		 * レコードの新規作成
 		 */
-		public void create(HistoriesBean ub) throws SQLException {
+		public void create(HistoriesBean hb) throws SQLException {
 			if (con == null) {
 				setConnection();
 			}
@@ -117,8 +117,8 @@ public class HistoriesDAO extends ConnectionDAO {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				String strTimestamp = sdf.format(timestamp);
 				st = con.prepareStatement(sql);
-				st.setInt(1, ub.getUser_id());
-				st.setInt(2, ub.getPoint());
+				st.setInt(1, hb.getUserId());
+				st.setInt(2, hb.getPoint());
 				st.setString(3, strTimestamp);
 				st.executeUpdate();
 			} catch (Exception e) {
