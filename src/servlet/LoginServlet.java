@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
 
 		if (isEmpty(str_id) || isEmpty(str_pw)) {
 			request.setAttribute("error_message", "ユーザーIDとパスワードを入力してください");
-			RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/Login.jsp");
 
 			rd.forward(request, response);
 		} else {
@@ -65,7 +65,7 @@ public class LoginServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 				request.setAttribute("error_message", "内部でエラーが発生しました");
-				RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("/Login.jsp");
 				rd.forward(request, response);
 			}
 			request.setAttribute("error_message", "ユーザーIDかパスワードが違います");
