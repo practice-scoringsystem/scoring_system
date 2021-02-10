@@ -144,7 +144,7 @@ public class UsersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "UPDATE users SETname deleteflag = ?, deleted_at = ? WHERE id = ?";
+			String sql = "UPDATE users SET deleteflag = ?, deleted_at = ? WHERE id = ?";
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			String strTimestamp = sdf.format(timestamp);

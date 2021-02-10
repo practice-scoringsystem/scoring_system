@@ -61,7 +61,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 	/**
 	 * 指定IDのレコードを取得する
 	 */
-	public ArrayList<CorrectAnswersBean> findByQuestionId(int questionId) throws SQLException {
+	public List<CorrectAnswersBean> findByQuestionId(int questionId) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
@@ -77,12 +77,12 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 			while (rs.next()) {
 				int id = rs.getInt("id");
                 //重複ローカル変数questionIdと表示されていたためintを外した。同じスコープ内なのでローカル変数は使い回せる。
-				questionId = rs.getInt("questionId");
+				questionId = rs.getInt("question_id");
 				String answer = rs.getString("answer");
 				CorrectAnswersBean bean = new CorrectAnswersBean(id, questionId, answer);
 				list.add(bean);
 			}
-			return (ArrayList<CorrectAnswersBean>)list;
+			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new SQLException("レコードの取得に失敗しました");
