@@ -33,15 +33,15 @@ public class Users {
 		return password;
 	}
 
-	public String getCreated_at() {
+	public String getCreatedAt() {
 		return created_at;
 	}
 
-	public String getDeleted_at() {
+	public String getDeletedAt() {
 		return deleted_at;
 	}
 
-	public String getUpdated_at() {
+	public String getUpdatedAt() {
 		return updated_at;
 	}
 

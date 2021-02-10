@@ -61,7 +61,7 @@ public class HistoriesDAO extends ConnectionDAO {
 	/**
 	 * 指定IDのレコードを取得する
 	 */
-	public ArrayList<HistoriesBean> findByUserId(int userId) throws SQLException {
+	public List<HistoriesBean> findByUserId(int userId) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
@@ -81,7 +81,7 @@ public class HistoriesDAO extends ConnectionDAO {
 				HistoriesBean bean = new HistoriesBean(id, userId, point);
 				list.add(bean);
 			}
-			return (ArrayList<HistoriesBean>)list;
+			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new SQLException("レコードの取得に失敗しました");

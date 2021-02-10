@@ -61,7 +61,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 	/**
 	 * 指定IDのレコードを取得する
 	 */
-	public ArrayList<CorrectAnswersBean> findByQuestionId(int questionId) throws SQLException {
+	public List<CorrectAnswersBean> findByQuestionId(int questionId) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
@@ -82,7 +82,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 				CorrectAnswersBean bean = new CorrectAnswersBean(id, questionId, answer);
 				list.add(bean);
 			}
-			return (ArrayList<CorrectAnswersBean>)list;
+			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new SQLException("レコードの取得に失敗しました");
