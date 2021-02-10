@@ -13,11 +13,11 @@
 	<%
 	if (errorMessage != null) {
 	%>
+	<%=errorMessage%>
+	<%
+	}
+	%>
 	<form action="/Login" method="post">
-		<%=errorMessage%>
-		<%
-		}
-		%>
 		<div class="login">
 			<div class="id">
 				ID:<input type="text" name="id" size="40" maxlength="30"><br>
