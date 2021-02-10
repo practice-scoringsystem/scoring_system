@@ -4,7 +4,7 @@
       name="jdbc/java_db"
       auth="Container"
       type="javax.sql.DataSource"
-      driverClassName="com.mysql.jdbc.Driver"
+      driverClassName="com.mysql.cj.jdbc.Driver"
       url="jdbc:mysql://localhost:3306/java_db"
       connectionProperties="autoReconnect=true;verifyServerCertificate=false;useSSL=false;requireSSL=false"
       username="root"

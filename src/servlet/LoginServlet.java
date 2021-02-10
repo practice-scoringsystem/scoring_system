@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
 
 		if (isEmpty(str_id) || isEmpty(str_pw)) {
 			request.setAttribute("error_message", "ユーザーIDとパスワードを入力してください");
-			RequestDispatcher rd = request.getRequestDispatcher("/Login.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");
 
 			rd.forward(request, response);
 		} else {
@@ -58,18 +58,18 @@ public class LoginServlet extends HttpServlet {
 						session.setAttribute("login_name", db_name);
 						session.setAttribute("login_pw", db_pw);
 
-						RequestDispatcher rd = request.getRequestDispatcher("top/top.jsp");
+						RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
 						rd.forward(request, response);
 					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				request.setAttribute("error_message", "内部でエラーが発生しました");
-				RequestDispatcher rd = request.getRequestDispatcher("/Login.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");
 				rd.forward(request, response);
 			}
 			request.setAttribute("error_message", "ユーザーIDかパスワードが違います");
-			RequestDispatcher rd = request.getRequestDispatcher("/Login.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");
 			rd.forward(request, response);
 		}
 

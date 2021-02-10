@@ -10,14 +10,14 @@
 	<%
 	String errorMessage = (String) request.getAttribute("error_message");
 	%>
-	<%
-	if (errorMessage != null) {
-	%>
-	<%=errorMessage%>
-	<%
-	}
-	%>
-	<form action="/Login" method="post">
+	<form action="./Login" method="post">
+		<%
+			if (errorMessage != null) {
+		%>
+		<%=errorMessage%>
+		<%
+						}
+		%>
 		<div class="login">
 			<div class="id">
 				ID:<input type="text" name="id" size="40" maxlength="30"><br>
