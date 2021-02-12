@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,34 +21,30 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	public LogoutServlet() {
 		super();
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	//ログアウトボタンから呼び出される
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		//セッションを破棄
-		String action = request.getParameter("action");
-		//topのボタンからhiddenでlogoutを送信
-		if (action.equals("logout")) {
-			HttpSession session = request.getSession();
-			session.invalidate();
-
-			//セッションを破棄できていたら成功メッセージの表示
-			if (session == null) {
-				request.setAttribute("success_message", "ログアウトしました");
-				RequestDispatcher rd = request.getRequestDispatcher("Logout.jsp");
-				rd.forward(request, response);
-			}
-		}
+		//http session (null == session)ならloginページへ飛ばす処理を親クラスとして作る　そしてextendsする
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	//ログアウトボタンから呼び出される postに変更する
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		//セッションを破棄
+		String action = request.getParameter("action");
+		//topのボタンからhiddenでlogoutを送信
+		if (action.equals("logout")) {
+			HttpSession session = request.getSession(false);
+			session.invalidate();
+
+			response.sendRedirect("Login.jsp");
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
 	}

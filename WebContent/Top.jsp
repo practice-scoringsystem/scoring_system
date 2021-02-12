@@ -13,7 +13,7 @@
 	<header>
 		<h3>ようこそテスト問題登録/自動採点システムへ</h3>
 		<nav class="nav">
-			<form action="./Logout" method="get">
+			<form action="./Logout" method="post">
 			<input type="hidden" name="action" value="logout">
 				<input type="submit" value="logout">
 			</form>
