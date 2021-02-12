@@ -31,12 +31,19 @@ public class LogoutServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		//セッションを破棄
-		HttpSession session = request.getSession();
-		session.invalidate();
+		String action = request.getParameter("action");
+		//topのボタンからhiddenでlogoutを送信
+		if (action.equals("logout")) {
+			HttpSession session = request.getSession();
+			session.invalidate();
 
-		//ログアウト画面にフォワード
-		RequestDispatcher dispatcher = request.getRequestDispatcher("Logout.jsp");
-		dispatcher.forward(request, response);
+			//セッションを破棄できていたら成功メッセージの表示
+			if (session == null) {
+				request.setAttribute("success_message", "ログアウトしました");
+				RequestDispatcher rd = request.getRequestDispatcher("Logout.jsp");
+				rd.forward(request, response);
+			}
+		}
 	}
 
 	/**
