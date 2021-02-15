@@ -16,6 +16,7 @@ public class QuestionsDAO extends ConnectionDAO {
 		setConnection();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<QuestionsBean> findAll() throws SQLException {
 		if (con == null) {
 			setConnection();
@@ -34,6 +35,7 @@ public class QuestionsDAO extends ConnectionDAO {
 				int id = rs.getInt("id");
 				String question = rs.getString("question");
 				QuestionsBean bean = new QuestionsBean(id, question);
+				//beanにidとquestionをいれる
 				list.add(bean);
 			}
 			return list;

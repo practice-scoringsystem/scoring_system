@@ -17,6 +17,7 @@ public class UsersDAO extends ConnectionDAO {
 		setConnection();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<UsersBean> findAll() throws SQLException {
 		if (con == null) {
 			setConnection();

@@ -21,7 +21,6 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	public LogoutServlet() {
 		super();
-		//http session (null == session)ならloginページへ飛ばす処理を親クラスとして作る　そしてextendsする
 	}
 
 	/**
@@ -50,3 +49,5 @@ public class LogoutServlet extends HttpServlet {
 	}
 
 }
+
+//http session (null == session)ならloginページへ飛ばす処理を親クラスとして作る　そしてextendsする
