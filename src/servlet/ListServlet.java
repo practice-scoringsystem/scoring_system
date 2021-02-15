@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.QuestionsCorrectAnswersDAO;
 import DAO.QuestionsDAO;
 import beans.QuestionsBean;
+import beans.QuestionsCorrectAnswersBean;
 
 /**
  * Servlet implementation class ListServlet
@@ -43,6 +45,25 @@ public class ListServlet extends HttpServlet {
 			list = dao.findAll();
 			//全データをlistにセットしてjsp側でlistで呼び出せるようにする
 			request.setAttribute("list", list);
+			//QCAがあるのでそれを含めた後にフォワードをする
+
+		//例外処理 Top.jspへ飛ばす
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("error_message", "内部でエラーが発生しました");
+			RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
+			rd.forward(request, response);
+		}
+
+
+		try {
+			//QuestionsDAOで取ってきた情報をArrayListにつめる
+			List<QuestionsCorrectAnswersBean> QCAlist = new ArrayList<QuestionsCorrectAnswersBean>();
+			QuestionsCorrectAnswersDAO QCAdao = new QuestionsCorrectAnswersDAO();
+			//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
+			QCAlist = QCAdao.findAll();
+			//全データをlistにセットしてjsp側でlistで呼び出せるようにする
+			request.setAttribute("QCAlist", QCAlist);
 			RequestDispatcher rd = request.getRequestDispatcher("List.jsp");
 			rd.forward(request, response);
 
@@ -53,6 +74,8 @@ public class ListServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
 			rd.forward(request, response);
 		}
+
+
 
 	}
 

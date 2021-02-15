@@ -1,5 +1,6 @@
 <%@ page import="java.util.ArrayList" import="java.util.List"%>
-<%@ page import="beans.QuestionsBean"%>
+<%@ page import="beans.QuestionsBean"
+	import="beans.QuestionsCorrectAnswersBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -11,6 +12,10 @@ String error = (String) request.getAttribute("error_message");
 
 <%
 List<QuestionsBean> Questionslist = (List<QuestionsBean>) request.getAttribute("list");
+%>
+
+<%
+List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) request.getAttribute("QCAlist");
 %>
 
 <!DOCTYPE html>
@@ -65,6 +70,27 @@ List<QuestionsBean> Questionslist = (List<QuestionsBean>) request.getAttribute("
 				<%
 				}
 				%>
+				<!-- 答えをforで回す QuestionsAnswers  -->
+
+				<%
+				for (QuestionsCorrectAnswersBean QCAbean : QCAlist) {
+				%>
+
+			<tr>
+				<%-- 問題ID --%>
+				<%
+				if (QCAbean != null) {
+				%>
+				<td><%=QCAbean.getQuestionsId()%></td>
+				<%-- 答え --%>
+				<td><%=QCAbean.getAnswer()%></td>
+				<%
+				}
+				%>
+				<%
+				}
+				%>
+
 			</tr>
 		</table>
 		<br>
