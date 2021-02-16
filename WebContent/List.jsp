@@ -34,7 +34,7 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 	%>
 
 	<div style="text-align: center">
-		<a href="#">
+		<a href="Register.jsp">
 			<button type="button">新規登録</button>
 		</a>
 		<h2 style="text-align: center">一覧</h2>
