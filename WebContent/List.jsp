@@ -8,6 +8,9 @@
 <%
 String error = (String) request.getAttribute("error_message");
 %>
+<%
+String success = (String) request.getAttribute("success_message");
+%>
 <%-- リクエストスコープからBeanクラスの配列を取得 --%>
 
 <%
@@ -32,7 +35,14 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 	<%
 	}
 	%>
-
+	<%
+	if (success != null) {
+	%>
+	<%=success%>
+	<%
+	}
+	%>
+	<jsp:include page="Header.jsp" />
 	<div style="text-align: center">
 		<a href="Register.jsp">
 			<button type="button">新規登録</button>
