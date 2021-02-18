@@ -8,6 +8,9 @@
 <%
 String error = (String) request.getAttribute("error_message");
 %>
+<%
+String success = (String) request.getAttribute("success_message");
+%>
 <%-- リクエストスコープからBeanクラスの配列を取得 --%>
 
 <%
@@ -32,9 +35,16 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 	<%
 	}
 	%>
-
+	<%
+	if (success != null) {
+	%>
+	<%=success%>
+	<%
+	}
+	%>
+	<jsp:include page="Header.jsp" />
 	<div style="text-align: center">
-		<a href="#">
+		<a href="Register.jsp">
 			<button type="button">新規登録</button>
 		</a>
 		<h2 style="text-align: center">一覧</h2>
@@ -52,44 +62,55 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 			</tr>
 			<%-- Beanの要素数分（問題の数分）テーブルを作成 --%>
 			<%
-			for (QuestionsBean bean : Questionslist) {
+			for (int i = 0; i < Questionslist.size(); i++) {
 			%>
 			<tr>
 				<%-- 問題ID --%>
 				<%
-				if (bean != null) {
+				if (Questionslist.get(i) != null) {
 				%>
-				<td><%=bean.getId()%></td>
+				<td><%=Questionslist.get(i).getId()%></td>
 				<%-- 問題 --%>
-				<td><%=bean.getQuestion()%></td>
+				<td><%=Questionslist.get(i).getQuestion()%></td>
 				<td><a href="#"><button type="button">編集</button></a></td>
 				<td><a href="#"><button type="button">削除</button></a></td>
 				<%
 				}
 				%>
-				<%
-				}
-				%>
 				<!-- 答えをforで回す QuestionsAnswers  -->
 
-				<%
-				for (QuestionsCorrectAnswersBean QCAbean : QCAlist) {
-				%>
-
+				<%-- <%
+				for (QuestionsCorrectAnswersBean QCAbean : QCAlist)  {
+				%> --%>
+			</tr>
+			<%
+			for (int j = 0; j < QCAlist.size(); j++) {
+			%>
+			<%-- 問題ID --%>
+			<%
+			if (QCAlist.get(j) != null) {
+			%>
+			<%
+			if (QCAlist.get(j).getQuestionsId() == Questionslist.get(i).getId()) {
+			%>
 			<tr>
-				<%-- 問題ID --%>
-				<%
-				if (QCAbean != null) {
-				%>
-				<td><%=QCAbean.getQuestionsId()%></td>
+				<td><%=QCAlist.get(j).getQuestionsId()%></td>
 				<%-- 答え --%>
-				<td><%=QCAbean.getAnswer()%></td>
-				<%
-				}
-				%>
-				<%
-				}
-				%>
+				<td><%=QCAlist.get(j).getAnswer()%></td>
+			</tr>
+			<%
+			}
+			%>
+			<%
+			}
+			%>
+			<%
+			}
+			%>
+			<%
+			}
+			%>
+
 
 			</tr>
 		</table>
@@ -98,3 +119,7 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 
 </body>
 </html>
+
+
+<!-- for文でQuestionとAnswerを回す -->
+<!-- for文の中にAnswerを入れて回す -->

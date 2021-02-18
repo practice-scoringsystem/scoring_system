@@ -3,13 +3,11 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.jmx.snmp.Timestamp;
-
 import beans.QuestionsBean;
+import model.Questions;
 
 public class QuestionsDAO extends ConnectionDAO {
 	public QuestionsDAO() throws SQLException {
@@ -104,22 +102,16 @@ public class QuestionsDAO extends ConnectionDAO {
 	/**
 	 * レコードの新規作成
 	 */
-	public void create(QuestionsBean qb) throws SQLException {
+	public void create(Questions q) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "INSERT INTO questions (question, created_at, updated_at) values (?,?,?)";
-			// 現在時刻を取得
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			String strTimestamp = sdf.format(timestamp);
+			String sql = "INSERT INTO questions (question, created_at, updated_at) values (?, current_timestamp(),current_timestamp())";
 			st = con.prepareStatement(sql);
-			st.setString(1, qb.getQuestion());
-			st.setString(2, strTimestamp);
-			st.setString(3, strTimestamp);
+			st.setString(1, q.getQuestion());
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -138,6 +130,28 @@ public class QuestionsDAO extends ConnectionDAO {
 				e.printStackTrace();
 				throw new SQLException("リソースの開放に失敗しました");
 			}
+		}
+	}
+
+	//CorrectAnswersを新規登録するためにQuestionsIdをセットする
+	public int getMaxQuestionId() throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			String sql = "SELECT MAX(id) FROM questions";
+			st = con.prepareStatement(sql);
+			rs = st.executeQuery();
+			int max_id = 0;
+			if (rs.next()) {
+				max_id = rs.getInt(1);
+			}
+			return max_id;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new SQLException("レコードの操作に失敗しました。");
 		}
 	}
 
