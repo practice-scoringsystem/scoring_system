@@ -23,16 +23,16 @@
 		%>
 		<p>
 			問題：
-			<textarea name="content" rows="4" cols="40"></textarea>
+			<textarea name="question" rows="4" cols="40"></textarea>
 		</p>
 		<!-- フォームが増える トリガーを設置してjsを動かす -->
 		<p>
 			<!-- nameでservletへ送る -->
-			答え1：<input type="text" name="answer1" size="40">
+			答え1：<input type="text" name="answer" size="40">
 			<button type="button" name="delete" value="delete">
 				<font size="2">削除</font>
 			</button>
-			<br> 答え2：<input type="text" name="answer2" size="40">
+			<br> 答え2：<input type="text" name="answer" size="40">
 			<button type="button" name="delete" value="delete">
 				<font size="2">削除</font>
 			</button>

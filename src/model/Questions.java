@@ -14,12 +14,19 @@ public class Questions {
 		this.updated_at = updated_at;
 	}
 
+	public Questions() {
+	}
+
 	public int getId() {
 		return id;
 	}
 
 	public String getQuestion() {
 		return question;
+	}
+
+	public void setQuestion(String question) {
+		this.question = question;
 	}
 
 	public String getCreatedAt() {

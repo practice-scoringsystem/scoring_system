@@ -3,13 +3,11 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.jmx.snmp.Timestamp;
-
 import beans.CorrectAnswersBean;
+import model.CorrectAnswers;
 
 public class CorrectAnswersDAO extends ConnectionDAO {
 	public CorrectAnswersDAO() throws SQLException {
@@ -105,24 +103,18 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 	/**
 	 * レコードの新規作成
 	 */
-	public void create(CorrectAnswersBean cab) throws SQLException {
+	public void create(CorrectAnswers ca) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "INSERT INTO correct_amswers (id, question_id, answer, created_at, updated_at) values (?,?,?,?,?)";
-			// 現在時刻を取得
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			String strTimestamp = sdf.format(timestamp);
+			//SELECT MAX(id) FROM questions;をquestion_idにいれる（+で１ずつ増やす）
+			String sql = "INSERT INTO correct_answers (questions_id, answer, created_at, updated_at) values (?,?,current_timestamp(),current_timestamp())";
 			st = con.prepareStatement(sql);
-			st.setInt(1, cab.getId());
-			st.setInt(2, cab.getQuestionId());
-			st.setString(3, cab.getAnswer());
-			st.setString(4, strTimestamp);
-			st.setString(5, strTimestamp);
+			st.setInt(1, ca.getQuestionId());
+			st.setString(2, ca.getAnswer());
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

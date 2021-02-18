@@ -47,16 +47,6 @@ public class ListServlet extends HttpServlet {
 			request.setAttribute("list", list);
 			//QCAがあるのでそれを含めた後にフォワードをする
 
-		//例外処理 Top.jspへ飛ばす
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("error_message", "内部でエラーが発生しました");
-			RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
-			rd.forward(request, response);
-		}
-
-
-		try {
 			//QuestionsDAOで取ってきた情報をArrayListにつめる
 			List<QuestionsCorrectAnswersBean> QCAlist = new ArrayList<QuestionsCorrectAnswersBean>();
 			QuestionsCorrectAnswersDAO QCAdao = new QuestionsCorrectAnswersDAO();
@@ -74,8 +64,6 @@ public class ListServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
 			rd.forward(request, response);
 		}
-
-
 
 	}
 
@@ -95,9 +83,3 @@ public class ListServlet extends HttpServlet {
 //やらないといけないのはQuestionsbeanの中の全てのデータを表示すること
 //データベースへの接続とSQL文の発行指示はDAOConnectとQuestionsDAOでできているはず
 //ArrayListの中身を表示するのをservletとjspでしなきゃいけない
-
-//ログインチェック
-//topからlistへのページ遷移
-//新規投稿ボタンを設置
-//listに問題と答えを表示
-//編集と削除ボタンを置く

@@ -9,24 +9,25 @@
 <body>
 	<jsp:include page="Header.jsp" />
 	<h2>登録確認</h2>
-	<p>
-		問題:<%=request.getAttribute("content")%>
-		<input type="hidden" name="content" />
-	</p>
-	<p>
-		答え1:<%=request.getAttribute("answer1")%>
-		<input type="hidden" name="answer1" />
-	</p>
-	<p>
-		答え2:<%=request.getAttribute("answer2")%>
-		<input type="hidden" name="answer2" />
-	</p>
-	<button type="button" name="編集" value="編集">
-		<font size="2">戻る</font>
-	</button>
-	<button type="button" name="登録" value="登録">
-		<font size="2">登録</font>
-	</button>
-
+	<form action="./New" method="post">
+		<p>
+			問題:<%=request.getAttribute("question")%>
+			<input type="hidden" name="question" value="<%=request.getAttribute("question")%>"/>
+		</p>
+		<%
+		String[] arr = (String[])request.getAttribute("answer");
+		for (int i = 0; i < arr.length; i++) {
+		%>
+		<p>
+			答え<%= i + 1 %>:<%=arr[i]%><input type="hidden" name="answer" value="<%=arr[i]%>" />
+		</p>
+		<% } %>
+		<a href="./Register.jsp">
+			<button type="button">戻る</button>
+		</a>
+		<p>
+			<input type="submit" value="登録する">
+		</p>
+	</form>
 </body>
 </html>
