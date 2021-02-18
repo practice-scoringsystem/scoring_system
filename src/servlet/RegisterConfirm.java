@@ -43,7 +43,7 @@ public class RegisterConfirm extends HttpServlet {
 		String question = request.getParameter("question");
 		String[] arr = request.getParameterValues("answer");
 
-		if (isEmpty(question)) {
+		if (isEmpty(question) || arr.length == 0) {
 			request.setAttribute("error_message", "入力がされていません");
 			RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
 

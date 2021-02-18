@@ -47,14 +47,11 @@ public class NewQuestionsAnswersServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//新規登録　question
-		//入力フォームの値を受け取る　getparameterで取ってきて　引数でinsert
-		//DAOにいれる
 
-		//QuestionDAOとAnswersDAOをnewする
 		try {
 			//入力フォームの値を日本語にする
 			request.setCharacterEncoding("UTF-8");
+
 			//入力フォームからパラメーターを受け取る
 			String question = request.getParameter("question");
 
@@ -65,10 +62,11 @@ public class NewQuestionsAnswersServlet extends HttpServlet {
 
 			//questions_idを取ってくる処理をいれる　set question_id
 			CorrectAnswers ca = new CorrectAnswers();
+
 			//get parameter valuesでStringの配列が取れそう nameをanswerに統一
 			//if answers1 が存在したらcreate answers2 も存在したらcreate 配列で取ってくるイメージが近い for文を回す
 			String[] arr = request.getParameterValues("answer");
-			System.out.println (q.getQuestion());
+
 			//DAOに追加
 			QuestionsDAO questionsDAO = new QuestionsDAO();
 			CorrectAnswersDAO answersDAO = new CorrectAnswersDAO();
@@ -77,6 +75,7 @@ public class NewQuestionsAnswersServlet extends HttpServlet {
 
 			//DAOのInsertを実行 引数はQuestionsオブジェクト
 			questionsDAO.create(q);
+			//SELECT MAX(id) FROM questions;をquestion_idにいれる（+で１ずつ増やす）
 			max_id = max_id + 1;
 
 			//caにquestuons_id をセット
@@ -93,17 +92,21 @@ public class NewQuestionsAnswersServlet extends HttpServlet {
 				//QuestionsDAOで取ってきた情報をArrayListにつめる
 				List<QuestionsBean> list = new ArrayList<QuestionsBean>();
 				QuestionsDAO dao = new QuestionsDAO();
+
 				//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
 				list = dao.findAll();
+
 				//全データをlistにセットしてjsp側でlistで呼び出せるようにする
 				request.setAttribute("list", list);
-				//QCAがあるのでそれを含めた後にフォワードをする
 
+				//QCAがあるのでそれを含めた後にフォワードをする
 				//QuestionsDAOで取ってきた情報をArrayListにつめる
 				List<QuestionsCorrectAnswersBean> QCAlist = new ArrayList<QuestionsCorrectAnswersBean>();
 				QuestionsCorrectAnswersDAO QCAdao = new QuestionsCorrectAnswersDAO();
+
 				//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
 				QCAlist = QCAdao.findAll();
+
 				//全データをlistにセットしてjsp側でlistで呼び出せるようにする
 				request.setAttribute("QCAlist", QCAlist);
 				request.setAttribute("success_message", "登録が完了しました");

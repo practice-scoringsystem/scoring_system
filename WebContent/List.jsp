@@ -15,13 +15,10 @@ String success = (String) request.getAttribute("success_message");
 
 <%
 List<QuestionsBean> Questionslist = (List<QuestionsBean>) request.getAttribute("list");
-/* ここで配列にしている */
-String[] questionArray = (String[]) request.getAttribute("question");
 %>
 
 <%
 List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) request.getAttribute("QCAlist");
-String[] answerArray = (String[]) request.getAttribute("answer");
 %>
 
 <!DOCTYPE html>

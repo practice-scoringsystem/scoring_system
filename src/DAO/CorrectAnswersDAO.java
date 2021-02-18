@@ -110,7 +110,6 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			//SELECT MAX(id) FROM questions;をquestion_idにいれる（+で１ずつ増やす）
 			String sql = "INSERT INTO correct_answers (questions_id, answer, created_at, updated_at) values (?,?,current_timestamp(),current_timestamp())";
 			st = con.prepareStatement(sql);
 			st.setInt(1, ca.getQuestionId());
