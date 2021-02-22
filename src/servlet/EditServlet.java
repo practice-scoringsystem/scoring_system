@@ -12,11 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import DAO.CorrectAnswersDAO;
-import DAO.QuestionsCorrectAnswersDAO;
 import DAO.QuestionsDAO;
 import beans.CorrectAnswersBean;
 import beans.QuestionsBean;
-import beans.QuestionsCorrectAnswersBean;
 
 /**
  * Servlet implementation class EditServlet
@@ -56,6 +54,7 @@ public class EditServlet extends HttpServlet {
 			CorrectAnswersDAO CAdao = new CorrectAnswersDAO();
 			CAlist = CAdao.findByQuestionsId(QuestionsId);
 
+			request.setAttribute("questions_id", QuestionsId);
 			//Questionsの中身を入れたbeanをセット
 			request.setAttribute("questionsBean", questionsbean);
 			//Questionsに紐づくCorrectAnswerの中身をlistにしてセット
@@ -70,33 +69,6 @@ public class EditServlet extends HttpServlet {
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("Edit.jsp");
 		requestDispatcher.forward(request, response);
 
-		try {
-			//QuestionsDAOで取ってきた情報をArrayListにつめる
-			List<QuestionsBean> list = new ArrayList<QuestionsBean>();
-			QuestionsDAO dao = new QuestionsDAO();
-			//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
-			list = dao.findAll();
-			//全データをlistにセットしてjsp側でlistで呼び出せるようにする
-			request.setAttribute("list", list);
-			//QCAがあるのでそれを含めた後にフォワードをする
-
-			//QuestionsDAOで取ってきた情報をArrayListにつめる
-			List<QuestionsCorrectAnswersBean> QCAlist = new ArrayList<QuestionsCorrectAnswersBean>();
-			QuestionsCorrectAnswersDAO QCAdao = new QuestionsCorrectAnswersDAO();
-			//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
-			QCAlist = QCAdao.findAll();
-			//全データをlistにセットしてjsp側でlistで呼び出せるようにする
-			request.setAttribute("QCAlist", QCAlist);
-			RequestDispatcher rd = request.getRequestDispatcher("List.jsp");
-			rd.forward(request, response);
-
-			//例外処理 Top.jspへ飛ばす
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("error_message", "内部でエラーが発生しました");
-			RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
-			rd.forward(request, response);
-		}
 	}
 
 	/**

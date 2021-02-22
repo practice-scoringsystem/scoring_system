@@ -43,20 +43,18 @@ public class EditConfirmServlet extends HttpServlet {
 
 		if (isEmpty(question) || arr.length == 0) {
 			request.setAttribute("error_message", "入力がされていません");
-			RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("Edit.jsp");
 
 			rd.forward(request, response);
 		} else if (question.length() > 255) {
 			request.setAttribute("error_message", "最大文字数を超えています");
-			RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("Edit.jsp");
 
 			rd.forward(request, response);
 		} else {
 
 			request.setAttribute("question", question);
-
 			request.setAttribute("answer", arr);
-
 			request.getRequestDispatcher("EditConfirm.jsp").forward(request, response);
 
 		}

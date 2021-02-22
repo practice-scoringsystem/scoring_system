@@ -133,7 +133,6 @@ public class QuestionsDAO extends ConnectionDAO {
 				String question = rs.getString("question");
 				int answersId = rs.getInt("id");
 				String answer = rs.getString("answer");
-				//ここで引っかかってる
 				bean.setQuestionsId(questionsId);
 				bean.setQuestion(question);
 				bean.setAnswersId(answersId);
@@ -159,6 +158,43 @@ public class QuestionsDAO extends ConnectionDAO {
 			}
 		}
 	}
+
+	/**
+	 *	レコードの更新
+	 */
+	public void update(QuestionsBean questionsBean, int QuestionsId) throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		QuestionsBean bean = new QuestionsBean();
+
+		int questionsId = questionsBean.getQuestionsId();
+		String question = questionsBean.getQuestion();
+		String answer = questionsBean.getAnswer();
+		try {
+			String sql = "UPDATE questions "
+					+ "SET question = question, "
+					+ "answer = answer "
+					+ "FROM "
+					+ "questions JOIN "
+					+ "correct_answers ON questions.id = correct_answers.questions_id "
+					+ "WHERE id = ?";
+
+
+			st = con.prepareStatement(sql);
+			st.setInt(1, questionsId);
+			st.setString(2, question);
+			st.setString(3, answer);
+			st.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new SQLException("メモの更新に失敗しました");
+		}
+	}
+
 
 	/**
 	 * レコードの新規作成

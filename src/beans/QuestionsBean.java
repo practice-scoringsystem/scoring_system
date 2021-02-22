@@ -31,6 +31,11 @@ public class QuestionsBean {
 		this.answer = answer;
 	}
 
+	public QuestionsBean(String question, String answer) {
+		this.question = question;
+		this.answer = answer;
+	}
+
 	//voidでdisplay的なメソッド名でデバッグできる
 
 	/** 引数無しのコンストラクタ **/

@@ -31,6 +31,7 @@ List<CorrectAnswersBean> CAlist = (List<CorrectAnswersBean>) request.getAttribut
 		<%
 		}
 		%>
+		<input type="hidden" name="questions_id" value="<%=String.valueOf(request.getAttribute("questions_id"))%>" />
 		<p>
 			問題：
 			<textarea name="question" rows="4" cols="40"><%=questionsbean.getQuestion()%></textarea>
