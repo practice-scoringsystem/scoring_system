@@ -63,8 +63,7 @@ public class NewQuestionsAnswersServlet extends HttpServlet {
 			//questions_idを取ってくる処理をいれる　set question_id
 			CorrectAnswers ca = new CorrectAnswers();
 
-			//get parameter valuesでStringの配列が取れそう nameをanswerに統一
-			//if answers1 が存在したらcreate answers2 も存在したらcreate 配列で取ってくるイメージが近い for文を回す
+			//get parameter valuesでStringの配列を取る nameをanswerに統一
 			String[] arr = request.getParameterValues("answer");
 
 			//DAOに追加

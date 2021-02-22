@@ -60,7 +60,8 @@ public class QuestionsDAO extends ConnectionDAO {
 	/**
 	 * 指定IDのレコードを取得する
 	 */
-	public QuestionsBean find(int pid) throws SQLException {
+	//(int pid)を変更
+	public QuestionsBean find(int QuestionsId) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
@@ -70,7 +71,7 @@ public class QuestionsDAO extends ConnectionDAO {
 			String sql = "SELECT id, question FROM questions WHERE id = ?";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
-			st.setInt(1, pid);
+			st.setInt(1, QuestionsId);
 			rs = st.executeQuery();
 			QuestionsBean bean = new QuestionsBean();
 			while (rs.next()) {
@@ -83,6 +84,66 @@ public class QuestionsDAO extends ConnectionDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new SQLException("レコードの取得に失敗しました");
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new SQLException("リソースの開放に失敗しました");
+			}
+		}
+	}
+
+	//Qustionsに紐づくAnswersを検索する
+	public  QuestionsBean find_ans(int QuestionsId) throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		QuestionsBean bean = new QuestionsBean();
+		try {
+			String sql =
+					"SELECT "  //検索内容
+					+ "questions.id, "
+					+ "questions.question, "
+					+ "correct_answers.questions_id, "
+					+ "correct_answers.id, "
+					+ "correct_answers.answer "
+					+ "FROM "  //検索対象
+					+ "correct_answers JOIN "
+					+ "questions ON correct_answers.questions_id = questions.id "
+					+ "WHERE "  //検索条件
+					+ "correct_answers.questions_id = ?";
+
+			// SQL文にQuestionsIdをセットして検索を実行
+			st = con.prepareStatement(sql);
+			st.setInt(1, QuestionsId);
+			rs = st.executeQuery();
+
+			while(rs.next()) {
+				int questionsId = rs.getInt("id");
+				String question = rs.getString("question");
+				int answersId = rs.getInt("id");
+				String answer = rs.getString("answer");
+				//ここで引っかかってる
+				bean.setQuestionsId(questionsId);
+				bean.setQuestion(question);
+				bean.setAnswersId(answersId);
+				bean.setAnswer(answer);
+			}
+			// 検索結果をつめたオブジェクトを返却
+			return bean;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SQLException("情報の取得に失敗しました");
 		} finally {
 			try {
 				if (rs != null) {
@@ -159,7 +220,7 @@ public class QuestionsDAO extends ConnectionDAO {
 	 * レコードの削除
 	 */
 
-	//			voidをbooleanが返る型にした
+	//voidをbooleanが返る型にした
 	/**
 	 *
 	 * @param questionId

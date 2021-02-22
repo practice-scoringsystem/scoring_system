@@ -23,7 +23,7 @@ public class CorrectAnswers {
 		return id;
 	}
 
-	public int getQuestionId() {
+	public int getQuestionsId() {
 		return questions_id;
 	}
 

@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class CorrectAnswersBean {
 
 	private int id;
-	private int question_id;
+	private int questions_id;
 	private String answer;
 	private Timestamp created_at;
 	private Timestamp updated_at;
@@ -15,7 +15,7 @@ public class CorrectAnswersBean {
 	 */
 	public CorrectAnswersBean(int id, int question_id, String answer) {
 		this.id = id;
-		this.question_id = question_id;
+		this.questions_id = question_id;
 		this.answer = answer;
 	}
 
@@ -32,12 +32,12 @@ public class CorrectAnswersBean {
 		this.id = id;
 	}
 
-	public int getQuestionId() {
-		return question_id;
+	public int getQuestionsId() {
+		return questions_id;
 	}
 
-	public void setQuestionId(int question_id) {
-		this.question_id = question_id;
+	public void setQuestionsId(int questions_id) {
+		this.questions_id = questions_id;
 	}
 
 	public String getAnswer() {

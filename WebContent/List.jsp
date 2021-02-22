@@ -61,6 +61,7 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 				<th style="background-color: #6666FF; width: 250">削除</th>
 			</tr>
 			<%-- Beanの要素数分（問題の数分）テーブルを作成 --%>
+
 			<%
 			for (int i = 0; i < Questionslist.size(); i++) {
 			%>
@@ -72,16 +73,17 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 				<td><%=Questionslist.get(i).getId()%></td>
 				<%-- 問題 --%>
 				<td><%=Questionslist.get(i).getQuestion()%></td>
-				<td><a href="#"><button type="button">編集</button></a></td>
+
+				<td>
+					<a href="Edit?questions_id=<%=Questionslist.get(i).getId()%>">
+						<button type="button">編集</button>
+					</a>
+				</td>
 				<td><a href="#"><button type="button">削除</button></a></td>
 				<%
 				}
 				%>
 				<!-- 答えをforで回す QuestionsAnswers  -->
-
-				<%-- <%
-				for (QuestionsCorrectAnswersBean QCAbean : QCAlist)  {
-				%> --%>
 			</tr>
 			<%
 			for (int j = 0; j < QCAlist.size(); j++) {
@@ -97,6 +99,7 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 				<td><%=QCAlist.get(j).getQuestionsId()%></td>
 				<%-- 答え --%>
 				<td><%=QCAlist.get(j).getAnswer()%></td>
+				<!-- hiddenでanswersのidを渡す -->
 			</tr>
 			<%
 			}
@@ -110,9 +113,6 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 			<%
 			}
 			%>
-
-
-			</tr>
 		</table>
 		<br>
 	</div>

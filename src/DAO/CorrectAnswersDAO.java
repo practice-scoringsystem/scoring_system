@@ -112,7 +112,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 		try {
 			String sql = "INSERT INTO correct_answers (questions_id, answer, created_at, updated_at) values (?,?,current_timestamp(),current_timestamp())";
 			st = con.prepareStatement(sql);
-			st.setInt(1, ca.getQuestionId());
+			st.setInt(1, ca.getQuestionsId());
 			st.setString(2, ca.getAnswer());
 			st.executeUpdate();
 		} catch (Exception e) {
