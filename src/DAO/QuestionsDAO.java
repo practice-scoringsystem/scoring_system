@@ -162,36 +162,27 @@ public class QuestionsDAO extends ConnectionDAO {
 	/**
 	 *	レコードの更新
 	 */
-	public void update(QuestionsBean questionsBean, int QuestionsId) throws SQLException {
+	public void update(QuestionsBean questionsBean) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
 
 		PreparedStatement st = null;
-		ResultSet rs = null;
-		QuestionsBean bean = new QuestionsBean();
 
 		int questionsId = questionsBean.getQuestionsId();
 		String question = questionsBean.getQuestion();
-		String answer = questionsBean.getAnswer();
 		try {
 			String sql = "UPDATE questions "
-					+ "SET question = question, "
-					+ "answer = answer "
-					+ "FROM "
-					+ "questions JOIN "
-					+ "correct_answers ON questions.id = correct_answers.questions_id "
+					+ "SET question = ? "
 					+ "WHERE id = ?";
 
-
 			st = con.prepareStatement(sql);
-			st.setInt(1, questionsId);
-			st.setString(2, question);
-			st.setString(3, answer);
+			st.setString(1, question);
+			st.setInt(2, questionsId);
 			st.executeUpdate();
 		} catch(SQLException e) {
 			e.printStackTrace();
-			throw new SQLException("メモの更新に失敗しました");
+			throw new SQLException("更新に失敗しました");
 		}
 	}
 

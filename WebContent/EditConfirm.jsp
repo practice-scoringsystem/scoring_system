@@ -12,6 +12,7 @@
 	<form action="./Update" method="post">
 	<input type="hidden" name="questions_id" value="<%=String.valueOf(request.getAttribute("questions_id"))%>" />
 		<p>
+		<!-- 値が取れてるか確認中 -->
 		<%=String.valueOf(request.getAttribute("questions_id"))%>
 			問題:
 			<textarea readonly rows="4" cols="40"><%=request.getAttribute("question")%></textarea>

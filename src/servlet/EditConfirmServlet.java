@@ -38,6 +38,7 @@ public class EditConfirmServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
+		String questionsId = request.getParameter("questions_id");
 		String question = request.getParameter("question");
 		String[] arr = request.getParameterValues("answer");
 
@@ -53,6 +54,7 @@ public class EditConfirmServlet extends HttpServlet {
 			rd.forward(request, response);
 		} else {
 
+			request.setAttribute("questions_id", questionsId);
 			request.setAttribute("question", question);
 			request.setAttribute("answer", arr);
 			request.getRequestDispatcher("EditConfirm.jsp").forward(request, response);

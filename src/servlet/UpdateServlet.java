@@ -54,11 +54,11 @@ public class UpdateServlet extends HttpServlet {
 			//DAOとbeanをnewしてインスタンス化
 			QuestionsDAO questionsDao = new QuestionsDAO();
 			QuestionsBean questionsBean = new QuestionsBean(QuestionsId);
-			//DAOクラスに渡すためにquestionsbeanに値を格納する
-			questionsBean = new QuestionsBean(question, answer);
-			QuestionsBean questions = questionsDao.find_ans(QuestionsId);
+			questionsBean.setQuestion(question);
+			questionsBean.setAnswer(answer);
+
 			//DAOのupdateメソッドを使う
-			questionsDao.update(questionsBean, QuestionsId);
+			questionsDao.update(questionsBean);
 			//セットアトリビュート
 			request.setAttribute("question", question);
 			request.setAttribute("answer", answer);
