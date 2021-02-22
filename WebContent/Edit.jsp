@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="beans.QuestionsBean"%>
+<%@ page import="java.util.ArrayList" import="java.util.List"%>
+<%@ page import="beans.QuestionsBean" import="beans.CorrectAnswersBean"%>
 <%
-// サーブレットから詳細の情報を取得
-QuestionsBean questionsbean = (QuestionsBean) request.getAttribute("questionsbean");
+// サーブレットから詳細の情報を取得 キーで取り出す
+QuestionsBean questionsbean = (QuestionsBean) request.getAttribute("questionsBean");
+%>
+<%
+List<CorrectAnswersBean> CAlist = (List<CorrectAnswersBean>) request.getAttribute("CAlist");
 %>
 <!DOCTYPE html>
 <html>
@@ -29,22 +33,33 @@ QuestionsBean questionsbean = (QuestionsBean) request.getAttribute("questionsbea
 		%>
 		<p>
 			問題：
-			<textarea name="student_number" rows="4" cols="40"><%=questionsbean.getQuestion()%></textarea>
+			<textarea name="question" rows="4" cols="40"><%=questionsbean.getQuestion()%></textarea>
 		</p>
 		<!-- フォームが増える トリガーを設置してjsを動かす -->
+		<!-- nameでservletへ送る -->
+
+		<%
+		for (int i = 0; i < CAlist.size(); i++) {
+		%>
+		<%-- 問題ID --%>
+		<%
+		if (CAlist.get(i) != null) {
+		%>
+
 		<p>
-			<!-- nameでservletへ送る -->
-			答え1：<input type="text" name="student_number"
-				value="<%=questionsbean.getAnswersId()%>" size="40">
-			<button type="button" name="delete" value="delete">
-				<font size="2">削除</font>
-			</button>
-			<br> 答え2：<input type="text" name="answer" size="40">
+			答え:<input type="text" name="answer"
+				value="<%=CAlist.get(i).getAnswer()%>">
 			<button type="button" name="delete" value="delete">
 				<font size="2">削除</font>
 			</button>
 		</p>
-		<a href="./List.jsp">
+		<%
+		}
+		%>
+		<%
+		}
+		%>
+		<a href="./List">
 			<button type="button">戻る</button>
 		</a>
 		<!-- 入力したものを確認する　confirmでsubmit -->

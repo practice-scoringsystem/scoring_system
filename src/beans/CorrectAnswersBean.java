@@ -13,9 +13,9 @@ public class CorrectAnswersBean {
 	/**
 	 * コンストラクタ
 	 */
-	public CorrectAnswersBean(int id, int question_id, String answer) {
+	public CorrectAnswersBean(int id, int questions_id, String answer) {
 		this.id = id;
-		this.questions_id = question_id;
+		this.questions_id = questions_id;
 		this.answer = answer;
 	}
 

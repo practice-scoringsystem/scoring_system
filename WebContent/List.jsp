@@ -99,7 +99,6 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 				<td><%=QCAlist.get(j).getQuestionsId()%></td>
 				<%-- 答え --%>
 				<td><%=QCAlist.get(j).getAnswer()%></td>
-				<!-- hiddenでanswersのidを渡す -->
 			</tr>
 			<%
 			}

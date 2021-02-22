@@ -59,25 +59,24 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 	/**
 	 * 指定IDのレコードを取得する
 	 */
-	public List<CorrectAnswersBean> findByQuestionId(int questionId) throws SQLException {
+	public List<CorrectAnswersBean> findByQuestionsId(int QuestionsId) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, question_id, answer FROM correct_answers WHERE question_id = ?";
+			String sql = "SELECT id, questions_id, answer FROM correct_answers WHERE questions_id = ?";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
-			st.setInt(1, questionId);
+			st.setInt(1, QuestionsId);
 			rs = st.executeQuery();
 			List<CorrectAnswersBean> list = new ArrayList<CorrectAnswersBean>();
 			while (rs.next()) {
 				int id = rs.getInt("id");
-                //重複ローカル変数questionIdと表示されていたためintを外した。同じスコープ内なのでローカル変数は使い回せる。
-				questionId = rs.getInt("question_id");
+				int questionsId = rs.getInt("questions_id");
 				String answer = rs.getString("answer");
-				CorrectAnswersBean bean = new CorrectAnswersBean(id, questionId, answer);
+				CorrectAnswersBean bean = new CorrectAnswersBean(id, questionsId, answer);
 				list.add(bean);
 			}
 			return list;
