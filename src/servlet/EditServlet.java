@@ -42,6 +42,7 @@ public class EditServlet extends HttpServlet {
 		//sessionはpostで送り続けないといけない？
 		int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
 
+
 		try {
 			//QuestionsDAOとQuestionsBeanのインスタンスを作成
 			QuestionsDAO questionsDAO = new QuestionsDAO();

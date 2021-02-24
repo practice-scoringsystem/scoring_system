@@ -51,8 +51,10 @@ public class UpdateServlet extends HttpServlet {
 
 		String[] arrAnswer = request.getParameterValues("answers_id");
 		String id = arrAnswer[0];
-		int answersId = Integer.parseInt(id);
-		String[] answer = request.getParameterValues("answer");
+		Integer answersId = Integer.parseInt(id);
+
+		String[] arrAnswer2 = request.getParameterValues("answer");
+		String answer = arrAnswer2[0];
 
 		try {
 			//DAOとbeanをnewしてインスタンス化
@@ -71,22 +73,20 @@ public class UpdateServlet extends HttpServlet {
 			CorrectAnswersDAO answersDao = new CorrectAnswersDAO();
 			CorrectAnswersBean answersBean = new CorrectAnswersBean(answersId);
 
-			if (answer != null) {
+			if (answersId == null) {
+				answersBean.setAnswersId(answersId);
+				answersBean.setAnswer(answer);
 				// 新規登録
 				answersDao.create(answersBean);
 			} else {
 				// 更新
 				answersDao.update(answersBean);
-
-				answersBean.setAnswersId(answersId);
-				answersBean.setAnswer(answer);
-				// 新規登録または更新した情報を再度画面に表示
-				request.setAttribute("answers_id", answersId);
-				request.setAttribute("answer", answer);
-
-				request.getRequestDispatcher("./List").forward(request, response);
-
 			}
+			// 新規登録または更新した情報を再度画面に表示
+			request.setAttribute("answers_id", answersId);
+			request.setAttribute("answer", answer);
+
+			request.getRequestDispatcher("./List").forward(request, response);
 
 		} catch (SQLException e) {
 			e.printStackTrace();

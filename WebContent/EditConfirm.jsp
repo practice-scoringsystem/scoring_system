@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" import="java.util.List"%>
+<%@ page import="beans.CorrectAnswersBean"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,14 +21,19 @@
 			<input type="hidden" name="question" value="<%=request.getAttribute("question")%>" />
 		</p>
 		<%
+		List<CorrectAnswersBean> CAlist = (List<CorrectAnswersBean>) request.getAttribute("CAlist");
+		for (int i = 0; i < CAlist.size(); i++) {
+		%>
+		<%
 		String[] arr = (String[]) request.getAttribute("answer");
-		for (int i = 0; i < arr.length; i++) {
+		for (int j = 0; j < arr.length; j++) {
 		%>
 		<p>
-			答え:<input type="text" readonly value="<%=arr[i]%>">
-			<input type="hidden" name="answers_id" value="<%=arr[i]%>" />
+			答え:<input type="text" name="answer" readonly value="<%=arr[j]%>">
+			<input type="hidden" name="answers_id" value="<%=CAlist.get(i).getId()%>" />
 		</p>
 		<%
+		}
 		}
 		%>
 		<a href="./Edit">
