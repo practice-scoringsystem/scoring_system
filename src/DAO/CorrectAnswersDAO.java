@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beans.CorrectAnswersBean;
-import model.CorrectAnswers;
 
 public class CorrectAnswersDAO extends ConnectionDAO {
 	public CorrectAnswersDAO() throws SQLException {
@@ -102,7 +101,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 	/**
 	 * レコードの新規作成
 	 */
-	public void create(CorrectAnswers ca) throws SQLException {
+	public void create(CorrectAnswersBean answersBean) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
@@ -111,8 +110,8 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 		try {
 			String sql = "INSERT INTO correct_answers (questions_id, answer, created_at, updated_at) values (?,?,current_timestamp(),current_timestamp())";
 			st = con.prepareStatement(sql);
-			st.setInt(1, ca.getQuestionsId());
-			st.setString(2, ca.getAnswer());
+			st.setInt(1, answersBean.getQuestionsId());
+			st.setString(2, answersBean.getAnswer());
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -131,6 +130,33 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 				e.printStackTrace();
 				throw new SQLException("リソースの開放に失敗しました");
 			}
+		}
+	}
+
+	/**
+	 *	レコードの更新
+	 */
+	public void update(CorrectAnswersBean answersBean) throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+
+		PreparedStatement st = null;
+
+		int questionsId = answersBean.getQuestionsId();
+		String answer = answersBean.getAnswer();
+		try {
+			String sql = "UPDATE answers "
+					+ "SET answer = ? "
+					+ "WHERE questions_id = ?";
+
+			st = con.prepareStatement(sql);
+			st.setString(1, answer);
+			st.setInt(2, questionsId);
+			st.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new SQLException("更新に失敗しました");
 		}
 	}
 

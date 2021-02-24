@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.CorrectAnswersDAO;
 import DAO.QuestionsDAO;
+import beans.CorrectAnswersBean;
 import beans.QuestionsBean;
 
 /**
@@ -41,31 +43,62 @@ public class UpdateServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//フォームからpostで情報が飛んでくる
-		//DAOとbeanをnewしてDAOでupdateのメソッドを実行
-		//beanに入れたやつをservletに持ってきてjspに渡す
-		//jspで表示
+
 		request.setCharacterEncoding("UTF-8");
+
 		int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
 		String question = request.getParameter("question");
-		String answer = request.getParameter("answer");
+
+		String[] arrAnswer = request.getParameterValues("answers_id");
+		String id = arrAnswer[0];
+		int answersId = Integer.parseInt(id);
+		String[] answer = request.getParameterValues("answer");
 
 		try {
 			//DAOとbeanをnewしてインスタンス化
 			QuestionsDAO questionsDao = new QuestionsDAO();
 			QuestionsBean questionsBean = new QuestionsBean(QuestionsId);
+
 			questionsBean.setQuestion(question);
-			questionsBean.setAnswer(answer);
 
 			//DAOのupdateメソッドを使う
 			questionsDao.update(questionsBean);
+
 			//セットアトリビュート
 			request.setAttribute("question", question);
-			request.setAttribute("answer", answer);
-			request.getRequestDispatcher("./List").forward(request, response);
+
+			//CorrectAnswersもnewする
+			CorrectAnswersDAO answersDao = new CorrectAnswersDAO();
+			CorrectAnswersBean answersBean = new CorrectAnswersBean(answersId);
+
+			if (answer != null) {
+				// 新規登録
+				answersDao.create(answersBean);
+			} else {
+				// 更新
+				answersDao.update(answersBean);
+
+				answersBean.setAnswersId(answersId);
+				answersBean.setAnswer(answer);
+				// 新規登録または更新した情報を再度画面に表示
+				request.setAttribute("answers_id", answersId);
+				request.setAttribute("answer", answer);
+
+				request.getRequestDispatcher("./List").forward(request, response);
+
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
+	//String[]をparseIntするメソッド（取ってきたanswerの配列の中のidだけintにする）
+	//answerが配列できているから配列をカラムごとに分ける
+	//配列の中の一部を取り出す
+	//paseIntでint型にする
+
+	//方法１　string配列をint配列にして、また必要な分をstringに戻す
+	//方法2  配列からidを取り出してintにする
+
 }

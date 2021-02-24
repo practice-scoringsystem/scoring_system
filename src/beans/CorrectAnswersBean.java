@@ -7,6 +7,7 @@ public class CorrectAnswersBean {
 	private int id;
 	private int questions_id;
 	private String answer;
+	private int answers_id;
 	private Timestamp created_at;
 	private Timestamp updated_at;
 
@@ -17,6 +18,10 @@ public class CorrectAnswersBean {
 		this.id = id;
 		this.questions_id = questions_id;
 		this.answer = answer;
+	}
+
+	public CorrectAnswersBean(int answers_id) {
+		this.answers_id = answers_id;
 	}
 
 	/** 引数無しのコンストラクタ **/
@@ -63,5 +68,24 @@ public class CorrectAnswersBean {
 	public void setUpdatedAt(Timestamp updated_at) {
 		this.updated_at = updated_at;
 	}
+
+	public int getAnswersId() {
+		return answers_id;
+	}
+
+	public void setAnswersId(int answers_id) {
+		this.answers_id = answers_id;
+	}
+
+
+	public void debugDiaplay() {
+		System.out.println("id:" + String.valueOf(id));
+		System.out.println("answer:" + answer);
+		System.out.println("questions_id:" + String.valueOf(questions_id));
+		System.out.println("answers_id:" + String.valueOf(answers_id));
+		System.out.println("answer:" + answer);
+	}
+
+
 
 }

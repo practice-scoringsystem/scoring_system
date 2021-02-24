@@ -11,14 +11,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import DAO.CorrectAnswersDAO;
 import DAO.QuestionsCorrectAnswersDAO;
 import DAO.QuestionsDAO;
+import beans.CorrectAnswersBean;
 import beans.QuestionsBean;
 import beans.QuestionsCorrectAnswersBean;
-import model.CorrectAnswers;
-import model.Questions;
 
 /**
  * Servlet implementation class NewQuestionsAnswersServlet
@@ -52,39 +52,51 @@ public class NewQuestionsAnswersServlet extends HttpServlet {
 			//入力フォームの値を日本語にする
 			request.setCharacterEncoding("UTF-8");
 
+			// ブラウザの更新ボタン対応 "is_register"が入ってたらif(is_register == false)内は実行しない
+			HttpSession session = request.getSession(false);
+			String is_register = (String) session.getAttribute("is_register");
+
 			//入力フォームからパラメーターを受け取る
 			String question = request.getParameter("question");
 
-			//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
-			//リクエストパラメーターから受け取った値をセッタを使って書き込む
-			Questions q = new Questions();
-			q.setQuestion(question);
+			// 登録処理が行われてない場合
+			if (is_register.equals("0") || is_register == null) {
 
-			//questions_idを取ってくる処理をいれる　set question_id
-			CorrectAnswers ca = new CorrectAnswers();
+				//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
+				//リクエストパラメーターから受け取った値をセッタを使って書き込む
+				QuestionsBean questionsBean = new QuestionsBean();
+				questionsBean.setQuestion(question);
 
-			//get parameter valuesでStringの配列を取る nameをanswerに統一
-			String[] arr = request.getParameterValues("answer");
+				//questions_idを取ってくる処理をいれる　set question_id
+				CorrectAnswersBean answersBean = new CorrectAnswersBean();
 
-			//DAOに追加
-			QuestionsDAO questionsDAO = new QuestionsDAO();
-			CorrectAnswersDAO answersDAO = new CorrectAnswersDAO();
+				//get parameter valuesでStringの配列を取る nameをanswerに統一
+				String[] arr = request.getParameterValues("answer");
 
-			int max_id = questionsDAO.getMaxQuestionId();
+				//DAOに追加
+				QuestionsDAO questionsDAO = new QuestionsDAO();
+				CorrectAnswersDAO answersDAO = new CorrectAnswersDAO();
 
-			//DAOのInsertを実行 引数はQuestionsオブジェクト
-			questionsDAO.create(q);
-			//SELECT MAX(id) FROM questions;をquestion_idにいれる（+で１ずつ増やす）
-			max_id = max_id + 1;
+				int max_id = questionsDAO.getMaxQuestionId();
 
-			//caにquestuons_id をセット
-			ca.setQuestionsId(max_id);
-			for (int i = 0; i < arr.length; i++) {
-				// 答えの入力値が空じゃない場合はセットしてinsert
-				if (!arr[i].isEmpty()) {
-					ca.setAnswer(arr[i]);
-					answersDAO.create(ca);
+				//DAOのInsertを実行 引数はQuestionsオブジェクト
+				questionsDAO.create(questionsBean);
+
+				//SELECT MAX(id) FROM questions;をquestion_idにいれる（+で１ずつ増やす）
+				max_id = max_id + 1;
+
+				//answersBeanにquestuons_id をセット
+				answersBean.setQuestionsId(max_id);
+				for (int i = 0; i < arr.length; i++) {
+					// 答えの入力値が空じゃない場合はセットしてinsert
+					if (!arr[i].isEmpty()) {
+						answersBean.setAnswer(arr[i]);
+						answersDAO.create(answersBean);
+					}
 				}
+				// 一回登録処理が終わったらセッションにフラグをセット
+				is_register = "1";
+				session.setAttribute("is_register", is_register);
 			}
 
 			try {
@@ -112,7 +124,7 @@ public class NewQuestionsAnswersServlet extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("List.jsp");
 				rd.forward(request, response);
 
-			//例外処理 Top.jspへ飛ばす
+				//例外処理 Top.jspへ飛ばす
 			} catch (Exception e) {
 				e.printStackTrace();
 				request.setAttribute("error_message", "内部でエラーが発生しました");

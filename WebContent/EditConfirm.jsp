@@ -24,7 +24,7 @@
 		%>
 		<p>
 			答え:<input type="text" readonly value="<%=arr[i]%>">
-			<input type="hidden" name="answer" value="<%=arr[i]%>" />
+			<input type="hidden" name="answers_id" value="<%=arr[i]%>" />
 		</p>
 		<%
 		}

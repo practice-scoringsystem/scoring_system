@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beans.QuestionsBean;
-import model.Questions;
 
 public class QuestionsDAO extends ConnectionDAO {
 	public QuestionsDAO() throws SQLException {
@@ -190,7 +189,7 @@ public class QuestionsDAO extends ConnectionDAO {
 	/**
 	 * レコードの新規作成
 	 */
-	public void create(Questions q) throws SQLException {
+	public void create(QuestionsBean questionsBean) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
@@ -199,7 +198,7 @@ public class QuestionsDAO extends ConnectionDAO {
 		try {
 			String sql = "INSERT INTO questions (question, created_at, updated_at) values (?, current_timestamp(),current_timestamp())";
 			st = con.prepareStatement(sql);
-			st.setString(1, q.getQuestion());
+			st.setString(1, questionsBean.getQuestion());
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

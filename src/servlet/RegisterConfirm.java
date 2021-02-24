@@ -55,7 +55,6 @@ public class RegisterConfirm extends HttpServlet {
 		} else {
 
 			request.setAttribute("question", question);
-
 			request.setAttribute("answer", arr);
 
 			request.getRequestDispatcher("RegisterConfirm.jsp").forward(request, response);

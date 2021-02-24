@@ -49,14 +49,17 @@ public class EditServlet extends HttpServlet {
 
 			//DaoファイルのQuestionsと紐づいたAnswerを取ってくるメソッド
 			questionsbean = questionsDAO.find_ans(QuestionsId);
+
 			//answerをfor文で回すためにCorrectAnswersDAOから引っ張ってくる
 			List<CorrectAnswersBean> CAlist = new ArrayList<CorrectAnswersBean>();
 			CorrectAnswersDAO CAdao = new CorrectAnswersDAO();
 			CAlist = CAdao.findByQuestionsId(QuestionsId);
 
 			request.setAttribute("questions_id", QuestionsId);
+
 			//Questionsの中身を入れたbeanをセット
 			request.setAttribute("questionsBean", questionsbean);
+
 			//Questionsに紐づくCorrectAnswerの中身をlistにしてセット
 			request.setAttribute("CAlist", CAlist);
 

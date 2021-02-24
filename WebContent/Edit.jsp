@@ -46,7 +46,6 @@ List<CorrectAnswersBean> CAlist = (List<CorrectAnswersBean>) request.getAttribut
 		<%
 		if (CAlist.get(i) != null) {
 		%>
-
 		<p>
 			答え:<input type="text" name="answer"
 				value="<%=CAlist.get(i).getAnswer()%>">
