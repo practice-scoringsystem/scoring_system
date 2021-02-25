@@ -40,6 +40,22 @@ public class EditConfirmServlet extends HttpServlet {
 
 		String questionsId = request.getParameter("questions_id");
 		String question = request.getParameter("question");
+
+		String[] idArr = request.getParameterValues("answers_id");
+
+		//QCAlist(bean)も持ってこないといけない？
+		//↓のメソッドに行く前にString[]をint配列に変換しないといけない？
+
+		int answers_ids[];
+		answers_ids = new int[idArr.length];
+		for (int i = 0; i < answers_ids.length; i++) {
+		  if (idArr[i] != null){
+		    answers_ids[i] = Integer.parseInt(idArr[i]);
+		  }
+		}
+
+		request.setAttribute("answers_ids", answers_ids);
+
 		String[] arr = request.getParameterValues("answer");
 
 		if (isEmpty(question) || arr.length == 0) {
@@ -56,6 +72,7 @@ public class EditConfirmServlet extends HttpServlet {
 
 			request.setAttribute("questions_id", questionsId);
 			request.setAttribute("question", question);
+			request.setAttribute("answewrs_ids", answers_ids);
 			request.setAttribute("answer", arr);
 			request.getRequestDispatcher("EditConfirm.jsp").forward(request, response);
 

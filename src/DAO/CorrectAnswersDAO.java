@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beans.CorrectAnswersBean;
+import beans.QuestionsCorrectAnswersBean;
 
 public class CorrectAnswersDAO extends ConnectionDAO {
 	public CorrectAnswersDAO() throws SQLException {
@@ -58,7 +59,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 	/**
 	 * 指定IDのレコードを取得する
 	 */
-	public List<CorrectAnswersBean> findByQuestionsId(int QuestionsId) throws SQLException {
+	public List<QuestionsCorrectAnswersBean> findByQuestionsId(int QuestionsId) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
@@ -70,12 +71,12 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 			st = con.prepareStatement(sql);
 			st.setInt(1, QuestionsId);
 			rs = st.executeQuery();
-			List<CorrectAnswersBean> list = new ArrayList<CorrectAnswersBean>();
+			List<QuestionsCorrectAnswersBean> list = new ArrayList<QuestionsCorrectAnswersBean>();
 			while (rs.next()) {
 				int id = rs.getInt("id");
-				int questionsId = rs.getInt("questions_id");
+				int questions_id = rs.getInt("questions_id");
 				String answer = rs.getString("answer");
-				CorrectAnswersBean bean = new CorrectAnswersBean(id, questionsId, answer);
+				QuestionsCorrectAnswersBean bean = new QuestionsCorrectAnswersBean(id, questions_id, answer);
 				list.add(bean);
 			}
 			return list;
@@ -143,16 +144,16 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 
 		PreparedStatement st = null;
 
-		int questionsId = answersBean.getQuestionsId();
+		int id = answersBean.getId();
 		String answer = answersBean.getAnswer();
 		try {
-			String sql = "UPDATE answers "
+			String sql = "UPDATE correct_answers "
 					+ "SET answer = ? "
-					+ "WHERE questions_id = ?";
+					+ "WHERE id = ?";
 
 			st = con.prepareStatement(sql);
 			st.setString(1, answer);
-			st.setInt(2, questionsId);
+			st.setInt(2, id);
 			st.executeUpdate();
 		} catch(SQLException e) {
 			e.printStackTrace();

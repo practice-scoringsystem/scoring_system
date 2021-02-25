@@ -49,18 +49,25 @@ public class UpdateServlet extends HttpServlet {
 		int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
 		String question = request.getParameter("question");
 
-		String[] arrAnswer = request.getParameterValues("answers_id");
-		String id = arrAnswer[0];
-		Integer answersId = Integer.parseInt(id);
+		String[] arrAnswer = request.getParameterValues("answer");
 
-		String[] arrAnswer2 = request.getParameterValues("answer");
-		String answer = arrAnswer2[0];
+		String[] idArr = request.getParameterValues("answers_id");
+
+		//intの配列にidを詰めていく
+		int answers_ids[];
+		answers_ids = new int[idArr.length];
+		for (int i = 0; i < answers_ids.length; i++) {
+		  if (idArr[i] != null){
+		    answers_ids[i] = Integer.parseInt(idArr[i]);
+		  }
+		}
 
 		try {
 			//DAOとbeanをnewしてインスタンス化
 			QuestionsDAO questionsDao = new QuestionsDAO();
 			QuestionsBean questionsBean = new QuestionsBean(QuestionsId);
 
+			questionsBean.setQuestionsId(QuestionsId);
 			questionsBean.setQuestion(question);
 
 			//DAOのupdateメソッドを使う
@@ -69,22 +76,14 @@ public class UpdateServlet extends HttpServlet {
 			//セットアトリビュート
 			request.setAttribute("question", question);
 
-			//CorrectAnswersもnewする
 			CorrectAnswersDAO answersDao = new CorrectAnswersDAO();
-			CorrectAnswersBean answersBean = new CorrectAnswersBean(answersId);
-
-			if (answersId == null) {
-				answersBean.setAnswersId(answersId);
-				answersBean.setAnswer(answer);
-				// 新規登録
-				answersDao.create(answersBean);
-			} else {
-				// 更新
+			//配列でbeanを作る
+			for (int i = 0; i < answers_ids.length; i++) {
+				//beanをインスタンス化
+				CorrectAnswersBean answersBean = new CorrectAnswersBean(answers_ids[i]);
+				answersBean.setAnswer(arrAnswer[i]);
 				answersDao.update(answersBean);
 			}
-			// 新規登録または更新した情報を再度画面に表示
-			request.setAttribute("answers_id", answersId);
-			request.setAttribute("answer", answer);
 
 			request.getRequestDispatcher("./List").forward(request, response);
 
@@ -92,13 +91,5 @@ public class UpdateServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
-	//String[]をparseIntするメソッド（取ってきたanswerの配列の中のidだけintにする）
-	//answerが配列できているから配列をカラムごとに分ける
-	//配列の中の一部を取り出す
-	//paseIntでint型にする
-
-	//方法１　string配列をint配列にして、また必要な分をstringに戻す
-	//方法2  配列からidを取り出してintにする
 
 }

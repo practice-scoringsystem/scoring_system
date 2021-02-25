@@ -20,8 +20,8 @@ public class CorrectAnswersBean {
 		this.answer = answer;
 	}
 
-	public CorrectAnswersBean(int answers_id) {
-		this.answers_id = answers_id;
+	public CorrectAnswersBean(int id) {
+		this.id = id;
 	}
 
 	/** 引数無しのコンストラクタ **/

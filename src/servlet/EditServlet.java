@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import DAO.CorrectAnswersDAO;
 import DAO.QuestionsDAO;
-import beans.CorrectAnswersBean;
 import beans.QuestionsBean;
+import beans.QuestionsCorrectAnswersBean;
 
 /**
  * Servlet implementation class EditServlet
@@ -31,20 +31,14 @@ public class EditServlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//リンクで飛ばしているためget処理になる
 
-		//hrefの=questions_idがパラメーターとして飛んできていてQuestionsId（変数）へ入れている
-		//sessionはpostで送り続けないといけない？
+		//questions_idがパラメーターとして飛んできていてQuestionsId（変数）へ入れている
 		int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
 
-
 		try {
-			//QuestionsDAOとQuestionsBeanのインスタンスを作成
+
 			QuestionsDAO questionsDAO = new QuestionsDAO();
 			QuestionsBean questionsbean = new QuestionsBean(QuestionsId);
 
@@ -52,7 +46,7 @@ public class EditServlet extends HttpServlet {
 			questionsbean = questionsDAO.find_ans(QuestionsId);
 
 			//answerをfor文で回すためにCorrectAnswersDAOから引っ張ってくる
-			List<CorrectAnswersBean> CAlist = new ArrayList<CorrectAnswersBean>();
+			List<QuestionsCorrectAnswersBean> CAlist = new ArrayList<QuestionsCorrectAnswersBean>();
 			CorrectAnswersDAO CAdao = new CorrectAnswersDAO();
 			CAlist = CAdao.findByQuestionsId(QuestionsId);
 
@@ -62,6 +56,16 @@ public class EditServlet extends HttpServlet {
 			request.setAttribute("questionsBean", questionsbean);
 
 			//Questionsに紐づくCorrectAnswerの中身をlistにしてセット
+			int answers_ids[];
+			answers_ids = new int[CAlist.size()];
+			for (int i = 0; i < answers_ids.length; i++) {
+			  if (CAlist.get(i) != null){
+			    answers_ids[i] = CAlist.get(i).getId();
+			  }
+			}
+
+			//answers_idをループで回す
+			request.setAttribute("answers_ids", answers_ids);
 			request.setAttribute("CAlist", CAlist);
 
 		} catch (Exception e) {
@@ -72,14 +76,6 @@ public class EditServlet extends HttpServlet {
 		}
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("Edit.jsp");
 		requestDispatcher.forward(request, response);
-
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
 
 	}
 }

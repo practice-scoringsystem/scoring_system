@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" import="java.util.List"%>
-<%@ page import="beans.QuestionsBean" import="beans.CorrectAnswersBean"%>
+<%@ page import="beans.QuestionsBean" import="beans.QuestionsCorrectAnswersBean"%>
 <%
 // サーブレットから詳細の情報を取得 キーで取り出す
 QuestionsBean questionsbean = (QuestionsBean) request.getAttribute("questionsBean");
 %>
 <%
-List<CorrectAnswersBean> CAlist = (List<CorrectAnswersBean>) request.getAttribute("CAlist");
+List<QuestionsCorrectAnswersBean> CAlist = (List<QuestionsCorrectAnswersBean>) request.getAttribute("CAlist");
 %>
 <!DOCTYPE html>
 <html>
@@ -45,11 +45,14 @@ List<CorrectAnswersBean> CAlist = (List<CorrectAnswersBean>) request.getAttribut
 		<%-- 問題ID --%>
 		<%
 		if (CAlist.get(i) != null) {
+			int [] answers_ids = (int[])request.getAttribute("answers_ids");
 		%>
+
 		<p>
 			答え:<input type="text" name="answer"
 				value="<%=CAlist.get(i).getAnswer()%>">
-				<input type="hidden" name="answers_id" value="<%=CAlist.get(i).getAnswersId()%>" />
+				<input type="hidden" name="answers_id" value="<%=answers_ids[i]%>" />
+				<%=answers_ids[i]%>
 			<button type="button" name="delete" value="delete">
 				<font size="2">削除</font>
 			</button>

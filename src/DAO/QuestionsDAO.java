@@ -120,7 +120,7 @@ public class QuestionsDAO extends ConnectionDAO {
 					+ "correct_answers JOIN "
 					+ "questions ON correct_answers.questions_id = questions.id "
 					+ "WHERE "  //検索条件
-					+ "correct_answers.questions_id = ?";
+					+ "questions.id = ?";
 
 			// SQL文にQuestionsIdをセットして検索を実行
 			st = con.prepareStatement(sql);
