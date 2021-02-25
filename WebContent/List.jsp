@@ -7,12 +7,11 @@
 <!-- エラーメッセージを受け取る -->
 <%
 String error = (String) request.getAttribute("error_message");
-%>
-<%
 String success = (String) request.getAttribute("success_message");
+Integer count = (Integer)request.getAttribute("count");
 %>
-<%-- リクエストスコープからBeanクラスの配列を取得 --%>
 
+<%-- リクエストスコープからBeanクラスの配列を取得 --%>
 <%
 List<QuestionsBean> Questionslist = (List<QuestionsBean>) request.getAttribute("list");
 %>
@@ -42,6 +41,10 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 	<%
 	}
 	%>
+	<% if(count != null){ %>
+		<%= count%>件のデータを削除しました。
+	<% } %>
+
 	<jsp:include page="Header.jsp" />
 	<div style="text-align: center">
 		<a href="Register.jsp">

@@ -17,16 +17,15 @@
 		<input type="hidden" name="questions_id"
 			value="<%=String.valueOf(request.getAttribute("questions_id"))%>" />
 		<%
-// サーブレットから詳細の情報を取得 キーで取り出す
-QuestionsBean questionsbean = (QuestionsBean) request.getAttribute("questionsBean");
-%>
+			// サーブレットから詳細の情報を取得 キーで取り出す
+			QuestionsBean questionsbean = (QuestionsBean) request.getAttribute("questionsBean");
+		%>
 		<p>
 
 			<tr>
 				問題:
 				<textarea readonly rows="4" cols="40"><%=questionsbean.getQuestion()%></textarea>
-				<input type="hidden" name="question"
-					value="<%=request.getAttribute("question")%>" />
+				<input type="hidden" name="question" value="<%=request.getAttribute("question")%>" />
 		</p>
 
 		<%
@@ -38,23 +37,20 @@ QuestionsBean questionsbean = (QuestionsBean) request.getAttribute("questionsBea
 		%>
 
 		<p>
-			答え:<input type="text" name="answer" readonly
-				value="<%=arr.get(i).getAnswer()%>"> <input type="hidden"
-				name="answers_id" value="<%=arr.get(i).getId()%>" />
+			答え:<input type="text" name="answer" readonly value="<%=arr.get(i).getAnswer()%>">
+				<input type="hidden" name="answers_id" value="<%=arr.get(i).getId()%>" />
 		</p>
 		<%
 		}
 		%>
 
-		<a href="./Deleteconfirm">
+		<a href="./List">
 			<button type="button">戻る</button>
 		</a>
 		<p>
 			<input type="submit" value="削除する">
 		</p>
 	</form>
-
-
 
 </body>
 </html>

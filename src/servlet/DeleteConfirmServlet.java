@@ -51,7 +51,6 @@ public class DeleteConfirmServlet extends HttpServlet {
 			CAlist = CAdao.findByQuestionsId(QuestionsId);
 
 			request.setAttribute("questions_id", QuestionsId);
-			System.out.println(QuestionsId);
 
 			//Questionsの中身を入れたbeanをセット
 			request.setAttribute("questionsBean", questionsbean);
@@ -67,9 +66,7 @@ public class DeleteConfirmServlet extends HttpServlet {
 
 			//answers_idをループで回す
 			request.setAttribute("answers_ids", answers_ids);
-			System.out.println(answers_ids);
 			request.setAttribute("CAlist", CAlist);
-			System.out.println(CAlist);
 
 		} catch (Exception e) {
 			e.printStackTrace();
