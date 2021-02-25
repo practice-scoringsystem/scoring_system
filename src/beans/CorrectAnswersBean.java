@@ -5,18 +5,23 @@ import java.sql.Timestamp;
 public class CorrectAnswersBean {
 
 	private int id;
-	private int question_id;
+	private int questions_id;
 	private String answer;
+	private int answers_id;
 	private Timestamp created_at;
 	private Timestamp updated_at;
 
 	/**
 	 * コンストラクタ
 	 */
-	public CorrectAnswersBean(int id, int question_id, String answer) {
+	public CorrectAnswersBean(int id, int questions_id, String answer) {
 		this.id = id;
-		this.question_id = question_id;
+		this.questions_id = questions_id;
 		this.answer = answer;
+	}
+
+	public CorrectAnswersBean(int id) {
+		this.id = id;
 	}
 
 	/** 引数無しのコンストラクタ **/
@@ -32,12 +37,12 @@ public class CorrectAnswersBean {
 		this.id = id;
 	}
 
-	public int getQuestionId() {
-		return question_id;
+	public int getQuestionsId() {
+		return questions_id;
 	}
 
-	public void setQuestionId(int question_id) {
-		this.question_id = question_id;
+	public void setQuestionsId(int questions_id) {
+		this.questions_id = questions_id;
 	}
 
 	public String getAnswer() {
@@ -63,5 +68,24 @@ public class CorrectAnswersBean {
 	public void setUpdatedAt(Timestamp updated_at) {
 		this.updated_at = updated_at;
 	}
+
+	public int getAnswersId() {
+		return answers_id;
+	}
+
+	public void setAnswersId(int answers_id) {
+		this.answers_id = answers_id;
+	}
+
+
+	public void debugDiaplay() {
+		System.out.println("id:" + String.valueOf(id));
+		System.out.println("answer:" + answer);
+		System.out.println("questions_id:" + String.valueOf(questions_id));
+		System.out.println("answers_id:" + String.valueOf(answers_id));
+		System.out.println("answer:" + answer);
+	}
+
+
 
 }

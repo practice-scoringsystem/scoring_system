@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Topページ</title>
+<style>
+nav.nav {text-align:right;}
+</style>
 </head>
 
 <body>

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beans.QuestionsBean;
-import model.Questions;
 
 public class QuestionsDAO extends ConnectionDAO {
 	public QuestionsDAO() throws SQLException {
@@ -60,7 +59,8 @@ public class QuestionsDAO extends ConnectionDAO {
 	/**
 	 * 指定IDのレコードを取得する
 	 */
-	public QuestionsBean find(int pid) throws SQLException {
+	//(int pid)を変更
+	public QuestionsBean find(int QuestionsId) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
@@ -70,7 +70,7 @@ public class QuestionsDAO extends ConnectionDAO {
 			String sql = "SELECT id, question FROM questions WHERE id = ?";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
-			st.setInt(1, pid);
+			st.setInt(1, QuestionsId);
 			rs = st.executeQuery();
 			QuestionsBean bean = new QuestionsBean();
 			while (rs.next()) {
@@ -99,10 +99,97 @@ public class QuestionsDAO extends ConnectionDAO {
 		}
 	}
 
+	//Qustionsに紐づくAnswersを検索する
+	public  QuestionsBean find_ans(int QuestionsId) throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		QuestionsBean bean = new QuestionsBean();
+		try {
+			String sql =
+					"SELECT "  //検索内容
+					+ "questions.id, "
+					+ "questions.question, "
+					+ "correct_answers.questions_id, "
+					+ "correct_answers.id, "
+					+ "correct_answers.answer "
+					+ "FROM "  //検索対象
+					+ "correct_answers JOIN "
+					+ "questions ON correct_answers.questions_id = questions.id "
+					+ "WHERE "  //検索条件
+					+ "questions.id = ?";
+
+			// SQL文にQuestionsIdをセットして検索を実行
+			st = con.prepareStatement(sql);
+			st.setInt(1, QuestionsId);
+			rs = st.executeQuery();
+
+			while(rs.next()) {
+				int questionsId = rs.getInt("id");
+				String question = rs.getString("question");
+				int answersId = rs.getInt("id");
+				String answer = rs.getString("answer");
+				bean.setQuestionsId(questionsId);
+				bean.setQuestion(question);
+				bean.setAnswersId(answersId);
+				bean.setAnswer(answer);
+			}
+			// 検索結果をつめたオブジェクトを返却
+			return bean;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SQLException("情報の取得に失敗しました");
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new SQLException("リソースの開放に失敗しました");
+			}
+		}
+	}
+
+	/**
+	 *	レコードの更新
+	 */
+	public void update(QuestionsBean questionsBean) throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+
+		PreparedStatement st = null;
+
+		int questionsId = questionsBean.getQuestionsId();
+		String question = questionsBean.getQuestion();
+		try {
+			String sql = "UPDATE questions "
+					+ "SET question = ? "
+					+ "WHERE id = ?";
+
+			st = con.prepareStatement(sql);
+			st.setString(1, question);
+			st.setInt(2, questionsId);
+			st.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new SQLException("更新に失敗しました");
+		}
+	}
+
+
 	/**
 	 * レコードの新規作成
 	 */
-	public void create(Questions q) throws SQLException {
+	public void create(QuestionsBean questionsBean) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
@@ -111,7 +198,7 @@ public class QuestionsDAO extends ConnectionDAO {
 		try {
 			String sql = "INSERT INTO questions (question, created_at, updated_at) values (?, current_timestamp(),current_timestamp())";
 			st = con.prepareStatement(sql);
-			st.setString(1, q.getQuestion());
+			st.setString(1, questionsBean.getQuestion());
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -159,7 +246,7 @@ public class QuestionsDAO extends ConnectionDAO {
 	 * レコードの削除
 	 */
 
-	//			voidをbooleanが返る型にした
+	//voidをbooleanが返る型にした
 	/**
 	 *
 	 * @param questionId

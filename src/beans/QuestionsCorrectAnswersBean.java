@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 public class QuestionsCorrectAnswersBean {
 	private int questions_id;
+	private int id;
+	private String answers_id;
 	private String answer;
 	private Timestamp created_at;
 	private Timestamp updated_at;
@@ -11,14 +13,20 @@ public class QuestionsCorrectAnswersBean {
 	/**
 	 * コンストラクタ
 	 */
-	public QuestionsCorrectAnswersBean(int questions_id, String answer) {
+	public QuestionsCorrectAnswersBean(int questions_id, String answers_id, String answer) {
 		this.questions_id = questions_id;
+		this.answers_id = answers_id;
 		this.answer = answer;
 	}
 
-	/** 引数無しのコンストラクタ **/
-	public QuestionsCorrectAnswersBean() {
+	public QuestionsCorrectAnswersBean(String answers_id) {
+		this.answers_id = answers_id;
+	}
 
+	public QuestionsCorrectAnswersBean(int id, int questions_id, String answer) {
+		this.id = id;
+		this.questions_id = questions_id;
+		this.answer = answer;
 	}
 
 	public int getQuestionsId() {
@@ -53,4 +61,15 @@ public class QuestionsCorrectAnswersBean {
 		this.updated_at = updated_at;
 	}
 
+	public String getAnswersId() {
+		return answers_id;
+	}
+
+	public void setAnswersId(String answers_id) {
+		this.answers_id = answers_id;
+	}
+
+	public int getId() {
+		return id;
+	}
 }

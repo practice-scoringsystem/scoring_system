@@ -24,7 +24,7 @@
 				<br>
 			</div>
 			<div class="pass">
-				pw:<input type="text" name="password" size="41" maxlength="20"><br>
+				pw:<input type="password" name="password" size="41" maxlength="20"><br>
 				<br>
 			</div>
 			<div class="submit">

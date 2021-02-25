@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beans.CorrectAnswersBean;
-import model.CorrectAnswers;
+import beans.QuestionsCorrectAnswersBean;
 
 public class CorrectAnswersDAO extends ConnectionDAO {
 	public CorrectAnswersDAO() throws SQLException {
@@ -59,25 +59,24 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 	/**
 	 * 指定IDのレコードを取得する
 	 */
-	public List<CorrectAnswersBean> findByQuestionId(int questionId) throws SQLException {
+	public List<QuestionsCorrectAnswersBean> findByQuestionsId(int QuestionsId) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, question_id, answer FROM correct_answers WHERE question_id = ?";
+			String sql = "SELECT id, questions_id, answer FROM correct_answers WHERE questions_id = ?";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
-			st.setInt(1, questionId);
+			st.setInt(1, QuestionsId);
 			rs = st.executeQuery();
-			List<CorrectAnswersBean> list = new ArrayList<CorrectAnswersBean>();
+			List<QuestionsCorrectAnswersBean> list = new ArrayList<QuestionsCorrectAnswersBean>();
 			while (rs.next()) {
 				int id = rs.getInt("id");
-                //重複ローカル変数questionIdと表示されていたためintを外した。同じスコープ内なのでローカル変数は使い回せる。
-				questionId = rs.getInt("question_id");
+				int questions_id = rs.getInt("questions_id");
 				String answer = rs.getString("answer");
-				CorrectAnswersBean bean = new CorrectAnswersBean(id, questionId, answer);
+				QuestionsCorrectAnswersBean bean = new QuestionsCorrectAnswersBean(id, questions_id, answer);
 				list.add(bean);
 			}
 			return list;
@@ -103,7 +102,7 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 	/**
 	 * レコードの新規作成
 	 */
-	public void create(CorrectAnswers ca) throws SQLException {
+	public void create(CorrectAnswersBean answersBean) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
@@ -112,8 +111,8 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 		try {
 			String sql = "INSERT INTO correct_answers (questions_id, answer, created_at, updated_at) values (?,?,current_timestamp(),current_timestamp())";
 			st = con.prepareStatement(sql);
-			st.setInt(1, ca.getQuestionId());
-			st.setString(2, ca.getAnswer());
+			st.setInt(1, answersBean.getQuestionsId());
+			st.setString(2, answersBean.getAnswer());
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,6 +131,33 @@ public class CorrectAnswersDAO extends ConnectionDAO {
 				e.printStackTrace();
 				throw new SQLException("リソースの開放に失敗しました");
 			}
+		}
+	}
+
+	/**
+	 *	レコードの更新
+	 */
+	public void update(CorrectAnswersBean answersBean) throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+
+		PreparedStatement st = null;
+
+		int id = answersBean.getId();
+		String answer = answersBean.getAnswer();
+		try {
+			String sql = "UPDATE correct_answers "
+					+ "SET answer = ? "
+					+ "WHERE id = ?";
+
+			st = con.prepareStatement(sql);
+			st.setString(1, answer);
+			st.setInt(2, id);
+			st.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new SQLException("更新に失敗しました");
 		}
 	}
 

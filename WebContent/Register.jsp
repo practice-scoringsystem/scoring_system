@@ -37,7 +37,7 @@
 				<font size="2">削除</font>
 			</button>
 		</p>
-		<a href="./Top.jsp">
+		<a href="./List">
 			<button type="button">戻る</button>
 		</a>
 		<!-- 入力したものを確認する　confirmでsubmit -->

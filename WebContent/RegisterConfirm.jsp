@@ -10,8 +10,9 @@
 	<jsp:include page="Header.jsp" />
 	<h2>登録確認</h2>
 	<form action="./New" method="post">
+
 		<p>
-			問題:<%=request.getAttribute("question")%>
+			問題:<textarea readonly rows="4" cols="40"><%=request.getAttribute("question")%></textarea>
 			<input type="hidden" name="question" value="<%=request.getAttribute("question")%>"/>
 		</p>
 		<%
@@ -19,7 +20,8 @@
 		for (int i = 0; i < arr.length; i++) {
 		%>
 		<p>
-			答え<%= i + 1 %>:<%=arr[i]%><input type="hidden" name="answer" value="<%=arr[i]%>" />
+			答え:<input type="text" readonly value="<%=arr[i]%>">
+			<input type="hidden" name="answer" value="<%=arr[i]%>" />
 		</p>
 		<% } %>
 		<a href="./Register.jsp">

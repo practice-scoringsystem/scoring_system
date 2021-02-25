@@ -21,7 +21,7 @@ public class QuestionsCorrectAnswersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT q.id as questions_id, ca.answer FROM questions q INNER JOIN correct_answers ca ON q.id = ca.questions_id";
+			String sql = "SELECT q.id as questions_id, ca.id as answers_id, ca.answer FROM questions q INNER JOIN correct_answers ca ON q.id = ca.questions_id";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			/** SQL 実行 **/
@@ -30,8 +30,9 @@ public class QuestionsCorrectAnswersDAO extends ConnectionDAO {
 			List<QuestionsCorrectAnswersBean> QCAlist = new ArrayList<QuestionsCorrectAnswersBean>();
 			while (rs.next()) {
 				int question_id = rs.getInt("questions_id");
+				String answers_id = rs.getString("answers_id");
 				String answer = rs.getString("answer");
-				QuestionsCorrectAnswersBean QCAbean = new QuestionsCorrectAnswersBean(question_id, answer);
+				QuestionsCorrectAnswersBean QCAbean = new QuestionsCorrectAnswersBean(question_id, answers_id, answer);
 				//beanにquestion_idとanswerをいれる
 				QCAlist.add(QCAbean);
 			}

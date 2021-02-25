@@ -29,7 +29,6 @@ public class RegisterConfirm extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -56,7 +55,6 @@ public class RegisterConfirm extends HttpServlet {
 		} else {
 
 			request.setAttribute("question", question);
-
 			request.setAttribute("answer", arr);
 
 			request.getRequestDispatcher("RegisterConfirm.jsp").forward(request, response);
