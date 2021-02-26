@@ -85,7 +85,7 @@ public class TestServlet extends HttpServlet {
 			QuestionsDAO questionsDao = new QuestionsDAO();
 			QuestionsBean questionsBean = new QuestionsBean();
 			int qCount = questionsDao.getQuestionsCount();
-			int result = count/qCount;
+			int result = (Math.round(count/qCount));
 
 			HttpSession session = request.getSession(false);
 			String name = (String)session.getAttribute("login_name");
@@ -96,6 +96,7 @@ public class TestServlet extends HttpServlet {
 			bean.setPoint(result);
 			dao.create(bean);
 
+			request.setAttribute("qCount", qCount);
 			request.setAttribute("result", result);
 			request.setAttribute("count", count);
 			request.setAttribute("answers", answers);
