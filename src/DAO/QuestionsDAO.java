@@ -102,6 +102,21 @@ public class QuestionsDAO extends ConnectionDAO {
 	}
 
 	/**
+	 * レコードの件数をカウントする（全件分）
+	 * @throws SQLException
+	 */
+	// 問題数の取得
+	public int getQuestionsCount() throws SQLException {
+	  try {
+	    List<QuestionsBean>list = findAll();
+	    return list.size();
+	    } catch (Exception e) {
+				e.printStackTrace();
+				throw new SQLException("レコードの取得に失敗しました");
+	    }
+	}
+
+	/**
 	 * 指定IDのレコードを取得する
 	 */
 	//(int pid)を変更

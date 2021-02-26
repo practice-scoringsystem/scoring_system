@@ -3,11 +3,8 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sun.jmx.snmp.Timestamp;
 
 import beans.HistoriesBean;
 
@@ -112,15 +109,10 @@ public class HistoriesDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "INSERT INTO histories (user_id, point, created_at) values (?,?,?)";
-			// 現在時刻を取得
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			String strTimestamp = sdf.format(timestamp);
+			String sql = "INSERT INTO histories (user_id, point, created_at) values (?,?,current_timestamp())";
 			st = con.prepareStatement(sql);
 			st.setInt(1, hb.getUserId());
 			st.setInt(2, hb.getPoint());
-			st.setString(3, strTimestamp);
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -178,4 +170,33 @@ public class HistoriesDAO extends ConnectionDAO {
 		}
 
 	}
+
+	/*
+	 * pointカラムを更新する
+	 */
+	public void update(HistoriesBean historiesBean) throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+
+		PreparedStatement st = null;
+
+		int id = historiesBean.getId();
+		int point = historiesBean.getPoint();
+		try {
+			String sql = "UPDATE histories "
+					+ "SET point = "
+					+ "point + 1 "
+					+ "WHERE id = ?";
+
+			st = con.prepareStatement(sql);
+			st.setInt(1, point);
+			st.setInt(2, id);
+			st.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new SQLException("更新に失敗しました");
+		}
+	}
+
 }

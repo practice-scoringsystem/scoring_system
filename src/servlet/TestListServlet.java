@@ -39,18 +39,24 @@ public class TestListServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String questions_id = request.getParameter("questions_id");
-//		String[] arr = request.getParameterValues("answer");
 
+//いらないかもjspのみでlogin_nameを取得？
+//		int login_id = (int) (Integer.parseInt(request.getParameter("login_id")));
+//		String login_name = request.getParameter("login_name");
+//		String login_pw = request.getParameter("login_pw");
+//
+//		request.setAttribute("login_id", login_id);
+//		request.setAttribute("login_name", login_name);
+//		request.setAttribute("login_pw", login_pw);
+
+		//ランダム表示用
 		try {
-			//QuestionsDAOで取ってきた情報をArrayListにつめる
 			List<QuestionsBean> list = new ArrayList<QuestionsBean>();
 			QuestionsDAO dao = new QuestionsDAO();
 
-			//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
+			//ランダム表示
 			list = dao.randAll();
 
-			//全データをlistにセットしてjsp側でlistで呼び出せるようにする
 			request.setAttribute("list", list);
 
 			RequestDispatcher rd = request.getRequestDispatcher("Test.jsp");

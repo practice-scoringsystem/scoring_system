@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList" import="java.util.List" %>
+<%@ page import="java.util.ArrayList" import="java.util.List"%>
 <%@ page import="beans.QuestionsBean"%>
 <%
 String error = (String) request.getAttribute("error_message");
@@ -33,32 +33,35 @@ List<QuestionsBean> Questionslist = (List<QuestionsBean>) request.getAttribute("
 	%>
 	<jsp:include page="Header.jsp" />
 	<h2>テスト画面</h2>
-	<div>
-		<%-- Beanの要素数分（問題の数分）テーブルを作成 --%>
-		<%
-		for (int i = 0; i < Questionslist.size(); i++){
-		%>
+	<form action="./Test" method="post">
+		<div>
+			<%-- Beanの要素数分（問題の数分）テーブルを作成 --%>
+			<%
+			for (int i = 0; i < Questionslist.size(); i++) {
+			%>
 
-		<%-- 問題ID --%>
-		<%
-		if (Questionslist.get(i) != null) {
-		%>
-		<p><%=Questionslist.get(i).getId()%></p>
-		<p>
-			問題：
-			<textarea name="question" readonly rows="4" cols="40"><%=Questionslist.get(i).getQuestion()%></textarea>
-		</p>
-		<input type="hidden" name="questions_id"
-			value="<%=Questionslist.get(i).getId()%>">
-		<%
-		}
-		%>
-		<p>
-			答え：<input type="text" name="answer">
-		</p>
-		<%
-		}
-		%>
-	</div>
+			<%-- 問題ID --%>
+			<%
+			if (Questionslist.get(i) != null) {
+			%>
+			<p><%=Questionslist.get(i).getId()%></p>
+			<p>
+				問題：
+				<textarea name="question" readonly rows="4" cols="40"><%=Questionslist.get(i).getQuestion()%></textarea>
+			</p>
+			<input type="hidden" name="questions_id"
+				value="<%=Questionslist.get(i).getId()%>">
+			<%
+			}
+			%>
+			<p>
+				答え：<input type="text" name="input_answer">
+			</p>
+			<%
+			}
+			%>
+		</div>
+		<input type="submit" value="採点" >
+	</form>
 </body>
 </html>

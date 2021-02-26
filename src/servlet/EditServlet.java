@@ -55,6 +55,7 @@ public class EditServlet extends HttpServlet {
 			//Questionsの中身を入れたbeanをセット
 			request.setAttribute("questionsBean", questionsbean);
 
+			//answers_idをループで回す
 			//Questionsに紐づくCorrectAnswerの中身をlistにしてセット
 			int answers_ids[];
 			answers_ids = new int[CAlist.size()];
@@ -64,7 +65,6 @@ public class EditServlet extends HttpServlet {
 			  }
 			}
 
-			//answers_idをループで回す
 			request.setAttribute("answers_ids", answers_ids);
 			request.setAttribute("CAlist", CAlist);
 
