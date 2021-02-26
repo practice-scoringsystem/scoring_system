@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import DAO.CorrectAnswersDAO;
 import DAO.QuestionsDAO;
+import common.CommonUtil;
 
 /**
  * Servlet implementation class DeleteServlet
@@ -30,13 +31,9 @@ public class DeleteServlet extends HttpServlet {
 		int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
 		String[] idArr = request.getParameterValues("answers_id");
 
-		int answers_ids[];
-		answers_ids = new int[idArr.length];
-		for (int i = 0; i < answers_ids.length; i++) {
-		  if (idArr[i] != null){
-		    answers_ids[i] = Integer.parseInt(idArr[i]);
-		  }
-		}
+		//CommonUtilにてメソッドを定義 stringの配列をintegerにしている
+		CommonUtil cu = new CommonUtil();
+		int answers_ids[] = cu.parseInts(idArr);
 
 		try {
 			QuestionsDAO questionsDao = new QuestionsDAO();

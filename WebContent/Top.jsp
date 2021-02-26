@@ -7,7 +7,9 @@
 <meta charset="UTF-8">
 <title>Topページ</title>
 <style>
-nav.nav {text-align:right;}
+nav.nav {
+	text-align: right;
+}
 </style>
 </head>
 
@@ -27,9 +29,9 @@ nav.nav {text-align:right;}
 		<button type="button">問題と答えを確認・登録する ＞</button>
 	</a>
 	<br>
-	<a href="#">
-		<button type="button">テストをする ＞</button>
-	</a>
+	<form action="./TestList" method="post">
+		<input type="submit" value="テストをする ＞" />
+	</form>
 	<br>
 	<a href="#">
 		<button type="button">過去の採点結果を見る ＞</button>
