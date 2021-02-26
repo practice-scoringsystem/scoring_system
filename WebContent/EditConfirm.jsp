@@ -6,11 +6,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>編集確認</title>
+<title>削除確認</title>
 </head>
 <body>
 	<jsp:include page="Header.jsp" />
-	<h2>編集確認</h2>
+	<h2>削除確認</h2>
 	<form action="./Update" method="post">
 		<input type="hidden" name="questions_id"
 			value="<%=String.valueOf(request.getAttribute("questions_id"))%>" />
@@ -32,7 +32,6 @@
 
 		<p>
 			答え:<input type="text" name="answer" readonly value="<%=arr[j]%>">
-			<%=answers_ids[j]%>
 			<input type="hidden" name="answers_id" value="<%=answers_ids[j]%>" />
 		</p>
 		<%

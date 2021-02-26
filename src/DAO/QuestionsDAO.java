@@ -57,6 +57,51 @@ public class QuestionsDAO extends ConnectionDAO {
 	}
 
 	/**
+	 * 全件ランダム表示をする
+	 */
+	public List<QuestionsBean> randAll() throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			String sql = "SELECT * FROM questions ORDER BY RAND()";
+			/** PreparedStatement オブジェクトの取得**/
+			st = con.prepareStatement(sql);
+			/** SQL 実行 **/
+			rs = st.executeQuery();
+			/** select文の結果をArrayListに格納 **/
+			List<QuestionsBean> list = new ArrayList<QuestionsBean>();
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String question = rs.getString("question");
+				QuestionsBean bean = new QuestionsBean(id, question);
+				//beanにidとquestionをいれる
+				list.add(bean);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new SQLException("レコードの取得に失敗しました");
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+
+				if (st != null) {
+					st.close();
+				}
+				close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new SQLException("リソースの開放に失敗しました");
+			}
+		}
+	}
+
+	/**
 	 * 指定IDのレコードを取得する
 	 */
 	//(int pid)を変更
@@ -100,7 +145,7 @@ public class QuestionsDAO extends ConnectionDAO {
 	}
 
 	//Qustionsに紐づくAnswersを検索する
-	public  QuestionsBean find_ans(int QuestionsId) throws SQLException {
+	public QuestionsBean find_ans(int QuestionsId) throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
@@ -109,17 +154,16 @@ public class QuestionsDAO extends ConnectionDAO {
 		ResultSet rs = null;
 		QuestionsBean bean = new QuestionsBean();
 		try {
-			String sql =
-					"SELECT "  //検索内容
+			String sql = "SELECT " //検索内容
 					+ "questions.id, "
 					+ "questions.question, "
 					+ "correct_answers.questions_id, "
 					+ "correct_answers.id, "
 					+ "correct_answers.answer "
-					+ "FROM "  //検索対象
+					+ "FROM " //検索対象
 					+ "correct_answers JOIN "
 					+ "questions ON correct_answers.questions_id = questions.id "
-					+ "WHERE "  //検索条件
+					+ "WHERE " //検索条件
 					+ "questions.id = ?";
 
 			// SQL文にQuestionsIdをセットして検索を実行
@@ -127,7 +171,7 @@ public class QuestionsDAO extends ConnectionDAO {
 			st.setInt(1, QuestionsId);
 			rs = st.executeQuery();
 
-			while(rs.next()) {
+			while (rs.next()) {
 				int questionsId = rs.getInt("id");
 				String question = rs.getString("question");
 				int answersId = rs.getInt("id");
@@ -179,12 +223,11 @@ public class QuestionsDAO extends ConnectionDAO {
 			st.setString(1, question);
 			st.setInt(2, questionsId);
 			st.executeUpdate();
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SQLException("更新に失敗しました");
 		}
 	}
-
 
 	/**
 	 * レコードの新規作成
