@@ -35,7 +35,7 @@ public class DeleteConfirmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//questions_idがパラメーターとして飛んできていてQuestionsId（変数）へ入れている
-		int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
+		int QuestionsId = (Integer.parseInt(request.getParameter("questions_id")));
 
 		try {
 

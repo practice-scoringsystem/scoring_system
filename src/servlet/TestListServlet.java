@@ -39,8 +39,8 @@ public class TestListServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String questions_id = request.getParameter("questions_id");
-		String[] arr = request.getParameterValues("answer");
+//		String questions_id = request.getParameter("questions_id");
+//		String[] arr = request.getParameterValues("answer");
 
 		try {
 			//QuestionsDAOで取ってきた情報をArrayListにつめる
@@ -48,7 +48,7 @@ public class TestListServlet extends HttpServlet {
 			QuestionsDAO dao = new QuestionsDAO();
 
 			//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
-			list = dao.findAll();
+			list = dao.randAll();
 
 			//全データをlistにセットしてjsp側でlistで呼び出せるようにする
 			request.setAttribute("list", list);
