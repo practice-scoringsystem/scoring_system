@@ -6,16 +6,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>削除確認</title>
+<title>編集確認</title>
 </head>
 <body>
 	<jsp:include page="Header.jsp" />
-	<h2>削除確認</h2>
+	<h2>編集確認</h2>
 	<form action="./Update" method="post">
 		<input type="hidden" name="questions_id"
 			value="<%=String.valueOf(request.getAttribute("questions_id"))%>" />
 		<p>
-			<%=String.valueOf(request.getAttribute("questions_id"))%>
 			問題:
 			<textarea readonly rows="4" cols="40"><%=request.getAttribute("question")%></textarea>
 			<input type="hidden" name="question"

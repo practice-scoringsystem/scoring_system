@@ -24,7 +24,7 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 <html>
 <head>
 <meta charset="UTF-8">
-<title>List</title>
+<title>問題・答え一覧</title>
 </head>
 <body>
 	<%

@@ -226,7 +226,7 @@ public class QuestionsDAO extends ConnectionDAO {
 		}
 
 		PreparedStatement st = null;
-
+		//これは？
 		int questionsId = questionsBean.getQuestionsId();
 		String question = questionsBean.getQuestion();
 		try {
