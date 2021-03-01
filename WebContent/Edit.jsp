@@ -52,7 +52,6 @@ List<QuestionsCorrectAnswersBean> CAlist = (List<QuestionsCorrectAnswersBean>) r
 			答え:<input type="text" name="answer"
 				value="<%=CAlist.get(i).getAnswer()%>">
 				<input type="hidden" name="answers_id" value="<%=answers_ids[i]%>" />
-				<%=answers_ids[i]%>
 			<button type="button" name="delete" value="delete">
 				<font size="2">削除</font>
 			</button>

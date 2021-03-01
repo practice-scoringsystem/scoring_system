@@ -35,14 +35,6 @@ public class NewQuestionsAnswersServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -52,15 +44,15 @@ public class NewQuestionsAnswersServlet extends HttpServlet {
 			//入力フォームの値を日本語にする
 			request.setCharacterEncoding("UTF-8");
 
-			// ブラウザの更新ボタン対応 "is_register"が入ってたらif(is_register == false)内は実行しない
+			// ブラウザの更新ボタン対応 "is_register"が入ってたらifの中は実行しない
 			HttpSession session = request.getSession(false);
 			String is_register = (String) session.getAttribute("is_register");
 
 			//入力フォームからパラメーターを受け取る
 			String question = request.getParameter("question");
 
-			// 登録処理が行われてない場合
-			if (is_register.equals("0") || is_register == null) {
+			//登録処理が行われてない場合
+			if (is_register == null || is_register.equals("0")) {
 
 				//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
 				//リクエストパラメーターから受け取った値をセッタを使って書き込む

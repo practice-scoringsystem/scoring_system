@@ -99,6 +99,47 @@ public class HistoriesDAO extends ConnectionDAO {
 
 	}
 
+	public List<HistoriesBean> userName() throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			String sql = "SELECT u.name FROM users u JOIN histories h ON u.id = h.user_id";
+			/** PreparedStatement オブジェクトの取得**/
+			st = con.prepareStatement(sql);
+			/** SQL 実行 **/
+			rs = st.executeQuery();
+			/** select文の結果をArrayListに格納 **/
+			List<HistoriesBean> hUserList = new ArrayList<HistoriesBean>();
+			while (rs.next()) {
+				String name = rs.getString("name");
+				HistoriesBean hb = new HistoriesBean(name);
+				//beanにいれる
+				hUserList.add(hb);
+			}
+			return hUserList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new SQLException("レコードの取得に失敗しました");
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+
+				if (st != null) {
+					st.close();
+				}
+				close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new SQLException("リソースの開放に失敗しました");
+			}
+		}
+	}
+
 	/**
 	 * レコードの新規作成
 	 */

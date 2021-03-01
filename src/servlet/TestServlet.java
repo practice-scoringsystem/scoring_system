@@ -16,7 +16,6 @@ import DAO.CorrectAnswersDAO;
 import DAO.HistoriesDAO;
 import DAO.QuestionsDAO;
 import beans.HistoriesBean;
-import beans.QuestionsBean;
 import beans.QuestionsCorrectAnswersBean;
 
 /**
@@ -52,47 +51,66 @@ public class TestServlet extends HttpServlet {
 		//		・sessionを取得してログインユーザー名をsetAttributeして次の画面に送る
 		//		・問題数÷正解数をして採点をする
 		//		（問題数は配列取得の方がいい？正解数はHistoriesテーブルのpointカラムの数値？で取ってくる）
-		int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
-		String inputAnswer = request.getParameter("input_answer");
+		request.setCharacterEncoding("UTF-8");
+
+		String[] questions_ids = request.getParameterValues("questions_id");
+
+		String ans[] = request.getParameterValues("answer");
 
 		try {
-
 			//answerをfor文で回すためにCorrectAnswersDAOから引っ張ってくる
 			List<QuestionsCorrectAnswersBean> CAlist = new ArrayList<QuestionsCorrectAnswersBean>();
 			CorrectAnswersDAO CAdao = new CorrectAnswersDAO();
-			CAlist = CAdao.findByQuestionsId(QuestionsId);
+//			CAlist = CAdao.findByQuestionsId(questions_ids);
 
 			//Questionsに紐づくCorrectAnswerのanswerをlistにしてセット
 			String answers[];
+
 			HistoriesBean bean = new HistoriesBean();
-	    	HistoriesDAO dao = new HistoriesDAO();
+			HistoriesDAO dao = new HistoriesDAO();
+
+			int qId[];
+			qId = new int[questions_ids.length];
 			answers = new String[CAlist.size()];
+
 			//カウントで書き換える
 			int count = 0;
-			for (int i = 0; i < answers.length; i++) {
-			  if (CAlist.get(i) != null){
-				//answersを１つずつ詰めていく
-			    answers[i] = CAlist.get(i).getAnswer();
-			    //もし入力の値がcorrect_answersのanswerと文字列がイコールだったらHistoriesのpointカラムを+1する
-			    if (inputAnswer.equals(answers[i])) {
-			    	count += 1;
-			    	break;
+			for (int i = 0; i < qId.length; i++) {
+				if (questions_ids[i] != null) {
+					qId[i] = Integer.parseInt(questions_ids[i]);
+
+					CAlist = CAdao.findByQuestionsId(qId[i]);
+					answers = new String[CAlist.size()];
+
+					for (int j = 0; j < CAlist.size(); j++) {
+						if (CAlist.get(j) != null) {
+
+							//answersを１つずつ詰めていく
+							answers[j] = CAlist.get(j).getAnswer();
+							//もし入力の値がcorrect_answersのanswerと文字列がイコールだったらHistoriesのpointカラムを+1する
+
+							for (int k = 0; k < ans.length; k++) {
+								if (answers[j].equals(ans[k])) {
+									count += 1;
+									break;
+								}
+							}
+						}
+					}
 				}
-			  }
 			}
 
 			//ここで計算をする 正解数÷問題数
 			QuestionsDAO questionsDao = new QuestionsDAO();
-			QuestionsBean questionsBean = new QuestionsBean();
+
 			int qCount = questionsDao.getQuestionsCount();
-			int result = (Math.round(count/qCount));
+			int result = (Math.round((count / qCount) * 100));
 
 			HttpSession session = request.getSession(false);
-			String name = (String)session.getAttribute("login_name");
-			int userId = (int)session.getAttribute("login_id");
+			String name = (String) session.getAttribute("login_name");
+			int userId = (int) session.getAttribute("login_id");
 
 			bean.setUserId(userId);
-
 			bean.setPoint(result);
 			dao.create(bean);
 

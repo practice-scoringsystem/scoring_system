@@ -51,17 +51,18 @@ List<QuestionsBean> Questionslist = (List<QuestionsBean>) request.getAttribute("
 			</p>
 			<input type="hidden" name="questions_id"
 				value="<%=Questionslist.get(i).getId()%>">
-			<%
-			}
-			%>
 			<p>
-				答え：<input type="text" name="input_answer">
+				答え：<input type="text" name="answer">
 			</p>
 			<%
 			}
 			%>
+
+			<%
+			}
+			%>
 		</div>
-		<input type="submit" value="採点" >
+		<input type="submit" value="採点">
 	</form>
 </body>
 </html>
