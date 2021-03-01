@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import DAO.HistoriesDAO;
+import DAO.UsersDAO;
 import beans.HistoriesBean;
+import beans.UsersBean;
 
 /**
  * Servlet implementation class HistoriesServlet
@@ -41,20 +43,24 @@ public class HistoriesServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			//履歴を全件表示する
 			List<HistoriesBean> list = new ArrayList<HistoriesBean>();
 			HistoriesDAO dao = new HistoriesDAO();
-
 			list = dao.findAll();
 
+			//履歴をsetAttribute
 			request.setAttribute("list", list);
 
-			//userをsetattributeする
-			List<HistoriesBean> ulist = new ArrayList<HistoriesBean>();
-			HistoriesDAO udao = new HistoriesDAO();
-			//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
-			ulist = udao.userName();
-			//全データをlistにセットしてjsp側でlistで呼び出せるようにする
+			//user一覧取得
+			List<UsersBean> ulist = new ArrayList<UsersBean>();
+			UsersDAO udao = new UsersDAO();
+
+			ulist = udao.findAll();
+			System.out.println(udao);
+
+			//listにセットしてjsp側でlistで呼び出せるようにする
 			request.setAttribute("ulist", ulist);
+			System.out.println(ulist);
 
 			RequestDispatcher rd = request.getRequestDispatcher("Histories.jsp");
 			rd.forward(request, response);

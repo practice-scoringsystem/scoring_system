@@ -61,7 +61,6 @@ public class TestServlet extends HttpServlet {
 			//answerをfor文で回すためにCorrectAnswersDAOから引っ張ってくる
 			List<QuestionsCorrectAnswersBean> CAlist = new ArrayList<QuestionsCorrectAnswersBean>();
 			CorrectAnswersDAO CAdao = new CorrectAnswersDAO();
-//			CAlist = CAdao.findByQuestionsId(questions_ids);
 
 			//Questionsに紐づくCorrectAnswerのanswerをlistにしてセット
 			String answers[];
@@ -91,7 +90,7 @@ public class TestServlet extends HttpServlet {
 
 							for (int k = 0; k < ans.length; k++) {
 								if (answers[j].equals(ans[k])) {
-									count += 1;
+									count ++;
 									break;
 								}
 							}
@@ -104,7 +103,7 @@ public class TestServlet extends HttpServlet {
 			QuestionsDAO questionsDao = new QuestionsDAO();
 
 			int qCount = questionsDao.getQuestionsCount();
-			int result = (Math.round((count / qCount) * 100));
+			int result = 100 * count / qCount;
 
 			HttpSession session = request.getSession(false);
 			String name = (String) session.getAttribute("login_name");

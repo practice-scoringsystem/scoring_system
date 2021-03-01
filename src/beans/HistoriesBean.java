@@ -12,6 +12,13 @@ public class HistoriesBean {
 	/**
 	 * コンストラクタ
 	 */
+	public HistoriesBean(int id, int user_id, int point, Timestamp created_at) {
+		this.id = id;
+		this.user_id = user_id;
+		this.point = point;
+		this.created_at = created_at;
+	}
+
 	public HistoriesBean(int id, int user_id, int point) {
 		this.id = id;
 		this.user_id = user_id;

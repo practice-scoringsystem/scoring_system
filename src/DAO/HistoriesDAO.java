@@ -3,6 +3,7 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class HistoriesDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, user_id, point FROM histories";
+			String sql = "SELECT id, user_id, point, created_at FROM histories";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			/** SQL 実行 **/
@@ -31,7 +32,8 @@ public class HistoriesDAO extends ConnectionDAO {
 				int id = rs.getInt("id");
 				int user_id = rs.getInt("user_id");
 				int point = rs.getInt("point");
-				HistoriesBean bean = new HistoriesBean(id, user_id, point);
+				Timestamp created_at = rs.getTimestamp("created_at");
+				HistoriesBean bean = new HistoriesBean(id, user_id, point, created_at);
 				list.add(bean);
 			}
 			return list;
@@ -99,6 +101,9 @@ public class HistoriesDAO extends ConnectionDAO {
 
 	}
 
+	/*
+	 * 名前を表示させる
+	 */
 	public List<HistoriesBean> userName() throws SQLException {
 		if (con == null) {
 			setConnection();

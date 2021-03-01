@@ -41,8 +41,10 @@ public class ListServlet extends HttpServlet {
 			//QuestionsDAOで取ってきた情報をArrayListにつめる
 			List<QuestionsBean> list = new ArrayList<QuestionsBean>();
 			QuestionsDAO dao = new QuestionsDAO();
+
 			//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
 			list = dao.findAll();
+
 			//全データをlistにセットしてjsp側でlistで呼び出せるようにする
 			request.setAttribute("list", list);
 			//QCAがあるのでそれを含めた後にフォワードをする
@@ -50,8 +52,10 @@ public class ListServlet extends HttpServlet {
 			//QuestionsDAOで取ってきた情報をArrayListにつめる
 			List<QuestionsCorrectAnswersBean> QCAlist = new ArrayList<QuestionsCorrectAnswersBean>();
 			QuestionsCorrectAnswersDAO QCAdao = new QuestionsCorrectAnswersDAO();
+
 			//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
 			QCAlist = QCAdao.findAll();
+
 			//全データをlistにセットしてjsp側でlistで呼び出せるようにする
 			request.setAttribute("QCAlist", QCAlist);
 			RequestDispatcher rd = request.getRequestDispatcher("List.jsp");
@@ -77,9 +81,3 @@ public class ListServlet extends HttpServlet {
 	}
 
 }
-
-
-//DAOファイルにてQuestionsbeanの中にArrayListでfindAll（問題一覧が格納されている）
-//やらないといけないのはQuestionsbeanの中の全てのデータを表示すること
-//データベースへの接続とSQL文の発行指示はDAOConnectとQuestionsDAOでできているはず
-//ArrayListの中身を表示するのをservletとjspでしなきゃいけない
