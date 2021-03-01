@@ -33,9 +33,9 @@ nav.nav {
 		<input type="submit" value="テストをする ＞" />
 	</form>
 	<br>
-	<a href="#">
-		<button type="button">過去の採点結果を見る ＞</button>
-	</a>
+	<form action="./Histories" method="post">
+		<input type="submit" value="過去の採点結果を見る ＞" />
+	</form>
 
 </body>
 </html>

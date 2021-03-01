@@ -7,14 +7,26 @@ public class HistoriesBean {
 	private int user_id;
 	private int point;
 	private Timestamp created_at;
+	private String name;
 
 	/**
 	 * コンストラクタ
 	 */
+	public HistoriesBean(int id, int user_id, int point, Timestamp created_at) {
+		this.id = id;
+		this.user_id = user_id;
+		this.point = point;
+		this.created_at = created_at;
+	}
+
 	public HistoriesBean(int id, int user_id, int point) {
 		this.id = id;
 		this.user_id = user_id;
 		this.point = point;
+	}
+
+	public HistoriesBean(String name) {
+		this.name = name;
 	}
 
 	/** 引数無しのコンストラクタ **/
@@ -52,6 +64,14 @@ public class HistoriesBean {
 
 	public void setCreatedAt(Timestamp created_at) {
 		this.created_at = created_at;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

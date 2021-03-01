@@ -3,11 +3,9 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sun.jmx.snmp.Timestamp;
 
 import beans.HistoriesBean;
 
@@ -23,7 +21,7 @@ public class HistoriesDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, user_id, point FROM histories";
+			String sql = "SELECT id, user_id, point, created_at FROM histories";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			/** SQL 実行 **/
@@ -34,7 +32,8 @@ public class HistoriesDAO extends ConnectionDAO {
 				int id = rs.getInt("id");
 				int user_id = rs.getInt("user_id");
 				int point = rs.getInt("point");
-				HistoriesBean bean = new HistoriesBean(id, user_id, point);
+				Timestamp created_at = rs.getTimestamp("created_at");
+				HistoriesBean bean = new HistoriesBean(id, user_id, point, created_at);
 				list.add(bean);
 			}
 			return list;
@@ -102,6 +101,50 @@ public class HistoriesDAO extends ConnectionDAO {
 
 	}
 
+	/*
+	 * 名前を表示させる
+	 */
+	public List<HistoriesBean> userName() throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			String sql = "SELECT u.name FROM users u JOIN histories h ON u.id = h.user_id";
+			/** PreparedStatement オブジェクトの取得**/
+			st = con.prepareStatement(sql);
+			/** SQL 実行 **/
+			rs = st.executeQuery();
+			/** select文の結果をArrayListに格納 **/
+			List<HistoriesBean> hUserList = new ArrayList<HistoriesBean>();
+			while (rs.next()) {
+				String name = rs.getString("name");
+				HistoriesBean hb = new HistoriesBean(name);
+				//beanにいれる
+				hUserList.add(hb);
+			}
+			return hUserList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new SQLException("レコードの取得に失敗しました");
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+
+				if (st != null) {
+					st.close();
+				}
+				close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new SQLException("リソースの開放に失敗しました");
+			}
+		}
+	}
+
 	/**
 	 * レコードの新規作成
 	 */
@@ -112,15 +155,10 @@ public class HistoriesDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "INSERT INTO histories (user_id, point, created_at) values (?,?,?)";
-			// 現在時刻を取得
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			String strTimestamp = sdf.format(timestamp);
+			String sql = "INSERT INTO histories (user_id, point, created_at) values (?,?,current_timestamp())";
 			st = con.prepareStatement(sql);
 			st.setInt(1, hb.getUserId());
 			st.setInt(2, hb.getPoint());
-			st.setString(3, strTimestamp);
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -178,4 +216,33 @@ public class HistoriesDAO extends ConnectionDAO {
 		}
 
 	}
+
+	/*
+	 * pointカラムを更新する
+	 */
+	public void update(HistoriesBean historiesBean) throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+
+		PreparedStatement st = null;
+
+		int id = historiesBean.getId();
+		int point = historiesBean.getPoint();
+		try {
+			String sql = "UPDATE histories "
+					+ "SET point = "
+					+ "point + 1 "
+					+ "WHERE id = ?";
+
+			st = con.prepareStatement(sql);
+			st.setInt(1, point);
+			st.setInt(2, id);
+			st.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new SQLException("更新に失敗しました");
+		}
+	}
+
 }

@@ -11,20 +11,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import DAO.QuestionsDAO;
-import beans.QuestionsBean;
+import DAO.HistoriesDAO;
+import DAO.UsersDAO;
+import beans.HistoriesBean;
+import beans.UsersBean;
 
 /**
- * Servlet implementation class TestListServlet
+ * Servlet implementation class HistoriesServlet
  */
-@WebServlet("/TestList")
-public class TestListServlet extends HttpServlet {
+@WebServlet("/Histories")
+public class HistoriesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TestListServlet() {
+    public HistoriesServlet() {
         super();
     }
 
@@ -32,6 +34,7 @@ public class TestListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -39,18 +42,27 @@ public class TestListServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		//ランダム表示用
 		try {
-			List<QuestionsBean> list = new ArrayList<QuestionsBean>();
-			QuestionsDAO dao = new QuestionsDAO();
+			//履歴を全件表示する
+			List<HistoriesBean> list = new ArrayList<HistoriesBean>();
+			HistoriesDAO dao = new HistoriesDAO();
+			list = dao.findAll();
 
-			//ランダム表示
-			list = dao.randAll();
-
+			//履歴をsetAttribute
 			request.setAttribute("list", list);
 
-			RequestDispatcher rd = request.getRequestDispatcher("Test.jsp");
+			//user一覧取得
+			List<UsersBean> ulist = new ArrayList<UsersBean>();
+			UsersDAO udao = new UsersDAO();
+
+			ulist = udao.findAll();
+			System.out.println(udao);
+
+			//listにセットしてjsp側でlistで呼び出せるようにする
+			request.setAttribute("ulist", ulist);
+			System.out.println(ulist);
+
+			RequestDispatcher rd = request.getRequestDispatcher("Histories.jsp");
 			rd.forward(request, response);
 
 		//例外処理 Top.jspへ飛ばす
@@ -62,6 +74,4 @@ public class TestListServlet extends HttpServlet {
 		}
 
 	}
-
 	}
-
