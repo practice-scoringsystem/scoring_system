@@ -56,11 +56,9 @@ public class HistoriesServlet extends HttpServlet {
 			UsersDAO udao = new UsersDAO();
 
 			ulist = udao.findAll();
-			System.out.println(udao);
 
 			//listにセットしてjsp側でlistで呼び出せるようにする
 			request.setAttribute("ulist", ulist);
-			System.out.println(ulist);
 
 			RequestDispatcher rd = request.getRequestDispatcher("Histories.jsp");
 			rd.forward(request, response);

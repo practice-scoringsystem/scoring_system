@@ -25,9 +25,9 @@ nav.nav {
 		</nav>
 	</header>
 	<h4>下記のメニューボタンから選択してください</h4>
-	<a href="./List">
-		<button type="button">問題と答えを確認・登録する ＞</button>
-	</a>
+	<form action="./List" method="post">
+		<input type="submit" value="問題と答えを確認・登録する ＞" />
+	</form>
 	<br>
 	<form action="./TestList" method="post">
 		<input type="submit" value="テストをする ＞" />

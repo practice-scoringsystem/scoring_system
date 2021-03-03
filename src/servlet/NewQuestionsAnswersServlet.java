@@ -69,16 +69,14 @@ public class NewQuestionsAnswersServlet extends HttpServlet {
 				QuestionsDAO questionsDAO = new QuestionsDAO();
 				CorrectAnswersDAO answersDAO = new CorrectAnswersDAO();
 
-				int max_id = questionsDAO.getMaxQuestionId();
-
 				//DAOのInsertを実行 引数はQuestionsオブジェクト
 				questionsDAO.create(questionsBean);
 
-				//SELECT MAX(id) FROM questions;をquestion_idにいれる（+で１ずつ増やす）
-				max_id = max_id + 1;
+				//最新のquestionsのidを取得する
+				int id = questionsDAO.getLatestQuestionId();
 
 				//answersBeanにquestuons_id をセット
-				answersBean.setQuestionsId(max_id);
+				answersBean.setQuestionsId(id);
 				for (int i = 0; i < arr.length; i++) {
 					// 答えの入力値が空じゃない場合はセットしてinsert
 					if (!arr[i].isEmpty()) {

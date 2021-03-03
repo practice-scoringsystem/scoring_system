@@ -279,21 +279,21 @@ public class QuestionsDAO extends ConnectionDAO {
 	}
 
 	//CorrectAnswersを新規登録するためにQuestionsIdをセットする
-	public int getMaxQuestionId() throws SQLException {
+	public int getLatestQuestionId() throws SQLException {
 		if (con == null) {
 			setConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT MAX(id) FROM questions";
+			String sql = "select id from questions order by created_at desc limit 1;";
 			st = con.prepareStatement(sql);
 			rs = st.executeQuery();
-			int max_id = 0;
+			int id = 0;
 			if (rs.next()) {
-				max_id = rs.getInt(1);
+				id = rs.getInt(1);
 			}
-			return max_id;
+			return id;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new SQLException("レコードの操作に失敗しました。");

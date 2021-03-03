@@ -2,42 +2,34 @@ package servlet;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet Filter implementation class BaseServlet
+ * Servlet implementation class BaseServlet
  */
-@WebFilter("/xxx")
-public class BaseServlet implements Filter {
+@WebServlet("/Base")
+public class BaseServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Default constructor.
+	 * @see HttpServlet#HttpServlet()
 	 */
 	public BaseServlet() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see Filter#destroy()
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		//セッションが存在しない場合はnullを返す
 		HttpSession session = ((HttpServletRequest) request).getSession(false);
 		//セッションがnullでなければ通常通りの遷移
@@ -49,10 +41,17 @@ public class BaseServlet implements Filter {
 	}
 
 	/**
-	 * @see Filter#init(FilterConfig)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		//セッションが存在しない場合はnullを返す
+		HttpSession session = ((HttpServletRequest) request).getSession(false);
+		//セッションがnullでなければ通常通りの遷移
+		if (session == null) {
+			//セッションがnullならログイン画面へ飛ばす
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
-
 }

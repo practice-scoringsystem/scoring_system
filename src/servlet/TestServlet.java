@@ -73,7 +73,7 @@ public class TestServlet extends HttpServlet {
 			answers = new String[CAlist.size()];
 
 			//カウントで書き換える
-			int count = 0;
+			double dubcount = 0;
 			for (int i = 0; i < qId.length; i++) {
 				if (questions_ids[i] != null) {
 					qId[i] = Integer.parseInt(questions_ids[i]);
@@ -90,7 +90,7 @@ public class TestServlet extends HttpServlet {
 
 							for (int k = 0; k < ans.length; k++) {
 								if (answers[j].equals(ans[k])) {
-									count ++;
+									dubcount ++;
 									break;
 								}
 							}
@@ -99,11 +99,15 @@ public class TestServlet extends HttpServlet {
 				}
 			}
 
-			//ここで計算をする 正解数÷問題数
+			//ここから計算
 			QuestionsDAO questionsDao = new QuestionsDAO();
 
-			int qCount = questionsDao.getQuestionsCount();
-			int result = 100 * count / qCount;
+			//質問数のカウント
+			double dubqCount = questionsDao.getQuestionsCount();
+
+			//計算をする 正解数÷問題数(四捨五入をするのでdouble型になる)
+			long lresult = Math.round(100 * dubcount / dubqCount);
+            int result = (int)lresult;
 
 			HttpSession session = request.getSession(false);
 			String name = (String) session.getAttribute("login_name");
@@ -112,6 +116,10 @@ public class TestServlet extends HttpServlet {
 			bean.setUserId(userId);
 			bean.setPoint(result);
 			dao.create(bean);
+
+			//質問数と回答数表示のため整数にする
+			int qCount = (int)dubqCount;
+			int count = (int)dubcount;
 
 			request.setAttribute("qCount", qCount);
 			request.setAttribute("result", result);

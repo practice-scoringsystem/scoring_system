@@ -33,6 +33,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		String str_id = request.getParameter("id");
 		String str_pw = request.getParameter("password");
 

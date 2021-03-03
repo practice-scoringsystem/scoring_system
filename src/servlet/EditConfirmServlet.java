@@ -43,9 +43,6 @@ public class EditConfirmServlet extends HttpServlet {
 
 		String[] idArr = request.getParameterValues("answers_id");
 
-		//QCAlist(bean)も持ってこないといけない？
-		//↓のメソッドに行く前にString[]をint配列に変換しないといけない？
-
 		int answers_ids[];
 		answers_ids = new int[idArr.length];
 		for (int i = 0; i < answers_ids.length; i++) {

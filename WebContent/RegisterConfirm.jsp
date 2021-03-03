@@ -12,19 +12,17 @@
 	<form action="./New" method="post">
 
 		<p>
-			問題:<textarea readonly rows="4" cols="40"><%=request.getAttribute("question")%></textarea>
-			<input type="hidden" name="question" value="<%=request.getAttribute("question")%>"/>
+			問題:<textarea readonly name="question" rows="4" cols="40"><%=request.getAttribute("question")%></textarea>
 		</p>
 		<%
 		String[] arr = (String[])request.getAttribute("answer");
 		for (int i = 0; i < arr.length; i++) {
 		%>
 		<p>
-			答え:<input type="text" readonly value="<%=arr[i]%>">
-			<input type="hidden" name="answer" value="<%=arr[i]%>" />
+			答え:<input type="text" name="answer" readonly value="<%=arr[i]%>">
 		</p>
 		<% } %>
-		<a href="./Register.jsp">
+		<a href="Register.jsp">
 			<button type="button">戻る</button>
 		</a>
 		<p>

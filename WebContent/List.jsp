@@ -78,10 +78,11 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 				<%-- 問題 --%>
 				<td><%=Questionslist.get(i).getQuestion()%></td>
 
-				<td><a
-					href="Edit?questions_id=<%=Questionslist.get(i).getId()%>">
+				<td>
+					<a href="Edit?questions_id=<%=Questionslist.get(i).getId()%>">
 						<button type="button">編集</button>
-				</a></td>
+					</a>
+				</td>
 				<td><a
 					href="DeleteConfirm?questions_id=<%=Questionslist.get(i).getId()%>">
 						<button type="button">削除</button>
