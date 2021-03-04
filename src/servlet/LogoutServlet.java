@@ -31,12 +31,16 @@ public class LogoutServlet extends HttpServlet {
 			throws ServletException, IOException {
 		//セッションを破棄
 		String action = request.getParameter("action");
+
 		//topのボタンからhiddenでlogoutを送信
 		if (action.equals("logout")) {
 			HttpSession session = request.getSession(false);
-			session.invalidate();
+			if (session != null) {
+				//invalidataしてもsessionが作成されてしまったため、removeでidを削除
+				session.removeAttribute("login_id");
 
-			response.sendRedirect("Login.jsp");
+				response.sendRedirect("Login.jsp");
+			}
 		}
 	}
 
@@ -49,5 +53,3 @@ public class LogoutServlet extends HttpServlet {
 	}
 
 }
-
-//http session (null == session)ならloginページへ飛ばす処理を親クラスとして作る　そしてextendsする

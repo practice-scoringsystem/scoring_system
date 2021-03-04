@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import DAO.HistoriesDAO;
 import DAO.UsersDAO;
@@ -23,17 +24,18 @@ import beans.UsersBean;
 public class HistoriesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public HistoriesServlet() {
-        super();
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public HistoriesServlet() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
@@ -41,37 +43,42 @@ public class HistoriesServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			//履歴を全件表示する
-			List<HistoriesBean> list = new ArrayList<HistoriesBean>();
-			HistoriesDAO dao = new HistoriesDAO();
-			list = dao.findAll();
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("login_id") == null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+			dispatcher.forward(request, response);
+		} else {
 
-			//履歴をsetAttribute
-			request.setAttribute("list", list);
+			try {
+				//履歴を全件表示する
+				List<HistoriesBean> list = new ArrayList<HistoriesBean>();
+				HistoriesDAO dao = new HistoriesDAO();
+				list = dao.findAll();
 
-			//user一覧取得
-			List<UsersBean> ulist = new ArrayList<UsersBean>();
-			UsersDAO udao = new UsersDAO();
+				//履歴をsetAttribute
+				request.setAttribute("list", list);
 
-			ulist = udao.findAll();
-			System.out.println(udao);
+				//user一覧取得
+				List<UsersBean> ulist = new ArrayList<UsersBean>();
+				UsersDAO udao = new UsersDAO();
 
-			//listにセットしてjsp側でlistで呼び出せるようにする
-			request.setAttribute("ulist", ulist);
-			System.out.println(ulist);
+				ulist = udao.findAll();
 
-			RequestDispatcher rd = request.getRequestDispatcher("Histories.jsp");
-			rd.forward(request, response);
+				//listにセットしてjsp側でlistで呼び出せるようにする
+				request.setAttribute("ulist", ulist);
 
-		//例外処理 Top.jspへ飛ばす
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("error_message", "内部でエラーが発生しました");
-			RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
-			rd.forward(request, response);
+				RequestDispatcher rd = request.getRequestDispatcher("Histories.jsp");
+				rd.forward(request, response);
+
+				//例外処理 Top.jspへ飛ばす
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.setAttribute("error_message", "内部でエラーが発生しました");
+				RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
+				rd.forward(request, response);
+			}
 		}
-
 	}
-	}
+}

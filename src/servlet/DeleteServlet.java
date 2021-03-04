@@ -3,11 +3,13 @@ package servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import DAO.CorrectAnswersDAO;
 import DAO.QuestionsDAO;
@@ -20,39 +22,47 @@ import common.CommonUtil;
 public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DeleteServlet() {
-        super();
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public DeleteServlet() {
+		super();
+	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
-		String[] idArr = request.getParameterValues("answers_id");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("login_id") == null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+			dispatcher.forward(request, response);
+		} else {
 
-		//CommonUtilにてメソッドを定義 stringの配列をintegerにしている
-		CommonUtil cu = new CommonUtil();
-		int answers_ids[] = cu.parseInts(idArr);
+			int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
+			String[] idArr = request.getParameterValues("answers_id");
 
-		try {
-			QuestionsDAO questionsDao = new QuestionsDAO();
+			//CommonUtilにてメソッドを定義 stringの配列をintegerにしている
+			CommonUtil cu = new CommonUtil();
+			int answers_ids[] = cu.parseInts(idArr);
 
-			CorrectAnswersDAO answersDao = new CorrectAnswersDAO();
-			//配列でbeanを作る
-			for (int i = 0; i < answers_ids.length; i++) {
-				answersDao.delete(answers_ids[i]);
+			try {
+				QuestionsDAO questionsDao = new QuestionsDAO();
+
+				CorrectAnswersDAO answersDao = new CorrectAnswersDAO();
+				//配列でbeanを作る
+				for (int i = 0; i < answers_ids.length; i++) {
+					answersDao.delete(answers_ids[i]);
+				}
+
+				int count = questionsDao.delete(QuestionsId);
+
+				request.setAttribute("count", count);
+				request.getRequestDispatcher("./List").forward(request, response);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 
-			int count = questionsDao.delete(QuestionsId);
-
-			request.setAttribute("count", count);
-			request.getRequestDispatcher("./List").forward(request, response);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 	}
-
 }

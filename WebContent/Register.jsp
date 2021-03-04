@@ -25,18 +25,20 @@
 			問題：
 			<textarea name="question" rows="4" cols="40"></textarea>
 		</p>
-		<!-- フォームが増える トリガーを設置してjsを動かす -->
-		<p>
+
+		<div>
 			<!-- nameでservletへ送る -->
 			答え1：<input type="text" name="answer" size="40">
 			<button type="button" name="delete" value="delete">
 				<font size="2">削除</font>
 			</button>
+
 			<br> 答え2：<input type="text" name="answer" size="40">
 			<button type="button" name="delete" value="delete">
 				<font size="2">削除</font>
 			</button>
-		</p>
+
+		</div>
 		<a href="./List">
 			<button type="button">戻る</button>
 		</a>
@@ -44,9 +46,7 @@
 		<p>
 			<input type="submit" value="確認">
 		</p>
-		<button type="button" name="addForm" value="addForm">
-			<font size="2">フォームを追加</font>
-		</button>
+
 	</form>
 </body>
 </html>

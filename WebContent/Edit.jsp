@@ -36,13 +36,11 @@ List<QuestionsCorrectAnswersBean> CAlist = (List<QuestionsCorrectAnswersBean>) r
 			問題：
 			<textarea name="question" rows="4" cols="40"><%=questionsbean.getQuestion()%></textarea>
 		</p>
-		<!-- フォームが増える トリガーを設置してjsを動かす -->
-		<!-- nameでservletへ送る -->
 
 		<%
 		for (int i = 0; i < CAlist.size(); i++) {
 		%>
-		<%-- 問題ID --%>
+
 		<%
 		if (CAlist.get(i) != null) {
 			int [] answers_ids = (int[])request.getAttribute("answers_ids");
@@ -69,9 +67,6 @@ List<QuestionsCorrectAnswersBean> CAlist = (List<QuestionsCorrectAnswersBean>) r
 		<p>
 			<input type="submit" value="編集内容を確認する">
 		</p>
-		<button type="button" name="addForm" value="addForm">
-			<font size="2">フォームを追加</font>
-		</button>
 	</form>
 
 </body>
