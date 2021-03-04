@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page session="false" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -14,7 +16,8 @@ nav.nav {
 </head>
 
 <body>
-
+	<%-- <input type="hidden" name="log_id"
+		value="<%=request.getAttribute("log_id")%>" /> --%>
 	<header>
 		<h3>ようこそテスト問題登録/自動採点システムへ</h3>
 		<nav class="nav">
@@ -25,9 +28,9 @@ nav.nav {
 		</nav>
 	</header>
 	<h4>下記のメニューボタンから選択してください</h4>
-	<form action="./List" method="post">
-		<input type="submit" value="問題と答えを確認・登録する ＞" />
-	</form>
+	<a href="./List">
+		<button type="button">問題と答えを確認・登録する ＞</button>
+	</a>
 	<br>
 	<form action="./TestList" method="post">
 		<input type="submit" value="テストをする ＞" />

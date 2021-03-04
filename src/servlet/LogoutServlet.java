@@ -36,8 +36,8 @@ public class LogoutServlet extends HttpServlet {
 		if (action.equals("logout")) {
 			HttpSession session = request.getSession(false);
 			if (session != null) {
-				session.invalidate();
-				//session.setAttribute("aaaaaa","bbbbb");
+				//invalidataしてもsessionが作成されてしまったため、removeでidを削除
+				session.removeAttribute("login_id");
 
 				response.sendRedirect("Login.jsp");
 			}

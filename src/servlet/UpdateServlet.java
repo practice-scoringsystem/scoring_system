@@ -3,11 +3,13 @@ package servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import DAO.CorrectAnswersDAO;
 import DAO.QuestionsDAO;
@@ -43,53 +45,56 @@ public class UpdateServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("login_id") == null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+			dispatcher.forward(request, response);
+		} else {
 
-		request.setCharacterEncoding("UTF-8");
+			request.setCharacterEncoding("UTF-8");
 
-		int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
-		String question = request.getParameter("question");
+			int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
+			String question = request.getParameter("question");
+			String[] arrAnswer = request.getParameterValues("answer");
+			String[] idArr = request.getParameterValues("answers_id");
 
-		String[] arrAnswer = request.getParameterValues("answer");
-
-		String[] idArr = request.getParameterValues("answers_id");
-
-		//intの配列にidを詰めていく
-		int answers_ids[];
-		answers_ids = new int[idArr.length];
-		for (int i = 0; i < answers_ids.length; i++) {
-		  if (idArr[i] != null){
-		    answers_ids[i] = Integer.parseInt(idArr[i]);
-		  }
-		}
-
-		try {
-			//DAOとbeanをnewしてインスタンス化
-			QuestionsDAO questionsDao = new QuestionsDAO();
-			QuestionsBean questionsBean = new QuestionsBean(QuestionsId);
-
-			questionsBean.setQuestionsId(QuestionsId);
-			questionsBean.setQuestion(question);
-
-			//DAOのupdateメソッドを使う
-			questionsDao.update(questionsBean);
-
-			//セットアトリビュート
-			request.setAttribute("question", question);
-
-			CorrectAnswersDAO answersDao = new CorrectAnswersDAO();
-			//配列でbeanを作る
+			//intの配列にidを詰めていく
+			int answers_ids[];
+			answers_ids = new int[idArr.length];
 			for (int i = 0; i < answers_ids.length; i++) {
-				//beanをインスタンス化
-				CorrectAnswersBean answersBean = new CorrectAnswersBean(answers_ids[i]);
-				answersBean.setAnswer(arrAnswer[i]);
-				answersDao.update(answersBean);
+				if (idArr[i] != null) {
+					answers_ids[i] = Integer.parseInt(idArr[i]);
+				}
 			}
 
-			request.getRequestDispatcher("./List").forward(request, response);
+			try {
+				//DAOとbeanをnewしてインスタンス化
+				QuestionsDAO questionsDao = new QuestionsDAO();
+				QuestionsBean questionsBean = new QuestionsBean(QuestionsId);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+				questionsBean.setQuestionsId(QuestionsId);
+				questionsBean.setQuestion(question);
+
+				//DAOのupdateメソッドを使う
+				questionsDao.update(questionsBean);
+
+				//セットアトリビュート
+				request.setAttribute("question", question);
+
+				CorrectAnswersDAO answersDao = new CorrectAnswersDAO();
+				//配列でbeanを作る
+				for (int i = 0; i < answers_ids.length; i++) {
+					//beanをインスタンス化
+					CorrectAnswersBean answersBean = new CorrectAnswersBean(answers_ids[i]);
+					answersBean.setAnswer(arrAnswer[i]);
+					answersDao.update(answersBean);
+				}
+
+				request.getRequestDispatcher("./List").forward(request, response);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-
 }

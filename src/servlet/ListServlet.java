@@ -35,13 +35,16 @@ public class ListServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		if (checkSession(request) == true) {
-			
+
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("login_id") == null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+			dispatcher.forward(request, response);
+		} else {
+
 			try {
-				System.out.println("listServlet");
 				//QuestionsDAOで取ってきた情報をArrayListにつめる
 				List<QuestionsBean> list = new ArrayList<QuestionsBean>();
 				QuestionsDAO dao = new QuestionsDAO();
@@ -76,21 +79,6 @@ public class ListServlet extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
 				rd.forward(request, response);
 			}
-		} else {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
-			dispatcher.forward(request, response);
-		}
-	}
-
-	//ログインチェック
-	public boolean checkSession(HttpServletRequest req) {
-		HttpSession session = req.getSession(false);
-		if (session != null) {
-//			System.out.println("true");
-			return true;
-		} else {
-//			System.out.println("false");
-			return false;
 		}
 	}
 }

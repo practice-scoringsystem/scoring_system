@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import DAO.CorrectAnswersDAO;
 import DAO.QuestionsDAO;
@@ -33,49 +34,54 @@ public class EditServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("login_id") == null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+			dispatcher.forward(request, response);
+		} else {
 
-		//questions_idがパラメーターとして飛んできていてQuestionsId（変数）へ入れている
-		int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
+			//questions_idがパラメーターとして飛んできていてQuestionsId（変数）へ入れている
+			int QuestionsId = (int) (Integer.parseInt(request.getParameter("questions_id")));
 
-		try {
+			try {
 
-			QuestionsDAO questionsDAO = new QuestionsDAO();
-			QuestionsBean questionsbean = new QuestionsBean(QuestionsId);
+				QuestionsDAO questionsDAO = new QuestionsDAO();
+				QuestionsBean questionsbean = new QuestionsBean(QuestionsId);
 
-			//DaoファイルのQuestionsと紐づいたAnswerを取ってくるメソッド
-			questionsbean = questionsDAO.find_ans(QuestionsId);
+				//DaoファイルのQuestionsと紐づいたAnswerを取ってくるメソッド
+				questionsbean = questionsDAO.find_ans(QuestionsId);
 
-			//answerをfor文で回すためにCorrectAnswersDAOから引っ張ってくる
-			List<QuestionsCorrectAnswersBean> CAlist = new ArrayList<QuestionsCorrectAnswersBean>();
-			CorrectAnswersDAO CAdao = new CorrectAnswersDAO();
-			CAlist = CAdao.findByQuestionsId(QuestionsId);
+				//answerをfor文で回すためにCorrectAnswersDAOから引っ張ってくる
+				List<QuestionsCorrectAnswersBean> CAlist = new ArrayList<QuestionsCorrectAnswersBean>();
+				CorrectAnswersDAO CAdao = new CorrectAnswersDAO();
+				CAlist = CAdao.findByQuestionsId(QuestionsId);
 
-			request.setAttribute("questions_id", QuestionsId);
+				request.setAttribute("questions_id", QuestionsId);
 
-			//Questionsの中身を入れたbeanをセット
-			request.setAttribute("questionsBean", questionsbean);
+				//Questionsの中身を入れたbeanをセット
+				request.setAttribute("questionsBean", questionsbean);
 
-			//answers_idをループで回す
-			//Questionsに紐づくCorrectAnswerの中身をlistにしてセット
-			int answers_ids[];
-			answers_ids = new int[CAlist.size()];
-			for (int i = 0; i < answers_ids.length; i++) {
-			  if (CAlist.get(i) != null){
-			    answers_ids[i] = CAlist.get(i).getId();
-			  }
+				//answers_idをループで回す
+				//Questionsに紐づくCorrectAnswerの中身をlistにしてセット
+				int answers_ids[];
+				answers_ids = new int[CAlist.size()];
+				for (int i = 0; i < answers_ids.length; i++) {
+					if (CAlist.get(i) != null) {
+						answers_ids[i] = CAlist.get(i).getId();
+					}
+				}
+
+				request.setAttribute("answers_ids", answers_ids);
+				request.setAttribute("CAlist", CAlist);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.setAttribute("error_message", "内部でエラーが発生しました");
+				RequestDispatcher rd = request.getRequestDispatcher("List.jsp");
+				rd.forward(request, response);
 			}
-
-			request.setAttribute("answers_ids", answers_ids);
-			request.setAttribute("CAlist", CAlist);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("error_message", "内部でエラーが発生しました");
-			RequestDispatcher rd = request.getRequestDispatcher("List.jsp");
-			rd.forward(request, response);
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("Edit.jsp");
+			requestDispatcher.forward(request, response);
 		}
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("Edit.jsp");
-		requestDispatcher.forward(request, response);
-
 	}
 }
