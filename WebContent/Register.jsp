@@ -29,14 +29,8 @@
 		<div>
 			<!-- nameでservletへ送る -->
 			答え1：<input type="text" name="answer" size="40">
-			<button type="button" name="delete" value="delete">
-				<font size="2">削除</font>
-			</button>
 
 			<br> 答え2：<input type="text" name="answer" size="40">
-			<button type="button" name="delete" value="delete">
-				<font size="2">削除</font>
-			</button>
 
 		</div>
 		<a href="./List">

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class CorrectAnswersBean {
 
+	//フィールド
 	private int id;
 	private int questions_id;
 	private String answer;
@@ -11,6 +12,7 @@ public class CorrectAnswersBean {
 	private Timestamp created_at;
 	private Timestamp updated_at;
 
+	//初期化
 	/**
 	 * コンストラクタ
 	 */
@@ -29,6 +31,7 @@ public class CorrectAnswersBean {
 
 	}
 
+	//データ転送
 	public int getId() {
 		return id;
 	}
@@ -77,7 +80,7 @@ public class CorrectAnswersBean {
 		this.answers_id = answers_id;
 	}
 
-
+	//beanの中身を表示するデバッグコード
 	public void debugDiaplay() {
 		System.out.println("id:" + String.valueOf(id));
 		System.out.println("answer:" + answer);
