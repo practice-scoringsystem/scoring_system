@@ -32,6 +32,7 @@
 		List<QuestionsCorrectAnswersBean> arr = (List<QuestionsCorrectAnswersBean>) request.getAttribute("CAlist");
 		for (int i = 0; i < arr.size(); i++) {
 		%>
+		<!-- answers_idsはいらない -->
 		<%
 		int[] answers_ids = (int[]) request.getAttribute("answers_ids");
 		%>

@@ -126,7 +126,3 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 
 </body>
 </html>
-
-
-<!-- for文でQuestionとAnswerを回す -->
-<!-- for文の中にAnswerを入れて回す -->

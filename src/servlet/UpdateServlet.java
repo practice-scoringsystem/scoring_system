@@ -72,7 +72,7 @@ public class UpdateServlet extends HttpServlet {
 				QuestionsDAO questionsDao = new QuestionsDAO();
 				QuestionsBean questionsBean = new QuestionsBean(QuestionsId);
 
-				questionsBean.setQuestionsId(QuestionsId);
+				questionsBean.setQuestionsId(QuestionsId); //これはいらない
 				questionsBean.setQuestion(question);
 
 				//DAOのupdateメソッドを使う

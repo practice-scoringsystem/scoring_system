@@ -73,8 +73,7 @@ public class TestServlet extends HttpServlet {
 				HistoriesBean bean = new HistoriesBean();
 				HistoriesDAO dao = new HistoriesDAO();
 
-				int qId[];
-				qId = new int[questions_ids.length];
+				int qId[] = new int[questions_ids.length];
 				answers = new String[CAlist.size()];
 
 				//カウントで書き換える

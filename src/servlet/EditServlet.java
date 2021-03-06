@@ -48,8 +48,8 @@ public class EditServlet extends HttpServlet {
 				QuestionsDAO questionsDAO = new QuestionsDAO();
 				QuestionsBean questionsbean = new QuestionsBean(QuestionsId);
 
-				//DaoファイルのQuestionsと紐づいたAnswerを取ってくるメソッド
-				questionsbean = questionsDAO.find_ans(QuestionsId);
+				//DaoファイルにてQuestionsを引っ張ってくる
+				questionsbean = questionsDAO.find(QuestionsId);
 
 				//answerをfor文で回すためにCorrectAnswersDAOから引っ張ってくる
 				List<QuestionsCorrectAnswersBean> CAlist = new ArrayList<QuestionsCorrectAnswersBean>();

@@ -45,23 +45,39 @@ public class RegisterConfirm extends HttpServlet {
 		String question = request.getParameter("question");
 		String[] arr = request.getParameterValues("answer");
 
+
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i].length() > 10 || arr[i] == null) {
+				//配列の中身も空じゃないかを確認,文字数も確認(文字数はテーブル定義に合わせておく)
+				request.setAttribute("error_message", "最大文字数を超えています");
+				RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
+				rd.forward(request, response);
+			}
+		}
+
+		for (int i = 0; i < arr.length; i++) {
+			if ("".equals(arr[i])) {
+				//配列の中身も空じゃないかを確認 空文字入力されているよう
+				request.setAttribute("error_message", "答えが未入力です");
+				RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
+				rd.forward(request, response);
+			}
+		}
+
 		if (isEmpty(question) || arr.length == 0) {
 			request.setAttribute("error_message", "入力がされていません");
 			RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
-
 			rd.forward(request, response);
-		} else if (question.length() > 255) {
+
+		} else if (question.length() > 500) {
 			request.setAttribute("error_message", "最大文字数を超えています");
 			RequestDispatcher rd = request.getRequestDispatcher("Register.jsp");
-
 			rd.forward(request, response);
 		} else {
-
 			request.setAttribute("question", question);
 			request.setAttribute("answer", arr);
 
 			request.getRequestDispatcher("RegisterConfirm.jsp").forward(request, response);
-
 		}
 	}
 

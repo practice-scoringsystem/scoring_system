@@ -1,9 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,11 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DAO.CorrectAnswersDAO;
-import DAO.QuestionsCorrectAnswersDAO;
 import DAO.QuestionsDAO;
 import beans.CorrectAnswersBean;
 import beans.QuestionsBean;
-import beans.QuestionsCorrectAnswersBean;
 
 /**
  * Servlet implementation class NewQuestionsAnswersServlet
@@ -93,41 +88,15 @@ public class NewQuestionsAnswersServlet extends HttpServlet {
 					session.setAttribute("is_register", is_register);
 				}
 
-				try {
-					//QuestionsDAOで取ってきた情報をArrayListにつめる
-					List<QuestionsBean> list = new ArrayList<QuestionsBean>();
-					QuestionsDAO dao = new QuestionsDAO();
+				RequestDispatcher rd = request.getRequestDispatcher("./List");
+				rd.forward(request, response);
 
-					//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
-					list = dao.findAll();
-
-					//全データをlistにセットしてjsp側でlistで呼び出せるようにする
-					request.setAttribute("list", list);
-
-					//QCAがあるのでそれを含めた後にフォワードをする
-					//QuestionsDAOで取ってきた情報をArrayListにつめる
-					List<QuestionsCorrectAnswersBean> QCAlist = new ArrayList<QuestionsCorrectAnswersBean>();
-					QuestionsCorrectAnswersDAO QCAdao = new QuestionsCorrectAnswersDAO();
-
-					//QuestionsDAOにて定義した全データを取ってくるfindAllを指示
-					QCAlist = QCAdao.findAll();
-
-					//全データをlistにセットしてjsp側でlistで呼び出せるようにする
-					request.setAttribute("QCAlist", QCAlist);
-					request.setAttribute("success_message", "登録が完了しました");
-					RequestDispatcher rd = request.getRequestDispatcher("List.jsp");
-					rd.forward(request, response);
-
-					//例外処理 Top.jspへ飛ばす
-				} catch (Exception e) {
-					e.printStackTrace();
-					request.setAttribute("error_message", "内部でエラーが発生しました");
-					RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
-					rd.forward(request, response);
-				}
-
-			} catch (SQLException e) {
+				//例外処理 Top.jspへ飛ばす
+			} catch (Exception e) {
 				e.printStackTrace();
+				request.setAttribute("error_message", "内部でエラーが発生しました");
+				RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
+				rd.forward(request, response);
 			}
 		}
 	}
