@@ -25,7 +25,7 @@ public class UsersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, name, password FROM users WHERE deleteflag = 0";
+			String sql = "SELECT id, name, password, admin_flag FROM users WHERE deleteflag = 0";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			/** SQL 実行 **/
@@ -36,7 +36,8 @@ public class UsersDAO extends ConnectionDAO {
 				int id = rs.getInt("id");
 				String name = rs.getString("name");
 				String pass = rs.getString("password");
-				UsersBean bean = new UsersBean(id, name, pass);
+				byte admin_flag = rs.getByte("admin_flag");
+				UsersBean bean = new UsersBean(id, name, pass, admin_flag);
 				list.add(bean);
 			}
 			return list;
