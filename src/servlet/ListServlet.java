@@ -81,4 +81,11 @@ public class ListServlet extends HttpServlet {
 			}
 		}
 	}
+
+	//UpdateServletで使用するためpostは消さない
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
 }

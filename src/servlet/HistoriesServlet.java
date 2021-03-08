@@ -36,8 +36,7 @@ public class HistoriesServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
@@ -52,22 +51,32 @@ public class HistoriesServlet extends HttpServlet {
 		} else {
 
 			try {
+				int userId = (int) session.getAttribute("login_id");
+
 				//履歴を全件表示する
 				List<HistoriesBean> list = new ArrayList<HistoriesBean>();
 				HistoriesDAO dao = new HistoriesDAO();
-				list = dao.findAll();
+				//user_idが一致した履歴を取得する　listとして
+				list = dao.findByUserId(userId);
+
+				//int userId = (int) session.getAttribute("login_id");
+				//list = dao.findByUserId(userId);
 
 				//履歴をsetAttribute
 				request.setAttribute("list", list);
 
 				//user一覧取得
-				List<UsersBean> ulist = new ArrayList<UsersBean>();
+				UsersBean ub = new UsersBean();
 				UsersDAO udao = new UsersDAO();
 
-				ulist = udao.findAll();
+				//UserDaoでuser_idが一致するデータを持ってくるメソッドに変更 beanになる
+				//UsersBean ub = new UsersBean
+				//UsersDAO dao = new UsersDAO();
+				//ub = dao.find(userId);
+				ub = udao.find(userId);
 
 				//listにセットしてjsp側でlistで呼び出せるようにする
-				request.setAttribute("ulist", ulist);
+				request.setAttribute("ub", ub);
 
 				RequestDispatcher rd = request.getRequestDispatcher("Histories.jsp");
 				rd.forward(request, response);

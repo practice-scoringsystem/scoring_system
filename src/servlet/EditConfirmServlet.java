@@ -30,8 +30,7 @@ public class EditConfirmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
@@ -60,22 +59,40 @@ public class EditConfirmServlet extends HttpServlet {
 				}
 			}
 
+			//下でsetAttributeしてるのにこれを消すとnullpointになってしまう
 			request.setAttribute("answers_ids", answers_ids);
 
 			String[] arr = request.getParameterValues("answer");
+			for (int i = 0; i < arr.length; i++) {
+				if (arr[i].length() > 200) {
+					//配列の中身も空じゃないかを確認,文字数も確認(文字数はテーブル定義に合わせておく)
+					request.setAttribute("error_message", "最大文字数を超えています");
+					RequestDispatcher rd = request.getRequestDispatcher("./Edit");
+					rd.forward(request, response);
+				}
+			}
+
+			for (int i = 0; i < arr.length; i++) {
+				if ((arr[i]).length() == 0) {
+					//配列の中身も空じゃないかを確認 空文字入力されているよう
+					request.setAttribute("error_message", "答えが未入力です");
+					RequestDispatcher rd = request.getRequestDispatcher("./Edit");
+					rd.forward(request, response);
+					return;
+				}
+			}
 
 			if (isEmpty(question) || arr.length == 0) {
 				request.setAttribute("error_message", "入力がされていません");
-				RequestDispatcher rd = request.getRequestDispatcher("Edit.jsp");
-
+				RequestDispatcher rd = request.getRequestDispatcher("./Edit");
 				rd.forward(request, response);
-			} else if (question.length() > 255) {
+
+			} else if (question.length() > 500) {
 				request.setAttribute("error_message", "最大文字数を超えています");
-				RequestDispatcher rd = request.getRequestDispatcher("Edit.jsp");
-
+				RequestDispatcher rd = request.getRequestDispatcher("./Edit");
 				rd.forward(request, response);
-			} else {
 
+			} else {
 				request.setAttribute("questions_id", questionsId);
 				request.setAttribute("question", question);
 				request.setAttribute("answewrs_ids", answers_ids);

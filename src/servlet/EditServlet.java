@@ -48,18 +48,13 @@ public class EditServlet extends HttpServlet {
 				QuestionsDAO questionsDAO = new QuestionsDAO();
 				QuestionsBean questionsbean = new QuestionsBean(QuestionsId);
 
-				//DaoファイルのQuestionsと紐づいたAnswerを取ってくるメソッド
-				questionsbean = questionsDAO.find_ans(QuestionsId);
+				//DaoファイルにてQuestionsを引っ張ってくる
+				questionsbean = questionsDAO.find(QuestionsId);
 
 				//answerをfor文で回すためにCorrectAnswersDAOから引っ張ってくる
 				List<QuestionsCorrectAnswersBean> CAlist = new ArrayList<QuestionsCorrectAnswersBean>();
 				CorrectAnswersDAO CAdao = new CorrectAnswersDAO();
 				CAlist = CAdao.findByQuestionsId(QuestionsId);
-
-				request.setAttribute("questions_id", QuestionsId);
-
-				//Questionsの中身を入れたbeanをセット
-				request.setAttribute("questionsBean", questionsbean);
 
 				//answers_idをループで回す
 				//Questionsに紐づくCorrectAnswerの中身をlistにしてセット
@@ -71,6 +66,9 @@ public class EditServlet extends HttpServlet {
 					}
 				}
 
+				request.setAttribute("questions_id", QuestionsId);
+				//Questionsの中身を入れたbeanをセット
+				request.setAttribute("questionsBean", questionsbean);
 				request.setAttribute("answers_ids", answers_ids);
 				request.setAttribute("CAlist", CAlist);
 
@@ -83,5 +81,11 @@ public class EditServlet extends HttpServlet {
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("Edit.jsp");
 			requestDispatcher.forward(request, response);
 		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 }

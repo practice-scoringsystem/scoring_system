@@ -37,8 +37,7 @@ public class TestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
@@ -73,8 +72,7 @@ public class TestServlet extends HttpServlet {
 				HistoriesBean bean = new HistoriesBean();
 				HistoriesDAO dao = new HistoriesDAO();
 
-				int qId[];
-				qId = new int[questions_ids.length];
+				int qId[] = new int[questions_ids.length];
 				answers = new String[CAlist.size()];
 
 				//カウントで書き換える

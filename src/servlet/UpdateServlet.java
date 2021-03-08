@@ -36,8 +36,7 @@ public class UpdateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request,response);
 	}
 
 	/**
@@ -72,7 +71,7 @@ public class UpdateServlet extends HttpServlet {
 				QuestionsDAO questionsDao = new QuestionsDAO();
 				QuestionsBean questionsBean = new QuestionsBean(QuestionsId);
 
-				questionsBean.setQuestionsId(QuestionsId);
+				questionsBean.setQuestionsId(QuestionsId); //これはいらない
 				questionsBean.setQuestion(question);
 
 				//DAOのupdateメソッドを使う

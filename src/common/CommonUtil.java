@@ -1,8 +1,9 @@
 package common;
 
+//Stringをintに変換するメソッド
 public class CommonUtil {
 
-	public CommonUtil(){ //コンストラクタをprivateにしてインスタンス化させない
+	public CommonUtil(){
 	}
 
 	public int[] parseInts(String[] s){

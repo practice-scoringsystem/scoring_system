@@ -51,6 +51,7 @@ public class DeleteConfirmServlet extends HttpServlet {
 				QuestionsBean questionsbean = new QuestionsBean(QuestionsId);
 
 				//DaoファイルのQuestionsと紐づいたAnswerを取ってくるメソッド
+				//findでいい
 				questionsbean = questionsDAO.find_ans(QuestionsId);
 
 				//answerをfor文で回すためにCorrectAnswersDAOから引っ張ってくる
@@ -62,18 +63,6 @@ public class DeleteConfirmServlet extends HttpServlet {
 
 				//Questionsの中身を入れたbeanをセット
 				request.setAttribute("questionsBean", questionsbean);
-
-				//Questionsに紐づくCorrectAnswerの中身をlistにしてセット
-				int answers_ids[];
-				answers_ids = new int[CAlist.size()];
-				for (int i = 0; i < answers_ids.length; i++) {
-					if (CAlist.get(i) != null) {
-						answers_ids[i] = CAlist.get(i).getId();
-					}
-				}
-
-				//answers_idをループで回す
-				request.setAttribute("answers_ids", answers_ids);
 				request.setAttribute("CAlist", CAlist);
 
 			} catch (Exception e) {
