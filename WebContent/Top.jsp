@@ -26,10 +26,16 @@ nav.nav {
 		</nav>
 	</header>
 	<h4>下記のメニューボタンから選択してください</h4>
+	<%
+	if (String.valueOf(request.getAttribute("a_flag")).equals("1")) {
+	%>
 	<a href="./List">
 		<button type="button">問題と答えを確認・登録する ＞</button>
 	</a>
 	<br>
+	<%
+	}
+	%>
 	<form action="./TestList" method="post">
 		<input type="submit" value="テストをする ＞" />
 	</form>
@@ -40,7 +46,7 @@ nav.nav {
 	<%
 	if (String.valueOf(request.getAttribute("a_flag")).equals("1")) {
 	%>
-	<form action="./AddUsers" method="post">
+	<form action="./UsersList" method="post">
 		<input type="submit" value="ユーザーを追加・編集する ＞" />
 	</form>
 	<%
