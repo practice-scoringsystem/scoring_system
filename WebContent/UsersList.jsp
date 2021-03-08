@@ -66,10 +66,10 @@ List<UsersBean> ulist = (List<UsersBean>) request.getAttribute("list");
 				}
 				%>
 				<td><%=ulist.get(i).getName()%></td>
-				<td><a href="Edit?users_id=<%=ulist.get(i).getId()%>">
+				<td><a href="UserEdit?user_id=<%=ulist.get(i).getId()%>">
 						<button type="button">編集</button>
 				</a></td>
-				<td><a href="DeleteConfirm?users_id=<%=ulist.get(i).getId()%>">
+				<td><a href="UserDeleteConfirm?user_id=<%=ulist.get(i).getId()%>">
 						<button type="button">削除</button>
 				</a></td>
 				<%
