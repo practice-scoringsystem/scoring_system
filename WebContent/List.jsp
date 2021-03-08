@@ -58,7 +58,7 @@ List<QuestionsCorrectAnswersBean> QCAlist = (List<QuestionsCorrectAnswersBean>) 
 		<table style="margin: 0 auto">
 			<tr>
 				<th style="background-color: #6666FF; width: 100">ID</th>
-				<th style="background-color: #6666FF; width: 100">問題</th>
+				<th style="background-color: #6666FF; width: 100">問題・答え</th>
 				<th style="background-color: #6666FF; width: 250">編集</th>
 				<th style="background-color: #6666FF; width: 250">削除</th>
 			</tr>

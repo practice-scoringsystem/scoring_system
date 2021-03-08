@@ -42,7 +42,7 @@
 			<button type="button">戻る</button>
 		</a>
 		<p>
-			<input type="submit" value="登録する">
+			<input type="submit" value="更新">
 		</p>
 	</form>
 </body>
