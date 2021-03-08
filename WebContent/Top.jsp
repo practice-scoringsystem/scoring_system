@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page session="false" %>
+<%@ page session="false"%>
 
 <!DOCTYPE html>
 <html>
@@ -37,6 +37,15 @@ nav.nav {
 	<form action="./Histories" method="post">
 		<input type="submit" value="過去の採点結果を見る ＞" />
 	</form>
+	<%
+	if (String.valueOf(request.getAttribute("a_flag")).equals("1")) {
+	%>
+	<form action="./AddUsers" method="post">
+		<input type="submit" value="ユーザーを追加・編集する ＞" />
+	</form>
+	<%
+	}
+	%>
 
 </body>
 </html>

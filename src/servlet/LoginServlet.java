@@ -52,12 +52,15 @@ public class LoginServlet extends HttpServlet {
 					int db_id = list.get(i).getId();
 					String db_name = list.get(i).getName();
 					String db_pw = list.get(i).getPassword();
+					byte a_flag = list.get(i).getAdminFlag();
 
 					if (form_id == db_id && str_pw.equals(db_pw)) {
 						HttpSession session = request.getSession();
 						session.setAttribute("login_id", db_id);
 						session.setAttribute("login_name", db_name);
 						session.setAttribute("login_pw", db_pw);
+
+						request.setAttribute("a_flag", a_flag);
 
 						RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
 						rd.forward(request, response);
