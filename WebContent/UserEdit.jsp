@@ -29,7 +29,7 @@ UsersBean ub = (UsersBean) request.getAttribute("ub");
 		%>
 		<div>
 			<p>
-				ID:<input type="text" name="name" value="<%=ub.getId()%>">
+				ID:<input type="text" name="user_id" value="<%=ub.getId()%>">
 			</p>
 			<p>
 				ユーザー名:<input type="text" name="name" value="<%=ub.getName()%>">
