@@ -119,7 +119,6 @@ public class QuestionsDAO extends ConnectionDAO {
 	/**
 	 * 指定IDのレコードを取得する
 	 */
-	//(int pid)を変更
 	public QuestionsBean find(int QuestionsId) throws SQLException {
 		if (con == null) {
 			setConnection();

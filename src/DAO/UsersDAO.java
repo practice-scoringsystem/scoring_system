@@ -3,11 +3,8 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sun.jmx.snmp.Timestamp;
 
 import beans.UsersBean;
 
@@ -113,15 +110,11 @@ public class UsersDAO extends ConnectionDAO {
 		ResultSet rs = null;
 
 		try {
-			String sql = "INSERT INTO users (name, password, created_at, updated_at) values (?,?,?,?)";
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyy/MM/dd HH:mm:ss");
-			String strTimestamp = sdf.format(timestamp);
+			String sql = "INSERT INTO users (name, password, admin_flag, created_at, updated_at) values (?,?,?,current_timestamp(),current_timestamp())";
 			st = con.prepareStatement(sql);
 			st.setString(1, ub.getName());
 			st.setString(2, ub.getPassword());
-			st.setString(3, strTimestamp);
-			st.setString(4, strTimestamp);
+			st.setByte(3, ub.getAdminFlag());
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -146,16 +139,12 @@ public class UsersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "UPDATE users SET deleteflag = ?, deleted_at = ? WHERE id = ?";
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			String strTimestamp = sdf.format(timestamp);
+			String sql = "UPDATE users SET deleteflag = ?, WHERE id = ?";
 			st = con.prepareStatement(sql);
 
 			//削除フラグを立てる
 			st.setInt(1, 1);
-			st.setString(2, strTimestamp);
-			st.setInt(3, userId);
+			st.setInt(2, userId);
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -26,7 +26,7 @@ List<UsersBean> ulist = (List<UsersBean>) request.getAttribute("list");
 	%>
 	<jsp:include page="Header.jsp" />
 	<div style="text-align: center">
-		<a href=#>
+		<a href="UserRegister.jsp">
 			<button type="button">新規登録</button>
 		</a>
 		<h2 style="text-align: center">一覧</h2>
@@ -41,7 +41,7 @@ List<UsersBean> ulist = (List<UsersBean>) request.getAttribute("list");
 				<th style="background-color: #6666FF; width: 250">編集</th>
 				<th style="background-color: #6666FF; width: 250">削除</th>
 			</tr>
-			<%-- Beanの要素数分（問題の数分）テーブルを作成 --%>
+			<%-- Beanの要素数分テーブルを作成 --%>
 			<%
 			for (int i = 0; i < ulist.size(); i++) {
 			%>
