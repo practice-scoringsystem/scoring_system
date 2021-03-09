@@ -139,12 +139,10 @@ public class UsersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "UPDATE users SET deleteflag = ?, WHERE id = ?";
+			String sql = "UPDATE users SET deleteflag = 1 WHERE id = ?";
 			st = con.prepareStatement(sql);
 
-			//削除フラグを立てる
-			st.setInt(1, 1);
-			st.setInt(2, userId);
+			st.setInt(1, userId);
 			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
