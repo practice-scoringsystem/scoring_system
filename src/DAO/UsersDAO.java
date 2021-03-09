@@ -68,7 +68,7 @@ public class UsersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, name, password FROM users WHERE id = ?";
+			String sql = "SELECT id, name, password, admin_flag FROM users WHERE id = ?";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			st.setInt(1, pid);
@@ -78,9 +78,11 @@ public class UsersDAO extends ConnectionDAO {
 				int id = rs.getInt("id");
 				String name = rs.getString("name");
 				String pass = rs.getString("password");
+				byte adminflag = rs.getByte("admin_flag");
 				bean.setId(id);
 				bean.setName(name);
 				bean.setPassword(pass);
+				bean.setAdminFlag(adminflag);
 			}
 			return bean;
 		} catch (Exception e) {
