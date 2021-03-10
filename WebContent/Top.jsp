@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page session="false"%>
+<%@ page import="beans.UsersBean"%>
+<%
+    UsersBean ub = (UsersBean) session.getAttribute("ub");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +30,7 @@ nav.nav {
 	</header>
 	<h4>下記のメニューボタンから選択してください</h4>
 	<%
-	if (String.valueOf(request.getAttribute("a_flag")).equals("1")) {
+	if (String.valueOf(ub.getAdminFlag()).equals("1")) {
 	%>
 	<a href="./List">
 		<button type="button">問題と答えを確認・登録する ＞</button>
@@ -44,7 +47,7 @@ nav.nav {
 		<input type="submit" value="過去の採点結果を見る ＞" />
 	</form>
 	<%
-	if (String.valueOf(request.getAttribute("a_flag")).equals("1")) {
+	if (String.valueOf(ub.getAdminFlag()).equals("1")) {
 	%>
 	<form action="./UsersList" method="post">
 		<input type="submit" value="ユーザーを追加・編集する ＞" />

@@ -57,6 +57,7 @@ public class UserDeleteServlet extends HttpServlet {
 					session.removeAttribute("login_id");
 					RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
 					dispatcher.forward(request, response);
+					return;
 				}
 
 				UsersDAO dao = new UsersDAO();
