@@ -52,7 +52,8 @@ public class UserDeleteServlet extends HttpServlet {
 			int userId = (int) (Integer.parseInt(request.getParameter("user_id")));
 
 			try {
-				if (session.getAttribute("login_id") == request.getParameter("user_id")) {
+				int loginId = Integer.parseInt(session.getAttribute("login_id").toString());
+				if (loginId == userId) {
 					session.removeAttribute("login_id");
 					RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
 					dispatcher.forward(request, response);
