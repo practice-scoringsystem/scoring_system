@@ -10,17 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import DAO.UsersDAO;
+import beans.UsersBean;
+
 /**
- * Servlet implementation class UserRegisterConfirmServlet
+ * Servlet implementation class UserEditServlet
  */
-@WebServlet("/UserRegisterConfirm")
-public class UserRegisterConfirmServlet extends HttpServlet {
+@WebServlet("/UserEdit")
+public class UserEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public UserRegisterConfirmServlet() {
+	public UserEditServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -30,14 +33,6 @@ public class UserRegisterConfirmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doPost(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
 
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("login_id") == null) {
@@ -46,19 +41,32 @@ public class UserRegisterConfirmServlet extends HttpServlet {
 
 		} else {
 
-			request.setCharacterEncoding("UTF-8");
+			int userId = (int) (Integer.parseInt(request.getParameter("user_id")));
 
-			String name = request.getParameter("name");
-			String pw = request.getParameter("password");
-			String cpw = request.getParameter("confirmPassword");
-			String adc = request.getParameter("adminCheck");
+			try {
 
-			request.setAttribute("name", name);
-			request.setAttribute("pw", pw);
-			request.setAttribute("cpw", cpw);
-			request.setAttribute("adc", adc);
+				UsersDAO dao = new UsersDAO();
+				UsersBean ub = new UsersBean();
 
-			request.getRequestDispatcher("UserRegisterConfirm.jsp").forward(request, response);
+				ub = dao.find(userId);
+
+				request.setAttribute("ub", ub);
+
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("UserEdit.jsp");
+				requestDispatcher.forward(request, response);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.setAttribute("error_message", "内部でエラーが発生しました");
+				RequestDispatcher rd = request.getRequestDispatcher("UsersList.jsp");
+				rd.forward(request, response);
+			}
 		}
+
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
 	}
 }

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import DAO.UsersDAO;
 import beans.UsersBean;
@@ -32,28 +33,34 @@ public class UserDeleteConfirmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		int userId = (Integer.parseInt(request.getParameter("user_id")));
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("login_id") == null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+			dispatcher.forward(request, response);
+		} else {
 
-		try {
+			int userId = (Integer.parseInt(request.getParameter("user_id")));
 
-			UsersDAO dao = new UsersDAO();
-			UsersBean ub = new UsersBean();
+			try {
 
-			ub = dao.find(userId);
+				UsersDAO dao = new UsersDAO();
+				UsersBean ub = new UsersBean();
 
-			request.setAttribute("user_id", userId);
-			request.setAttribute("ub", ub);
+				ub = dao.find(userId);
 
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("UserDeleteConfirm.jsp");
-			requestDispatcher.forward(request, response);
+				request.setAttribute("user_id", userId);
+				request.setAttribute("ub", ub);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("error_message", "内部でエラーが発生しました");
-			RequestDispatcher rd = request.getRequestDispatcher("UsersList.jsp");
-			rd.forward(request, response);
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("UserDeleteConfirm.jsp");
+				requestDispatcher.forward(request, response);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.setAttribute("error_message", "内部でエラーが発生しました");
+				RequestDispatcher rd = request.getRequestDispatcher("UsersList.jsp");
+				rd.forward(request, response);
+			}
 		}
-
 	}
 
 	/**

@@ -68,7 +68,7 @@ public class UsersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT id, name, password FROM users WHERE id = ?";
+			String sql = "SELECT id, name, password, admin_flag FROM users WHERE id = ?";
 			/** PreparedStatement オブジェクトの取得**/
 			st = con.prepareStatement(sql);
 			st.setInt(1, pid);
@@ -78,9 +78,11 @@ public class UsersDAO extends ConnectionDAO {
 				int id = rs.getInt("id");
 				String name = rs.getString("name");
 				String pass = rs.getString("password");
+				byte adminflag = rs.getByte("admin_flag");
 				bean.setId(id);
 				bean.setName(name);
 				bean.setPassword(pass);
+				bean.setAdminFlag(adminflag);
 			}
 			return bean;
 		} catch (Exception e) {
@@ -101,6 +103,37 @@ public class UsersDAO extends ConnectionDAO {
 			}
 		}
 	}
+
+	/**
+	 *	レコードの更新
+	 */
+	public void update(UsersBean ub) throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+
+		PreparedStatement st = null;
+
+		int userId = ub.getId();
+		String name = ub.getName();
+		String pw = ub.getPassword();
+		byte aflag = ub.getAdminFlag();
+		try {
+			String sql = "UPDATE users SET name = ?, password = ?, admin_flag = ? WHERE id = ?";
+
+			st = con.prepareStatement(sql);
+			st.setString(1, name);
+			st.setString(2, pw);
+			st.setByte(3,aflag);
+			st.setInt(4, userId);
+			st.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SQLException("更新に失敗しました");
+		}
+	}
+
+
 
 	public void create(UsersBean ub) throws SQLException {
 		if (con == null) {
@@ -139,7 +172,7 @@ public class UsersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "UPDATE users SET deleteflag = 1 WHERE id = ?";
+			String sql = "UPDATE users SET deleteflag = 1, deleted_at = current_timestamp() WHERE id = ?";
 			st = con.prepareStatement(sql);
 
 			st.setInt(1, userId);

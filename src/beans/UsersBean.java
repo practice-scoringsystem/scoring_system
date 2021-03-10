@@ -97,4 +97,11 @@ public class UsersBean {
 		this.admin_flag = admin_flag;
 	}
 
+	//beanの中身を表示するデバッグコード
+		public void debugDiaplay() {
+			System.out.println("id:" + String.valueOf(id));
+			System.out.println("name:" + name);
+			System.out.println("admin_flag:" + String.valueOf(admin_flag));
+		}
+
 }

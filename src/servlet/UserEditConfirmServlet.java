@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class UserRegisterConfirmServlet
+ * Servlet implementation class UserEditConfirmServlet
  */
-@WebServlet("/UserRegisterConfirm")
-public class UserRegisterConfirmServlet extends HttpServlet {
+@WebServlet("/UserEditConfirm")
+public class UserEditConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public UserRegisterConfirmServlet() {
+	public UserEditConfirmServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -48,17 +48,18 @@ public class UserRegisterConfirmServlet extends HttpServlet {
 
 			request.setCharacterEncoding("UTF-8");
 
+			String userId = request.getParameter("user_id");
 			String name = request.getParameter("name");
 			String pw = request.getParameter("password");
-			String cpw = request.getParameter("confirmPassword");
 			String adc = request.getParameter("adminCheck");
 
+			request.setAttribute("user_id", userId);
 			request.setAttribute("name", name);
-			request.setAttribute("pw", pw);
-			request.setAttribute("cpw", cpw);
+			request.setAttribute("password", pw);
 			request.setAttribute("adc", adc);
-
-			request.getRequestDispatcher("UserRegisterConfirm.jsp").forward(request, response);
+			request.getRequestDispatcher("UserEditConfirm.jsp").forward(request, response);
 		}
+
 	}
+
 }

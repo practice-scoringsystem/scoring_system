@@ -31,50 +31,58 @@ public class UserRegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		try {
-			//入力フォームの値を日本語にする
-			request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("login_id") == null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+			dispatcher.forward(request, response);
 
-			HttpSession session = request.getSession(false);
-			// ブラウザの更新ボタン対応 "is_register"が入ってたらifの中は実行しない
-			String is_register = (String) session.getAttribute("is_register");
+		} else {
 
-			//入力フォームからパラメーターを受け取る
-			String name = request.getParameter("name");
-			String pw = request.getParameter("password");
-			String adc = request.getParameter("adminCheck");
-			byte aflag = Byte.parseByte(adc);
+			try {
+				//入力フォームの値を日本語にする
+				request.setCharacterEncoding("UTF-8");
 
-			//登録処理が行われてない場合
-			if (is_register == null || is_register.equals("OK")) {
+				// ブラウザの更新ボタン対応 "is_register"が入ってたらifの中は実行しない
+				String is_register = (String) session.getAttribute("is_register");
 
-				//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
-				//リクエストパラメーターから受け取った値をセッタを使って書き込む
-				UsersBean ub = new UsersBean();
-				ub.setName(name);
-				ub.setPassword(pw);
-				ub.setAdminFlag(aflag);
+				//入力フォームからパラメーターを受け取る
+				String name = request.getParameter("name");
+				String pw = request.getParameter("password");
+				String adc = request.getParameter("adminCheck");
+				byte aflag = Byte.parseByte(adc);
 
-				//DAOに追加
-				UsersDAO dao = new UsersDAO();
+				//登録処理が行われてない場合
+				if (is_register == null || is_register.equals("OK")) {
 
-				//DAOのInsertを実行
-				dao.create(ub);
-				// 一回登録処理が終わったらセッションにフラグをセット
-				is_register = "OK";
-				session.setAttribute("is_register", is_register);
+					//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
+					//リクエストパラメーターから受け取った値をセッタを使って書き込む
+					UsersBean ub = new UsersBean();
+					ub.setName(name);
+					ub.setPassword(pw);
+					ub.setAdminFlag(aflag);
+
+					//DAOに追加
+					UsersDAO dao = new UsersDAO();
+
+					//DAOのInsertを実行
+					dao.create(ub);
+					// 一回登録処理が終わったらセッションにフラグをセット
+					is_register = "OK";
+					session.setAttribute("is_register", is_register);
+				}
+
+				RequestDispatcher rd = request.getRequestDispatcher("./UsersList");
+				rd.forward(request, response);
+
+				//例外処理 Top.jspへ飛ばす
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.setAttribute("error_message", "内部でエラーが発生しました");
+				RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
+				rd.forward(request, response);
 			}
-
-			RequestDispatcher rd = request.getRequestDispatcher("./UsersList");
-			rd.forward(request, response);
-
-			//例外処理 Top.jspへ飛ばす
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("error_message", "内部でエラーが発生しました");
-			RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
-			rd.forward(request, response);
 		}
+
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

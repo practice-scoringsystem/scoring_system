@@ -25,7 +25,7 @@
 			ユーザー名：<input type="text" name="name" size="40"><br>
 			PW ：<input type="password" name="password" size="40"><br>
 			PW確認 ：<input type="password" name="confirmPassword" size="40"><br>
-			管理者 ：<input type="checkbox" name="adminCheck" id="saveCheckbox" value="1">
+			管理者 ：<input type="checkbox" name="adminCheck" value="1">
 			<input type="hidden" name="adminCheck" value="0">
 		</div>
 		<div>
