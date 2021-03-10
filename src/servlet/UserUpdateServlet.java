@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,17 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import DAO.UsersDAO;
+import beans.UsersBean;
+
 /**
- * Servlet implementation class UserRegisterConfirmServlet
+ * Servlet implementation class UserUpdateServlet
  */
-@WebServlet("/UserRegisterConfirm")
-public class UserRegisterConfirmServlet extends HttpServlet {
+@WebServlet("/UserUpdate")
+public class UserUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public UserRegisterConfirmServlet() {
+	public UserUpdateServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -30,7 +34,7 @@ public class UserRegisterConfirmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doPost(request, response);
+		doGet(request, response);
 	}
 
 	/**
@@ -48,17 +52,32 @@ public class UserRegisterConfirmServlet extends HttpServlet {
 
 			request.setCharacterEncoding("UTF-8");
 
+			int userId = (int) (Integer.parseInt(request.getParameter("user_id")));
 			String name = request.getParameter("name");
 			String pw = request.getParameter("password");
-			String cpw = request.getParameter("confirmPassword");
 			String adc = request.getParameter("adminCheck");
+			byte aflag = Byte.parseByte(adc);
 
-			request.setAttribute("name", name);
-			request.setAttribute("pw", pw);
-			request.setAttribute("cpw", cpw);
-			request.setAttribute("adc", adc);
+			try {
+				UsersDAO dao = new UsersDAO();
+				UsersBean ub = new UsersBean();
 
-			request.getRequestDispatcher("UserRegisterConfirm.jsp").forward(request, response);
+				ub.setId(userId); //これはいらない
+				ub.setName(name);
+				ub.setPassword(pw);
+				ub.setAdminFlag(aflag);
+
+				//DAOのupdateメソッドを使う
+				dao.update(ub);
+
+				//セットアトリビュート
+				request.setAttribute("ub", ub);
+
+				request.getRequestDispatcher("./UsersList").forward(request, response);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

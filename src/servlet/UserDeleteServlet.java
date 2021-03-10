@@ -3,11 +3,13 @@ package servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import DAO.UsersDAO;
 
@@ -39,18 +41,33 @@ public class UserDeleteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		int userId = (int) (Integer.parseInt(request.getParameter("user_id")));
 
-		try {
-			UsersDAO dao = new UsersDAO();
-			dao.delete(userId);
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("login_id") == null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+			dispatcher.forward(request, response);
 
-			request.getRequestDispatcher("./UsersList").forward(request, response);
+		} else {
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+			int userId = (int) (Integer.parseInt(request.getParameter("user_id")));
+
+			try {
+				if (session.getAttribute("login_id") == request.getParameter("user_id")) {
+					session.removeAttribute("login_id");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+					dispatcher.forward(request, response);
+				}
+
+				UsersDAO dao = new UsersDAO();
+				dao.delete(userId);
+
+				request.getRequestDispatcher("./UsersList").forward(request, response);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
 		}
 
 	}
-
 }

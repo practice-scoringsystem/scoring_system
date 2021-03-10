@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ page import="beans.UsersBean"%>
 <%
 // サーブレットから詳細の情報を取得 キーで取り出す
@@ -35,24 +35,30 @@ UsersBean ub = (UsersBean) request.getAttribute("ub");
 				ユーザー名:<input type="text" name="name" value="<%=ub.getName()%>">
 			</p>
 			<p>
-				PW:<input type="password" name="password" value="<%=ub.getPassword()%>">
+				PW:<input type="password" name="password"
+					value="<%=ub.getPassword()%>">
 			</p>
 			<p>
-				PW確認:<input type="password" name="passwordConfirm" value="<%=ub.getPassword()%>">
+				PW確認:<input type="password" name="passwordConfirm"
+					value="<%=ub.getPassword()%>">
 			</p>
-			<input type="hidden" name="adminCheck"
-			value="<%=String.valueOf(ub.getAdminFlag())%>">
-		<%
-		if (String.valueOf(ub.getAdminFlag()).equals("1")) {
-		%>
-		<p>管理者:<input type="checkbox" name="adminCheck" id="saveCheckbox" value="1" checked="checked"></p>
-		<%
-		} else {
-		%>
-		<p>管理者:<input type="checkbox" name="adminCheck" id="saveCheckbox" value="1"></p>
-		<%
-		}
-		%>
+			<%
+			if (String.valueOf(ub.getAdminFlag()).equals("1")) {
+			%>
+			<p>
+				管理者:<input type="checkbox" name="adminCheck" value="1" checked="checked">
+			</p>
+			<input type="hidden" name="adminCheck" value="0">
+			<%
+			} else {
+			%>
+			<p>
+				管理者:<input type="checkbox" name="adminCheck" value="1">
+			</p>
+			<input type="hidden" name="adminCheck" value="0">
+			<%
+			}
+			%>
 		</div>
 		<a href="./UsersList">
 			<button type="button">戻る</button>

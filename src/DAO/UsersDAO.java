@@ -104,6 +104,37 @@ public class UsersDAO extends ConnectionDAO {
 		}
 	}
 
+	/**
+	 *	レコードの更新
+	 */
+	public void update(UsersBean ub) throws SQLException {
+		if (con == null) {
+			setConnection();
+		}
+
+		PreparedStatement st = null;
+
+		int userId = ub.getId();
+		String name = ub.getName();
+		String pw = ub.getPassword();
+		byte aflag = ub.getAdminFlag();
+		try {
+			String sql = "UPDATE users SET name = ?, password = ?, admin_flag = ? WHERE id = ?";
+
+			st = con.prepareStatement(sql);
+			st.setString(1, name);
+			st.setString(2, pw);
+			st.setByte(3,aflag);
+			st.setInt(4, userId);
+			st.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SQLException("更新に失敗しました");
+		}
+	}
+
+
+
 	public void create(UsersBean ub) throws SQLException {
 		if (con == null) {
 			setConnection();
@@ -141,7 +172,7 @@ public class UsersDAO extends ConnectionDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			String sql = "UPDATE users SET deleteflag = 1 WHERE id = ?";
+			String sql = "UPDATE users SET deleteflag = 1, deleted_at = current_timestamp() WHERE id = ?";
 			st = con.prepareStatement(sql);
 
 			st.setInt(1, userId);

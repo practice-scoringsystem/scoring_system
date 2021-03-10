@@ -59,6 +59,7 @@ public class LoginServlet extends HttpServlet {
 						session.setAttribute("login_id", db_id);
 						session.setAttribute("login_name", db_name);
 						session.setAttribute("login_pw", db_pw);
+						session.setAttribute("a_flag", a_flag);
 
 						request.setAttribute("a_flag", a_flag);
 

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import DAO.UsersDAO;
 import beans.UsersBean;
@@ -32,26 +33,36 @@ public class UserEditServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		int userId = (int) (Integer.parseInt(request.getParameter("user_id")));
 
-		try {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("login_id") == null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+			dispatcher.forward(request, response);
 
-			UsersDAO dao = new UsersDAO();
-			UsersBean ub = new UsersBean();
+		} else {
 
-			ub = dao.find(userId);
+			int userId = (int) (Integer.parseInt(request.getParameter("user_id")));
 
-			request.setAttribute("ub", ub);
+			try {
 
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("UserEdit.jsp");
-			requestDispatcher.forward(request, response);
+				UsersDAO dao = new UsersDAO();
+				UsersBean ub = new UsersBean();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("error_message", "内部でエラーが発生しました");
-			RequestDispatcher rd = request.getRequestDispatcher("UsersList.jsp");
-			rd.forward(request, response);
+				ub = dao.find(userId);
+
+				request.setAttribute("ub", ub);
+
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("UserEdit.jsp");
+				requestDispatcher.forward(request, response);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.setAttribute("error_message", "内部でエラーが発生しました");
+				RequestDispatcher rd = request.getRequestDispatcher("UsersList.jsp");
+				rd.forward(request, response);
+			}
 		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

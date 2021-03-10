@@ -26,8 +26,8 @@
 			pw確認:<input type="password" readonly
 				value="<%=request.getAttribute("password")%>" />
 		</p>
-		<input type="hidden" value="<%=request.getAttribute("adc")%>" />
-		</p>
+		<input type="hidden" name="adminCheck"
+			value="<%=String.valueOf(request.getAttribute("adc"))%>">
 		<%
 		if (String.valueOf(request.getAttribute("adc")).equals("1")) {
 		%>
