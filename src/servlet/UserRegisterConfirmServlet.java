@@ -90,6 +90,10 @@ public class UserRegisterConfirmServlet extends HttpServlet {
 					request.setAttribute("cpw", cpw);
 					request.setAttribute("adc", adc);
 
+					//二重サブミット対策用でUserRegisterServletにてsessionに登録フラグを設置しているためフラグをNGにしておく
+					String is_user_register = "NG";
+					session.setAttribute("is_user_register", is_user_register);
+
 					request.getRequestDispatcher("UserRegisterConfirm.jsp").forward(request, response);
 
 				} else {
