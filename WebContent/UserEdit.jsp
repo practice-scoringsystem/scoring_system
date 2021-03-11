@@ -19,7 +19,7 @@ UsersBean ub = (UsersBean) request.getAttribute("ub");
 	<h2>ユーザー編集</h2>
 	<!-- ここにインクルードでtopとログアウトボタンを設置 -->
 	<jsp:include page="Header.jsp" />
-	<form action="./UserEditConfirm" method="post">
+	<form action="./UserEditConfirm" method="post" name="form">
 		<%
 		if (errorMessage != null) {
 		%>
@@ -29,18 +29,18 @@ UsersBean ub = (UsersBean) request.getAttribute("ub");
 		%>
 		<div>
 			<p>
-				ID:<input type="text" name="user_id" value="<%=ub.getId()%>">
+				ID(編集不可):<input type="text" readonly name="user_id" value="<%=ub.getId()%>" />
 			</p>
 			<p>
-				ユーザー名:<input type="text" name="name" value="<%=ub.getName()%>">
+				ユーザー名(編集不可):<input type="text" readonly name="name" value="<%=ub.getName()%>" />
 			</p>
 			<p>
 				PW:<input type="password" name="password"
-					value="<%=ub.getPassword()%>">
+					value="<%=ub.getPassword()%>" required/>
 			</p>
 			<p>
 				PW確認:<input type="password" name="passwordConfirm"
-					value="<%=ub.getPassword()%>">
+					value="<%=ub.getPassword()%>" required/>
 			</p>
 			<%
 			if (String.valueOf(ub.getAdminFlag()).equals("1")) {
@@ -65,9 +65,30 @@ UsersBean ub = (UsersBean) request.getAttribute("ub");
 		</a>
 		<!-- 入力したものを確認する　confirmでsubmit -->
 		<p>
-			<input type="submit" value="編集内容を確認する">
+			<input type="submit" value="編集内容を確認する" onClick="return check();">
 		</p>
 	</form>
+
+	<script type="text/javascript">
+		function check() {
+			if (form.password.value == "") {
+				alert("パスワードを入力してください");
+				return false;
+			} else if (!form.password.value.match(/^([a-zA-Z0-9]{8,})$/)) {
+				alert("パスワードは半角英数字で8文字以上に設定してください");
+				return false;
+			} else if (form.passwordConfirm.value == "") {
+				alert("確認用のパスワードを入力してください");
+				return false;
+			} else if (!form.passwordConfirm.value.match(/^([a-zA-Z0-9]{8,})$/)) {
+				alert("パスワードは半角英数字で8文字以上に設定してください");
+				return false;
+			} else {
+				//条件に一致しない場合(入力されている場合)
+				return true; //送信ボタン本来の動作を実行します
+			}
+		}
+	</script>
 
 </body>
 </html>

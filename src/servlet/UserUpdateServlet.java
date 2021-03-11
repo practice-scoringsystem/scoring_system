@@ -48,6 +48,10 @@ public class UserUpdateServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
 			dispatcher.forward(request, response);
 
+		} else if ((byte)session.getAttribute("a_flag") != 1) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Top.jsp");
+			dispatcher.forward(request, response);
+
 		} else {
 
 			request.setCharacterEncoding("UTF-8");
@@ -62,7 +66,7 @@ public class UserUpdateServlet extends HttpServlet {
 				UsersDAO dao = new UsersDAO();
 				UsersBean ub = new UsersBean();
 
-				ub.setId(userId); //これはいらない
+				ub.setId(userId);
 				ub.setName(name);
 				ub.setPassword(pw);
 				ub.setAdminFlag(aflag);
@@ -77,6 +81,9 @@ public class UserUpdateServlet extends HttpServlet {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
+				request.setAttribute("error_message", "内部でエラーが発生しました");
+				RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
+				rd.forward(request, response);
 			}
 		}
 	}

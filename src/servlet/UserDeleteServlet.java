@@ -47,6 +47,10 @@ public class UserDeleteServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
 			dispatcher.forward(request, response);
 
+		} else if ((byte)session.getAttribute("a_flag") != 1) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Top.jsp");
+			dispatcher.forward(request, response);
+
 		} else {
 
 			int userId = (int) (Integer.parseInt(request.getParameter("user_id")));
@@ -67,6 +71,9 @@ public class UserDeleteServlet extends HttpServlet {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
+				request.setAttribute("error_message", "内部でエラーが発生しました");
+				RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
+				rd.forward(request, response);
 			}
 
 		}

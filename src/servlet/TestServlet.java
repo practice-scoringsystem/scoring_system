@@ -137,7 +137,7 @@ public class TestServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 				request.setAttribute("error_message", "内部でエラーが発生しました");
-				RequestDispatcher rd = request.getRequestDispatcher("./TestList");
+				RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
 				rd.forward(request, response);
 			}
 		}

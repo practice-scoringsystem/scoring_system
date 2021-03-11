@@ -40,7 +40,7 @@
 		}
 		%>
 
-		<a href="Edit?user_id=<%=request.getAttribute("user_id")%>">
+		<a href="UserEdit?user_id=<%=request.getAttribute("user_id")%>">
 			<button type="button">戻る</button>
 		</a>
 		<p>
