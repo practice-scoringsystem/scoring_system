@@ -69,26 +69,7 @@ UsersBean ub = (UsersBean) request.getAttribute("ub");
 		</p>
 	</form>
 
-	<script type="text/javascript">
-		function check() {
-			if (form.password.value == "") {
-				alert("パスワードを入力してください");
-				return false;
-			} else if (!form.password.value.match(/^([a-zA-Z0-9]{8,})$/)) {
-				alert("パスワードは半角英数字で8文字以上に設定してください");
-				return false;
-			} else if (form.passwordConfirm.value == "") {
-				alert("確認用のパスワードを入力してください");
-				return false;
-			} else if (!form.passwordConfirm.value.match(/^([a-zA-Z0-9]{8,})$/)) {
-				alert("パスワードは半角英数字で8文字以上に設定してください");
-				return false;
-			} else {
-				//条件に一致しない場合(入力されている場合)
-				return true; //送信ボタン本来の動作を実行します
-			}
-		}
-	</script>
+	<script type="text/javascript" src="Validate.js"></script>
 
 </body>
 </html>
