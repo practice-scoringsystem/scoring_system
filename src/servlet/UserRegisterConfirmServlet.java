@@ -44,6 +44,10 @@ public class UserRegisterConfirmServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
 			dispatcher.forward(request, response);
 
+		} else if ((byte)session.getAttribute("a_flag") != 1) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Top.jsp");
+			dispatcher.forward(request, response);
+
 		} else {
 
 			request.setCharacterEncoding("UTF-8");
@@ -53,12 +57,51 @@ public class UserRegisterConfirmServlet extends HttpServlet {
 			String cpw = request.getParameter("confirmPassword");
 			String adc = request.getParameter("adminCheck");
 
-			request.setAttribute("name", name);
-			request.setAttribute("pw", pw);
-			request.setAttribute("cpw", cpw);
-			request.setAttribute("adc", adc);
+			if (name.isEmpty()) {
+				request.setAttribute("error_message", "名前が入力がされていません");
+				RequestDispatcher rd = request.getRequestDispatcher("UserRegister.jsp");
+				rd.forward(request, response);
+			} else if (!name.matches("^[A-Za-z0-9]+$")) {
+				request.setAttribute("error_message", "名前は半角英数字のみ使用できます");
+				RequestDispatcher rd = request.getRequestDispatcher("UserRegister.jsp");
+				rd.forward(request, response);
+			} else if (pw.isEmpty()) {
+				request.setAttribute("error_message", "パスワードが入力がされていません");
+				RequestDispatcher rd = request.getRequestDispatcher("UserRegister.jsp");
+				rd.forward(request, response);
+			} else if (!pw.matches("^[A-Za-z0-9]+$")) {
+				request.setAttribute("error_message", "パスワードは半角英数字のみ使用できます");
+				RequestDispatcher rd = request.getRequestDispatcher("UserRegister.jsp");
+				rd.forward(request, response);
+			} else if (cpw.isEmpty()) {
+				request.setAttribute("error_message", "確認用のパスワードが入力がされていません");
+				RequestDispatcher rd = request.getRequestDispatcher("UserRegister.jsp");
+				rd.forward(request, response);
+			} else if (!cpw.matches("^[A-Za-z0-9]+$")) {
+				request.setAttribute("error_message", "パスワードは半角英数字のみ使用できます");
+				RequestDispatcher rd = request.getRequestDispatcher("UserRegister.jsp");
+				rd.forward(request, response);
+			} else {
 
-			request.getRequestDispatcher("UserRegisterConfirm.jsp").forward(request, response);
+				if (pw.equals(cpw)) {
+
+					request.setAttribute("name", name);
+					request.setAttribute("pw", pw);
+					request.setAttribute("cpw", cpw);
+					request.setAttribute("adc", adc);
+
+					//二重サブミット対策用でUserRegisterServletにてsessionに登録フラグを設置しているためフラグをNGにしておく
+					String is_user_register = "NG";
+					session.setAttribute("is_user_register", is_user_register);
+
+					request.getRequestDispatcher("UserRegisterConfirm.jsp").forward(request, response);
+
+				} else {
+					request.setAttribute("error_message", "パスワードと確認用パスワードが一致しません");
+					RequestDispatcher rd = request.getRequestDispatcher("UserRegister.jsp");
+					rd.forward(request, response);
+				}
+			}
 		}
 	}
 }

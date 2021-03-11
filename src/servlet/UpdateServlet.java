@@ -93,6 +93,9 @@ public class UpdateServlet extends HttpServlet {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
+				request.setAttribute("error_message", "内部でエラーが発生しました");
+				RequestDispatcher rd = request.getRequestDispatcher("Top.jsp");
+				rd.forward(request, response);
 			}
 		}
 	}

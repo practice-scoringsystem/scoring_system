@@ -36,6 +36,10 @@ public class UserRegisterServlet extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
 			dispatcher.forward(request, response);
 
+		} else if ((byte)session.getAttribute("a_flag") != 1) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Top.jsp");
+			dispatcher.forward(request, response);
+
 		} else {
 
 			try {
@@ -43,7 +47,7 @@ public class UserRegisterServlet extends HttpServlet {
 				request.setCharacterEncoding("UTF-8");
 
 				// ブラウザの更新ボタン対応 "is_register"が入ってたらifの中は実行しない
-				String is_register = (String) session.getAttribute("is_register");
+				String is_user_register = (String) session.getAttribute("is_user_register");
 
 				//入力フォームからパラメーターを受け取る
 				String name = request.getParameter("name");
@@ -52,7 +56,7 @@ public class UserRegisterServlet extends HttpServlet {
 				byte aflag = Byte.parseByte(adc);
 
 				//登録処理が行われてない場合
-				if (is_register == null || is_register.equals("OK")) {
+				if (is_user_register == null || !(is_user_register.equals("OK"))) {
 
 					//データベースに追加するデータを保持するQuestionsとAnswersオブジェクトを作成
 					//リクエストパラメーターから受け取った値をセッタを使って書き込む
@@ -67,8 +71,8 @@ public class UserRegisterServlet extends HttpServlet {
 					//DAOのInsertを実行
 					dao.create(ub);
 					// 一回登録処理が終わったらセッションにフラグをセット
-					is_register = "OK";
-					session.setAttribute("is_register", is_register);
+					is_user_register = "OK";
+					session.setAttribute("is_user_register", is_user_register);
 				}
 
 				RequestDispatcher rd = request.getRequestDispatcher("./UsersList");

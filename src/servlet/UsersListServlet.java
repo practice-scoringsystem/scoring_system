@@ -45,12 +45,16 @@ public class UsersListServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession(false);
+
 		if (session.getAttribute("login_id") == null) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
 			dispatcher.forward(request, response);
 
-		} else {
+		} else if ((byte)session.getAttribute("a_flag") != 1) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Top.jsp");
+			dispatcher.forward(request, response);
 
+		} else {
 			try {
 				List<UsersBean> list = new ArrayList<UsersBean>();
 				UsersDAO dao = new UsersDAO();

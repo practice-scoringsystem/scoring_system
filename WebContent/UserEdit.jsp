@@ -19,7 +19,7 @@ UsersBean ub = (UsersBean) request.getAttribute("ub");
 	<h2>ユーザー編集</h2>
 	<!-- ここにインクルードでtopとログアウトボタンを設置 -->
 	<jsp:include page="Header.jsp" />
-	<form action="./UserEditConfirm" method="post">
+	<form action="./UserEditConfirm" method="post" name="form">
 		<%
 		if (errorMessage != null) {
 		%>
@@ -29,18 +29,18 @@ UsersBean ub = (UsersBean) request.getAttribute("ub");
 		%>
 		<div>
 			<p>
-				ID:<input type="text" name="user_id" value="<%=ub.getId()%>">
+				ID(編集不可):<input type="text" readonly name="user_id" value="<%=ub.getId()%>" />
 			</p>
 			<p>
-				ユーザー名:<input type="text" name="name" value="<%=ub.getName()%>">
+				ユーザー名(編集不可):<input type="text" readonly name="name" value="<%=ub.getName()%>" />
 			</p>
 			<p>
 				PW:<input type="password" name="password"
-					value="<%=ub.getPassword()%>">
+					value="<%=ub.getPassword()%>" required/>
 			</p>
 			<p>
 				PW確認:<input type="password" name="passwordConfirm"
-					value="<%=ub.getPassword()%>">
+					value="<%=ub.getPassword()%>" required/>
 			</p>
 			<%
 			if (String.valueOf(ub.getAdminFlag()).equals("1")) {
@@ -65,9 +65,11 @@ UsersBean ub = (UsersBean) request.getAttribute("ub");
 		</a>
 		<!-- 入力したものを確認する　confirmでsubmit -->
 		<p>
-			<input type="submit" value="編集内容を確認する">
+			<input type="submit" value="編集内容を確認する" onClick="return check();">
 		</p>
 	</form>
+
+	<script type="text/javascript" src="Validate.js"></script>
 
 </body>
 </html>
